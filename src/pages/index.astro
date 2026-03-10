@@ -1103,6 +1103,7 @@ const categories = [
   });
 
   // Scroll animations with Intersection Observer
+  // Hero elements animate immediately; others wait for scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1113,8 +1114,13 @@ const categories = [
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.animate').forEach(el => {
-    el.style.animationPlayState = 'paused';
-    observer.observe(el);
+    if (el.closest('.hero')) {
+      // Hero elements run immediately
+      el.style.animationPlayState = 'running';
+    } else {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    }
   });
 
   // Sticky header scroll effect
