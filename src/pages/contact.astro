@@ -85,6 +85,19 @@ import { towns } from '../data/constants';
   <Footer />
 </Layout>
 
+<script>
+  // Pre-fill business name from claim link query param
+  const params = new URLSearchParams(window.location.search);
+  const claimBiz = params.get('claim');
+  if (claimBiz) {
+    const bizInput = document.getElementById('business') as HTMLInputElement;
+    const msgInput = document.getElementById('message') as HTMLTextAreaElement;
+    if (bizInput) bizInput.value = claimBiz;
+    if (msgInput) msgInput.value = `I am the owner of ${claimBiz} and would like to claim this listing.`;
+    if (msgInput) msgInput.focus();
+  }
+</script>
+
 <style>
   .page-hero {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
