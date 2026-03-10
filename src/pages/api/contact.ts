@@ -7,7 +7,7 @@ export const POST: APIRoute = async ({ request }) => {
     const data = await request.json();
     const { name, email, phone, business, town, message } = data;
 
-    if (!name || !email || !phone || !business || !town || !message) {
+    if (!name || !email || !phone || !message) {
       return new Response(JSON.stringify({ error: 'All fields are required.' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -24,18 +24,18 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const emailBody = `
-New contact form submission from JacksonCountyMS.com
-
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Business: ${business}
-City: ${town}
-
-Message:
-${message}
-    `.trim();
+    const emailBody = [
+      'New contact form submission from JacksonCountyMS.com',
+      '',
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Phone: ${phone}`,
+      business ? `Business: ${business}` : null,
+      town ? `City: ${town}` : null,
+      '',
+      'Message:',
+      message,
+    ].filter(Boolean).join('\n');
 
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
