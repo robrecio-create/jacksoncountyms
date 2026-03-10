@@ -1,0 +1,357 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const plans = [
+  {
+    name: 'Verified Listing',
+    price: 'Free',
+    period: '',
+    description: 'Get your business listed in the Jackson County directory at no cost.',
+    featured: false,
+    highlight: false,
+    features: [
+      { text: 'Basic business listing', included: true },
+      { text: 'Address, phone & email', included: true },
+      { text: 'Map location', included: true },
+      { text: 'Up to 2 categories', included: true },
+      { text: '1 photo', included: true },
+      { text: 'Claim your listing', included: true },
+      { text: 'Featured badge', included: false },
+      { text: 'Photo gallery (10 images)', included: false },
+      { text: 'Video embed', included: false },
+      { text: 'Customer reviews', included: false },
+      { text: 'Post deals & coupons', included: false },
+    ],
+  },
+  {
+    name: 'Featured Listing',
+    price: '$29',
+    period: '/month',
+    description: 'Stand out with a featured badge and more ways to showcase your business.',
+    featured: true,
+    highlight: true,
+    features: [
+      { text: 'Everything in Free, plus:', included: true },
+      { text: 'Featured badge', included: true },
+      { text: 'Photo gallery (10 images)', included: true },
+      { text: 'Video embed', included: true },
+      { text: 'Customer reviews', included: true },
+      { text: 'Post deals & coupons', included: true },
+      { text: 'Unlimited description', included: true },
+      { text: 'Up to 2 locations', included: true },
+      { text: 'Priority placement', included: true },
+    ],
+  },
+  {
+    name: 'Featured Listing',
+    price: '$199',
+    period: '/year',
+    description: 'Best value — save over 40% with an annual plan. All premium features included.',
+    featured: true,
+    highlight: false,
+    badge: 'Best Value',
+    features: [
+      { text: 'Everything in Monthly, plus:', included: true },
+      { text: 'Unlimited categories', included: true },
+      { text: 'Unlimited locations', included: true },
+      { text: 'Unlimited description', included: true },
+      { text: 'Photo gallery (10 images)', included: true },
+      { text: 'Video embed', included: true },
+      { text: 'Customer reviews', included: true },
+      { text: 'Post deals & coupons', included: true },
+      { text: 'Priority placement', included: true },
+      { text: 'Save over 40%', included: true },
+    ],
+  },
+];
+---
+
+<Layout title="Pricing — Jackson County MS">
+  <Header activePage="" />
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-eyebrow">Pricing Plans</span>
+      <h1>Choose Your Listing Plan</h1>
+      <p>Get your business in front of Jackson County residents and visitors.</p>
+    </div>
+  </section>
+
+  <section class="pricing-section">
+    <div class="container">
+      <div class="pricing-grid">
+        {plans.map((plan: any) => (
+          <div class={`plan-card ${plan.highlight ? 'plan-highlight' : ''}`}>
+            {plan.badge && <span class="plan-badge">{plan.badge}</span>}
+            <h3>{plan.name}</h3>
+            <div class="plan-price">
+              <span class="price">{plan.price}</span>
+              {plan.period && <span class="period">{plan.period}</span>}
+            </div>
+            <p class="plan-desc">{plan.description}</p>
+            <a href="/contact/" class={`btn ${plan.highlight ? 'btn-gold' : 'btn-outline'}`}>
+              {plan.price === 'Free' ? 'Get Started' : 'Choose Plan'}
+            </a>
+            <ul class="plan-features">
+              {plan.features.map((f: any) => (
+                <li class={f.included ? '' : 'not-included'}>
+                  <span class="check">{f.included ? '✓' : '—'}</span>
+                  {f.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <h4>How do I claim my listing?</h4>
+            <p>Find your business on our site, click "Claim This Listing," and fill out the contact form. We'll verify your ownership and get you set up.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Can I upgrade later?</h4>
+            <p>Absolutely. Start with a free listing and upgrade to a Featured plan anytime to unlock more features and visibility.</p>
+          </div>
+          <div class="faq-item">
+            <h4>What is a Featured listing?</h4>
+            <p>Featured listings get a gold badge, priority placement in search results, and access to post deals, upload photo galleries, and receive customer reviews.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Can I cancel anytime?</h4>
+            <p>Monthly plans can be canceled at any time. Your listing will revert to the free tier at the end of your billing period.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    padding: 8rem 0 3.5rem;
+    text-align: center;
+  }
+
+  .page-eyebrow {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-hero p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .pricing-section {
+    padding: 4rem 0 5rem;
+    background: var(--gray-100);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 5rem;
+  }
+
+  .plan-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .plan-highlight {
+    border-color: var(--gold);
+    box-shadow: 0 4px 30px rgba(232,160,32,0.15);
+    transform: scale(1.03);
+    z-index: 1;
+  }
+
+  .plan-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+    background: var(--gold);
+    padding: 0.3rem 1rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .plan-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.15rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .price {
+    font-family: var(--font-heading);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .period {
+    font-size: 0.95rem;
+    color: var(--gray-600);
+    font-weight: 400;
+  }
+
+  .plan-desc {
+    font-size: 0.88rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.85rem 1.6rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    transition: all 0.25s;
+    margin-bottom: 2rem;
+  }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+  }
+
+  .btn-gold:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(232,160,32,0.35);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--navy);
+    border-color: var(--gray-200);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+    transform: translateY(-1px);
+  }
+
+  .plan-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .plan-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.88rem;
+    color: var(--gray-800);
+    line-height: 1.4;
+  }
+
+  .plan-features li.not-included {
+    color: var(--gray-400);
+  }
+
+  .check {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--teal);
+    margin-top: 0.05rem;
+  }
+
+  .not-included .check {
+    color: var(--gray-400);
+  }
+
+  .faq-section h2 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+  }
+
+  .faq-item h4 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+
+  .faq-item p {
+    font-size: 0.88rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .plan-highlight { transform: none; }
+    .faq-grid { grid-template-columns: 1fr; }
+  }
+</style>
