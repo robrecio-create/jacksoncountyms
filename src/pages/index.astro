@@ -61,6 +61,44 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
     </div>
   </section>
 
+  <!-- ════════════════════ DEALS / COUPONS ════════════════════ -->
+  <section class="deals" id="deals">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Save Local</span>
+        <h2>Featured Coupons & Deals</h2>
+        <p>Exclusive offers from Jackson County businesses.</p>
+      </div>
+
+      {deals.length > 0 ? (
+        <div class="deals-grid">
+          {deals.map(biz => (
+            <a href={`/listing/${biz.slug}/`} class="deal-card animate">
+              <div class="deal-badge">Deal</div>
+              <h3>{biz.deal_title}</h3>
+              <p class="deal-biz">{biz.title}</p>
+              {biz.deal_description && <p class="deal-desc">{biz.deal_description}</p>}
+              <div class="deal-footer">
+                {biz.deal_expiry && <span class="deal-expiry">Expires: {biz.deal_expiry}</span>}
+                <span class="deal-redeem">Redeem &rarr;</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="deals-empty animate">
+          <span class="deals-empty-icon">🎟️</span>
+          <p>New deals coming soon! Business owners can <a href="/pricing/">post deals</a> with a Featured listing.</p>
+        </div>
+      )}
+
+      <div class="deals-cta">
+        <a href="/deals/" class="btn btn-gold">View All Deals</a>
+        <a href="/pricing/" class="btn btn-ghost-dark">Post Your Deal</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ════════════════════ TOWNS ════════════════════ -->
   <section class="towns" id="towns">
     <div class="container">
@@ -112,44 +150,6 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
             <span class="cat-name">{cat.name}</span>
           </a>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════ DEALS / COUPONS ════════════════════ -->
-  <section class="deals" id="deals">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-eyebrow">Save Local</span>
-        <h2>Featured Coupons & Deals</h2>
-        <p>Exclusive offers from Jackson County businesses.</p>
-      </div>
-
-      {deals.length > 0 ? (
-        <div class="deals-grid">
-          {deals.map(biz => (
-            <a href={`/listing/${biz.slug}/`} class="deal-card animate">
-              <div class="deal-badge">Deal</div>
-              <h3>{biz.deal_title}</h3>
-              <p class="deal-biz">{biz.title}</p>
-              {biz.deal_description && <p class="deal-desc">{biz.deal_description}</p>}
-              <div class="deal-footer">
-                {biz.deal_expiry && <span class="deal-expiry">Expires: {biz.deal_expiry}</span>}
-                <span class="deal-redeem">Redeem &rarr;</span>
-              </div>
-            </a>
-          ))}
-        </div>
-      ) : (
-        <div class="deals-empty animate">
-          <span class="deals-empty-icon">🎟️</span>
-          <p>New deals coming soon! Business owners can <a href="/pricing/">post deals</a> with a Featured listing.</p>
-        </div>
-      )}
-
-      <div class="deals-cta">
-        <a href="/deals/" class="btn btn-gold">View All Deals</a>
-        <a href="/pricing/" class="btn btn-ghost-dark">Post Your Deal</a>
       </div>
     </div>
   </section>
