@@ -73,7 +73,17 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
       {deals.length > 0 ? (
         <div class="deals-grid">
           {deals.map(biz => (
-            <a href={`/listing/${biz.slug}/`} class="deal-card animate">
+            <button
+              type="button"
+              class="deal-card animate"
+              data-deal-title={biz.deal_title}
+              data-deal-desc={biz.deal_description || ''}
+              data-deal-expiry={biz.deal_expiry || ''}
+              data-biz-name={biz.title}
+              data-biz-slug={biz.slug}
+              data-biz-phone={biz.phone || ''}
+              data-biz-address={biz.address || ''}
+            >
               <div class="deal-badge">Deal</div>
               <h3>{biz.deal_title}</h3>
               <p class="deal-biz">{biz.title}</p>
@@ -82,7 +92,7 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
                 {biz.deal_expiry && <span class="deal-expiry">Expires: {biz.deal_expiry}</span>}
                 <span class="deal-redeem">Redeem &rarr;</span>
               </div>
-            </a>
+            </button>
           ))}
         </div>
       ) : (
@@ -91,6 +101,31 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
           <p>New deals coming soon! Business owners can <a href="/pricing/">post deals</a> with a Featured listing.</p>
         </div>
       )}
+
+      <!-- Coupon Modal -->
+      <div class="coupon-overlay" id="coupon-overlay">
+        <div class="coupon-modal">
+          <button type="button" class="coupon-close" id="coupon-close" aria-label="Close">&times;</button>
+          <div class="coupon-ticket">
+            <div class="coupon-left">
+              <div class="coupon-icon-wrap">🎟️</div>
+              <span class="coupon-label">COUPON</span>
+            </div>
+            <div class="coupon-right">
+              <h3 class="coupon-title" id="coupon-title"></h3>
+              <p class="coupon-biz" id="coupon-biz"></p>
+              <p class="coupon-desc" id="coupon-desc"></p>
+              <div class="coupon-details">
+                <span class="coupon-expiry" id="coupon-expiry"></span>
+              </div>
+              <div class="coupon-actions">
+                <a href="#" class="btn btn-gold" id="coupon-link">View Business Listing &rarr;</a>
+              </div>
+            </div>
+          </div>
+          <p class="coupon-hint">Show this coupon at the business or mention it when calling.</p>
+        </div>
+      </div>
 
       <div class="deals-cta">
         <a href="/deals/" class="btn btn-gold">View All Deals</a>
@@ -662,6 +697,9 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
     border-radius: var(--radius-md);
     position: relative;
     transition: all 0.25s;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-body);
   }
 
   .deal-card:hover {
@@ -765,6 +803,202 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
     border-color: var(--teal);
     color: var(--teal);
     transform: translateY(-1px);
+  }
+
+  /* ════════════════════ COUPON MODAL ════════════════════ */
+  .coupon-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(13,33,55,0.6);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .coupon-overlay.open {
+    display: flex;
+  }
+
+  .coupon-modal {
+    position: relative;
+    max-width: 560px;
+    width: 100%;
+    animation: couponIn 0.3s ease;
+  }
+
+  @keyframes couponIn {
+    from { opacity: 0; transform: scale(0.92) translateY(12px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .coupon-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--white);
+    border: 2px solid var(--white);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.2s;
+    line-height: 1;
+  }
+
+  .coupon-close:hover { background: var(--gray-800); }
+
+  .coupon-ticket {
+    display: flex;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    border: 2px dashed var(--gold);
+  }
+
+  .coupon-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem 1.5rem;
+    background: linear-gradient(135deg, var(--gold) 0%, #e8a020 100%);
+    min-width: 110px;
+    position: relative;
+  }
+
+  .coupon-left::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: var(--white);
+    border-radius: 50%;
+    box-shadow: inset 2px 0 0 var(--gold);
+  }
+
+  .coupon-left::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 6px,
+      var(--white) 6px,
+      var(--white) 12px
+    );
+  }
+
+  .coupon-icon-wrap {
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
+  .coupon-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+
+  .coupon-right {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .coupon-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--navy);
+    line-height: 1.25;
+  }
+
+  .coupon-biz {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--teal);
+    margin: 0;
+  }
+
+  .coupon-desc {
+    font-size: 0.92rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin: 0.25rem 0 0;
+  }
+
+  .coupon-details {
+    margin-top: 0.5rem;
+  }
+
+  .coupon-expiry {
+    font-size: 0.78rem;
+    color: var(--gray-400);
+  }
+
+  .coupon-actions {
+    margin-top: 0.75rem;
+  }
+
+  .coupon-actions .btn {
+    width: 100%;
+    padding: 0.75rem 1.4rem;
+    font-size: 0.9rem;
+  }
+
+  .coupon-hint {
+    text-align: center;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.82rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 500px) {
+    .coupon-ticket { flex-direction: column; }
+    .coupon-left {
+      flex-direction: row;
+      min-width: unset;
+      padding: 1.25rem;
+    }
+    .coupon-left::after { display: none; }
+    .coupon-left::before {
+      right: 0;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: repeating-linear-gradient(
+        to right,
+        transparent,
+        transparent 6px,
+        var(--white) 6px,
+        var(--white) 12px
+      );
+    }
+    .coupon-right { padding: 1.5rem; }
+    .coupon-title { font-size: 1.25rem; }
   }
 
   /* ════════════════════ ABOUT / CTA ════════════════════ */
@@ -909,5 +1143,40 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
       el.style.animationPlayState = 'paused';
       observer.observe(el);
     }
+  });
+
+  // Coupon modal
+  const overlay = document.getElementById('coupon-overlay')!;
+  const closeBtn = document.getElementById('coupon-close')!;
+  const couponTitle = document.getElementById('coupon-title')!;
+  const couponBiz = document.getElementById('coupon-biz')!;
+  const couponDesc = document.getElementById('coupon-desc')!;
+  const couponExpiry = document.getElementById('coupon-expiry')!;
+  const couponLink = document.getElementById('coupon-link') as HTMLAnchorElement;
+
+  document.querySelectorAll('.deal-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const el = card as HTMLElement;
+      couponTitle.textContent = el.dataset.dealTitle || '';
+      couponBiz.textContent = el.dataset.bizName || '';
+      couponDesc.textContent = el.dataset.dealDesc || '';
+      couponExpiry.textContent = el.dataset.dealExpiry ? `Expires: ${el.dataset.dealExpiry}` : '';
+      couponLink.href = `/listing/${el.dataset.bizSlug}/`;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeCoupon() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  closeBtn.addEventListener('click', closeCoupon);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeCoupon();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeCoupon();
   });
 </script>
