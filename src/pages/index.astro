@@ -3,6 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { towns, categories } from '../data/constants';
+import businessData from '../data/businesses.json';
+
+const businesses = businessData as any[];
+const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
 ---
 
 <Layout title="Jackson County MS — Discover Local Businesses & Community">
@@ -108,6 +112,44 @@ import { towns, categories } from '../data/constants';
             <span class="cat-name">{cat.name}</span>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ DEALS / COUPONS ════════════════════ -->
+  <section class="deals" id="deals">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Save Local</span>
+        <h2>Featured Coupons & Deals</h2>
+        <p>Exclusive offers from Jackson County businesses.</p>
+      </div>
+
+      {deals.length > 0 ? (
+        <div class="deals-grid">
+          {deals.map(biz => (
+            <a href={`/listing/${biz.slug}/`} class="deal-card animate">
+              <div class="deal-badge">Deal</div>
+              <h3>{biz.deal_title}</h3>
+              <p class="deal-biz">{biz.title}</p>
+              {biz.deal_description && <p class="deal-desc">{biz.deal_description}</p>}
+              <div class="deal-footer">
+                {biz.deal_expiry && <span class="deal-expiry">Expires: {biz.deal_expiry}</span>}
+                <span class="deal-redeem">Redeem &rarr;</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="deals-empty animate">
+          <span class="deals-empty-icon">🎟️</span>
+          <p>New deals coming soon! Business owners can <a href="/pricing/">post deals</a> with a Featured listing.</p>
+        </div>
+      )}
+
+      <div class="deals-cta">
+        <a href="/deals/" class="btn btn-gold">View All Deals</a>
+        <a href="/pricing/" class="btn btn-ghost-dark">Post Your Deal</a>
       </div>
     </div>
   </section>
@@ -598,6 +640,133 @@ import { towns, categories } from '../data/constants';
     color: var(--navy);
   }
 
+  /* ════════════════════ DEALS ════════════════════ */
+  .deals {
+    padding: 5rem 0;
+    background: var(--white);
+  }
+
+  .deals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .deal-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    position: relative;
+    transition: all 0.25s;
+  }
+
+  .deal-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 4px 20px rgba(232,160,32,0.12);
+    transform: translateY(-2px);
+  }
+
+  .deal-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+    background: var(--gold);
+    padding: 0.2rem 0.7rem;
+    border-radius: 100px;
+  }
+
+  .deal-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-bottom: 0.35rem;
+    padding-right: 3rem;
+  }
+
+  .deal-biz {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+  }
+
+  .deal-desc {
+    font-size: 0.88rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .deal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .deal-expiry {
+    font-size: 0.78rem;
+    color: var(--gray-400);
+  }
+
+  .deal-redeem {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .deals-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .deals-empty-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .deals-empty p {
+    color: var(--gray-600);
+    font-size: 1rem;
+  }
+
+  .deals-empty a {
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  .deals-empty a:hover { text-decoration: underline; }
+
+  .deals-cta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-ghost-dark {
+    background: transparent;
+    color: var(--navy);
+    border-color: var(--gray-200);
+  }
+
+  .btn-ghost-dark:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+    transform: translateY(-1px);
+  }
+
   /* ════════════════════ ABOUT / CTA ════════════════════ */
   .about-cta {
     padding: 5rem 0;
@@ -690,6 +859,7 @@ import { towns, categories } from '../data/constants';
   @media (max-width: 900px) {
     .towns-grid { grid-template-columns: repeat(2, 1fr); }
     .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .deals-grid { grid-template-columns: repeat(2, 1fr); }
     .cta-card { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem; }
     .showcase-card { aspect-ratio: 2 / 1; }
   }
@@ -715,6 +885,7 @@ import { towns, categories } from '../data/constants';
   @media (max-width: 600px) {
     .towns-grid { grid-template-columns: 1fr; }
     .cat-grid { grid-template-columns: 1fr; }
+    .deals-grid { grid-template-columns: 1fr; }
     .cta-card { padding: 2rem; }
     .showcase-card { aspect-ratio: 1.4 / 1; }
   }
