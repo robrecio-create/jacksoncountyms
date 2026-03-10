@@ -1,0 +1,265 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { towns, categories } from '../../data/constants';
+import businessData from '../../data/businesses.json';
+
+export function getStaticPaths() {
+  const businesses = businessData as any[];
+  return towns.map(town => {
+    const townBusinesses = businesses.filter(b =>
+      b.location?.includes(town.name)
+    );
+    return {
+      params: { slug: town.slug },
+      props: { town, businesses: townBusinesses },
+    };
+  });
+}
+
+const { town, businesses } = Astro.props;
+
+// Group businesses by category for this town
+const catCounts = new Map<string, number>();
+businesses.forEach((b: any) => {
+  b.categories?.forEach((c: string) => {
+    catCounts.set(c, (catCounts.get(c) || 0) + 1);
+  });
+});
+
+const townCategories = categories
+  .filter(c => catCounts.has(c.name))
+  .map(c => ({ ...c, count: catCounts.get(c.name)! }))
+  .sort((a, b) => b.count - a.count);
+---
+
+<Layout title={`${town.name} — Jackson County MS`}>
+  <Header activePage="Locations" />
+
+  <section class="page-hero">
+    <div class="container">
+      <a href="/locations/" class="back-link">&larr; All Cities</a>
+      <h1>{town.name}</h1>
+      <p>{businesses.length} businesses in {town.name}</p>
+    </div>
+  </section>
+
+  <section class="cat-filter">
+    <div class="container">
+      <div class="cat-pills">
+        <button class="pill active" data-cat="">All ({businesses.length})</button>
+        {townCategories.map(tc => (
+          <button class="pill" data-cat={tc.name}>{tc.icon} {tc.name} ({tc.count})</button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="listings-section">
+    <div class="container">
+      <div class="listings-grid" id="listings-grid">
+        {businesses.map((biz: any) => (
+          <a href={`/listing/${biz.slug}/`} class="listing-card" data-category={biz.categories?.[0] || ''}>
+            <div class="listing-top">
+              <h3>{biz.title}</h3>
+              {biz.featured && <span class="badge-featured">Featured</span>}
+            </div>
+            {biz.content && <p class="listing-desc">{biz.content.substring(0, 120)}{biz.content.length > 120 ? '...' : ''}</p>}
+            <div class="listing-meta">
+              {biz.categories?.[0] && <span class="listing-cat">{biz.categories[0]}</span>}
+              {biz.phone && <span class="listing-phone">📞 {biz.phone}</span>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    padding: 8rem 0 3rem;
+    text-align: center;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--white); }
+
+  .page-hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .page-hero p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.05rem;
+  }
+
+  .cat-filter {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 1rem 0;
+    position: sticky;
+    top: 72px;
+    z-index: 50;
+    overflow-x: auto;
+  }
+
+  .cat-pills {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    min-width: max-content;
+  }
+
+  .pill {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    color: var(--gray-600);
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .pill:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+
+  .pill.active {
+    background: var(--teal);
+    color: var(--white);
+    border-color: var(--teal);
+  }
+
+  .listings-section {
+    padding: 2.5rem 0 5rem;
+    background: var(--gray-100);
+  }
+
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .listing-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    transition: all 0.25s;
+  }
+
+  .listing-card:hover {
+    border-color: var(--teal);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+  }
+
+  .listing-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .listing-top h3 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  .badge-featured {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gold);
+    background: rgba(232,160,32,0.12);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .listing-desc {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    flex: 1;
+  }
+
+  .listing-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .listing-cat {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--teal);
+    background: rgba(26,127,122,0.08);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+  }
+
+  .listing-phone {
+    font-size: 0.8rem;
+    color: var(--gray-600);
+  }
+
+  @media (max-width: 900px) {
+    .listings-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .listings-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const pills = document.querySelectorAll('.pill');
+  const cards = Array.from(document.querySelectorAll('.listing-card')) as HTMLElement[];
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const cat = (pill as HTMLElement).dataset.cat || '';
+
+      cards.forEach(card => {
+        if (!cat || card.dataset.category === cat) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

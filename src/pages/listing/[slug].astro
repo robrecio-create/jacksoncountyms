@@ -1,0 +1,444 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import businessData from '../../data/businesses.json';
+
+export function getStaticPaths() {
+  const businesses = businessData as any[];
+  return businesses.map(biz => ({
+    params: { slug: biz.slug },
+    props: { business: biz },
+  }));
+}
+
+const { business } = Astro.props;
+const biz = business as any;
+
+// Find related businesses (same category, same city, excluding self)
+const allBusinesses = businessData as any[];
+const related = allBusinesses
+  .filter(b =>
+    b.slug !== biz.slug &&
+    (b.categories?.[0] === biz.categories?.[0] || b.location?.[0] === biz.location?.[0])
+  )
+  .slice(0, 3);
+---
+
+<Layout title={`${biz.title} — Jackson County MS`}>
+  <Header activePage="Listings" />
+
+  <section class="page-hero">
+    <div class="container">
+      <a href="/listings/" class="back-link">&larr; All Listings</a>
+      <div class="biz-header">
+        <div>
+          <h1>{biz.title}</h1>
+          <div class="biz-badges">
+            {biz.featured && <span class="badge badge-featured">Featured</span>}
+            {biz.tags?.includes('locally-owned') && <span class="badge badge-local">Locally Owned</span>}
+          </div>
+        </div>
+      </div>
+      <div class="biz-quick-info">
+        {biz.categories?.[0] && (
+          <a href={`/categories/${biz.categories[0].toLowerCase().replace(/[&\s]+/g, '-').replace(/--+/g, '-')}/`} class="quick-tag">
+            {biz.categories[0]}
+          </a>
+        )}
+        {biz.location?.[0] && (
+          <a href={`/locations/${biz.location[0].toLowerCase().replace(/\s+/g, '-')}/`} class="quick-tag">
+            📍 {biz.location[0]}
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="biz-content">
+    <div class="container">
+      <div class="biz-layout">
+        <div class="biz-main">
+          {biz.content && (
+            <div class="biz-description">
+              <h2>About</h2>
+              <p>{biz.content}</p>
+            </div>
+          )}
+
+          {biz.deal_title && (
+            <div class="deal-section">
+              <div class="deal-header">
+                <span class="deal-icon">🎟️</span>
+                <h2>Current Deal</h2>
+              </div>
+              <div class="deal-box">
+                <h3>{biz.deal_title}</h3>
+                {biz.deal_description && <p>{biz.deal_description}</p>}
+                {biz.deal_expiry && <span class="deal-expiry">Expires: {biz.deal_expiry}</span>}
+              </div>
+            </div>
+          )}
+
+          {related.length > 0 && (
+            <div class="related-section">
+              <h2>Related Businesses</h2>
+              <div class="related-grid">
+                {related.map((r: any) => (
+                  <a href={`/listing/${r.slug}/`} class="related-card">
+                    <h4>{r.title}</h4>
+                    <div class="related-meta">
+                      {r.categories?.[0] && <span>{r.categories[0]}</span>}
+                      {r.location?.[0] && <span>📍 {r.location[0]}</span>}
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <aside class="biz-sidebar">
+          <div class="sidebar-card">
+            <h3>Contact & Location</h3>
+
+            {biz.address && (
+              <div class="sidebar-item">
+                <span class="sidebar-icon">📍</span>
+                <div>
+                  <strong>Address</strong>
+                  <p>{biz.address}</p>
+                </div>
+              </div>
+            )}
+
+            {biz.phone && (
+              <div class="sidebar-item">
+                <span class="sidebar-icon">📞</span>
+                <div>
+                  <strong>Phone</strong>
+                  <p><a href={`tel:${biz.phone.replace(/[^\d+]/g, '')}`}>{biz.phone}</a></p>
+                </div>
+              </div>
+            )}
+
+            {biz.email && (
+              <div class="sidebar-item">
+                <span class="sidebar-icon">✉️</span>
+                <div>
+                  <strong>Email</strong>
+                  <p><a href={`mailto:${biz.email}`}>{biz.email}</a></p>
+                </div>
+              </div>
+            )}
+
+            {biz.website && (
+              <div class="sidebar-item">
+                <span class="sidebar-icon">🌐</span>
+                <div>
+                  <strong>Website</strong>
+                  <p><a href={biz.website} target="_blank" rel="noopener noreferrer">{biz.website.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a></p>
+                </div>
+              </div>
+            )}
+
+            {biz.address && (
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(biz.address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-teal"
+              >
+                Get Directions &rarr;
+              </a>
+            )}
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    padding: 8rem 0 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--white); }
+
+  .biz-header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .biz-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+  }
+
+  .badge-featured {
+    color: var(--gold);
+    background: rgba(232,160,32,0.15);
+    border: 1px solid rgba(232,160,32,0.3);
+  }
+
+  .badge-local {
+    color: var(--teal-light);
+    background: rgba(26,127,122,0.15);
+    border: 1px solid rgba(26,127,122,0.3);
+  }
+
+  .biz-quick-info {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .quick-tag {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    transition: background 0.2s;
+  }
+
+  .quick-tag:hover { background: rgba(255,255,255,0.18); }
+
+  .biz-content {
+    padding: 3rem 0 5rem;
+    background: var(--gray-100);
+  }
+
+  .biz-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2.5rem;
+    align-items: flex-start;
+  }
+
+  .biz-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .biz-description {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+  }
+
+  .biz-description h2 {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .biz-description p {
+    color: var(--gray-600);
+    line-height: 1.8;
+  }
+
+  .deal-section {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+  }
+
+  .deal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .deal-icon { font-size: 1.4rem; }
+
+  .deal-header h2 {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: var(--navy);
+  }
+
+  .deal-box {
+    background: rgba(232,160,32,0.06);
+    border: 1px solid rgba(232,160,32,0.2);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+  }
+
+  .deal-box h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+  }
+
+  .deal-box p {
+    color: var(--gray-600);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .deal-expiry {
+    font-size: 0.8rem;
+    color: var(--gray-400);
+  }
+
+  .related-section h2 {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .related-card {
+    padding: 1.25rem;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    transition: all 0.25s;
+  }
+
+  .related-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+  }
+
+  .related-card h4 {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+  }
+
+  .related-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--gray-600);
+  }
+
+  .sidebar-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    position: sticky;
+    top: 90px;
+  }
+
+  .sidebar-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .sidebar-item {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .sidebar-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .sidebar-item strong {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.1rem;
+  }
+
+  .sidebar-item p {
+    font-size: 0.9rem;
+    color: var(--navy);
+    margin: 0;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .sidebar-item a {
+    color: var(--teal);
+    transition: color 0.2s;
+  }
+
+  .sidebar-item a:hover { color: var(--teal-light); text-decoration: underline; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.8rem 1.6rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    transition: all 0.25s;
+    margin-top: 0.5rem;
+  }
+
+  .btn-teal {
+    background: var(--teal);
+    color: var(--white);
+    border-color: var(--teal);
+  }
+
+  .btn-teal:hover {
+    background: var(--teal-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  @media (max-width: 900px) {
+    .biz-layout {
+      grid-template-columns: 1fr;
+    }
+    .sidebar-card { position: static; }
+    .related-grid { grid-template-columns: 1fr; }
+  }
+</style>

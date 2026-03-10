@@ -1,73 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-const towns = [
-  { name: 'Ocean Springs', businesses: 192 },
-  { name: 'Pascagoula', businesses: 82 },
-  { name: 'Gautier', businesses: 67 },
-  { name: 'Moss Point', businesses: 65 },
-  { name: 'Vancleave', businesses: 58 },
-  { name: 'Escatawpa', businesses: 52 },
-];
-
-const categories = [
-  { name: 'Restaurants & Dining', icon: '🍽️' },
-  { name: 'Shopping & Retail', icon: '🛍️' },
-  { name: 'Health & Medical', icon: '🏥' },
-  { name: 'Home Services', icon: '🔧' },
-  { name: 'Auto Services', icon: '🚗' },
-  { name: 'Beauty & Personal Care', icon: '💇' },
-  { name: 'Arts & Entertainment', icon: '🎭' },
-  { name: 'Outdoors & Recreation', icon: '🏖️' },
-  { name: 'Professional Services', icon: '💼' },
-  { name: 'Real Estate', icon: '🏠' },
-  { name: 'Education & Childcare', icon: '📚' },
-  { name: 'Financial Services', icon: '🏦' },
-  { name: 'Bars & Nightlife', icon: '🍸' },
-  { name: 'Churches & Religious', icon: '⛪' },
-  { name: 'Community & Nonprofits', icon: '🤝' },
-  { name: 'Animal & Pet Services', icon: '🐾' },
-];
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { towns, categories } from '../data/constants';
 ---
 
 <Layout title="Jackson County MS — Discover Local Businesses & Community">
 
-  <!-- ════════════════════ HEADER ════════════════════ -->
-  <header class="site-header" id="header">
-    <div class="container header-inner">
-      <a href="/" class="logo" aria-label="Jackson County MS Home">
-        <img src="/images/favicon.png" alt="JC MS logo" class="logo-img" width="40" height="40" />
-        <div class="logo-text">
-          <span class="logo-title">Jackson County <strong>MS</strong></span>
-          <span class="logo-sub">CONNECT</span>
-        </div>
-      </a>
-
-      <nav class="nav-desktop" aria-label="Primary">
-        <a href="/" class="nav-active">Home</a>
-        <a href="#categories">Listings</a>
-        <a href="#categories">Categories</a>
-        <a href="#towns">Locations</a>
-        <a href="#about">Guides</a>
-        <a href="#contact">Add Listing</a>
-        <a href="#contact">Contact</a>
-      </nav>
-
-      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-
-    <nav class="nav-mobile" id="mobile-menu" aria-label="Mobile navigation">
-      <a href="/">Home</a>
-      <a href="#categories">Listings</a>
-      <a href="#categories">Categories</a>
-      <a href="#towns">Locations</a>
-      <a href="#about">Guides</a>
-      <a href="#contact">Add Listing</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+  <Header activePage="Home" />
 
   <!-- ════════════════════ HERO ════════════════════ -->
   <section class="hero">
@@ -86,7 +26,7 @@ const categories = [
 
       <div class="hero-cities animate delay-3">
         {towns.map(town => (
-          <a href={`#${town.name.toLowerCase().replace(/\s/g, '-')}`} class="hero-city-card">
+          <a href={`/locations/${town.slug}/`} class="hero-city-card">
             <strong>{town.name}</strong>
             <span>{town.businesses} businesses</span>
           </a>
@@ -104,9 +44,9 @@ const categories = [
       <div class="hero-stats animate delay-4">
         <div class="stat"><strong>6</strong> Cities</div>
         <div class="stat-divider"></div>
-        <div class="stat"><strong>16</strong> Categories</div>
+        <div class="stat"><strong>18</strong> Categories</div>
         <div class="stat-divider"></div>
-        <div class="stat"><strong>100+</strong> Businesses</div>
+        <div class="stat"><strong>435</strong> Businesses</div>
       </div>
     </div>
 
@@ -128,7 +68,7 @@ const categories = [
 
       <div class="towns-grid">
         {towns.map((town, i) => (
-          <a href={`#${town.name.toLowerCase().replace(/\s/g, '-')}`} class={`town-card animate delay-${(i % 4) + 1}`}>
+          <a href={`/locations/${town.slug}/`} class={`town-card animate delay-${(i % 4) + 1}`}>
             <h3>{town.name}</h3>
             <p>{town.businesses} businesses</p>
             <span class="town-arrow">&rarr;</span>
@@ -163,7 +103,7 @@ const categories = [
 
       <div class="cat-grid">
         {categories.map((cat, i) => (
-          <a href="#" class={`cat-card animate delay-${(i % 4) + 1}`}>
+          <a href={`/categories/${cat.slug}/`} class={`cat-card animate delay-${(i % 4) + 1}`}>
             <span class="cat-icon">{cat.icon}</span>
             <span class="cat-name">{cat.name}</span>
           </a>
@@ -186,8 +126,8 @@ const categories = [
             Vancleave, or community events in Pascagoula — we've got you covered.
           </p>
           <div class="cta-buttons">
-            <a href="#contact" class="btn btn-white">Add Your Business</a>
-            <a href="#categories" class="btn btn-ghost">Browse Directory</a>
+            <a href="/contact/" class="btn btn-white">Add Your Business</a>
+            <a href="/listings/" class="btn btn-ghost">Browse Directory</a>
           </div>
         </div>
         <div class="cta-features">
@@ -217,208 +157,11 @@ const categories = [
     </div>
   </section>
 
-  <!-- ════════════════════ CONTACT ════════════════════ -->
-  <section class="contact" id="contact">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-eyebrow">Get in Touch</span>
-        <h2>List Your Business</h2>
-        <p>Ready to reach more local customers? Add your business to the Jackson County directory.</p>
-      </div>
-
-      <form class="contact-form animate" action="#" method="post">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" placeholder="John Smith" required />
-          </div>
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="john@example.com" required />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="business">Business Name</label>
-            <input type="text" id="business" name="business" placeholder="Your Business LLC" />
-          </div>
-          <div class="form-group">
-            <label for="town">Town</label>
-            <select id="town" name="town">
-              <option value="">Select a town...</option>
-              {towns.map(t => <option value={t.name}>{t.name}</option>)}
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="4" placeholder="Tell us about your business..."></textarea>
-        </div>
-        <button type="submit" class="btn btn-gold btn-lg">Submit Listing Request</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- ════════════════════ FOOTER ════════════════════ -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo" style="margin-bottom:1rem;">
-            <div class="logo-text">
-              <span class="logo-title">Jackson County <strong>MS</strong></span>
-              <span class="logo-sub">CONNECT</span>
-            </div>
-          </div>
-          <p>Connecting communities and businesses across Jackson County on the Mississippi Gulf Coast.</p>
-        </div>
-
-        <div class="footer-links">
-          <h4>Directory</h4>
-          <a href="#categories">All Categories</a>
-          <a href="#towns">Browse Towns</a>
-          <a href="#contact">Add Listing</a>
-          <a href="#">Deals & Coupons</a>
-        </div>
-
-        <div class="footer-links">
-          <h4>Communities</h4>
-          {towns.map(t => <a href={`#${t.name.toLowerCase().replace(/\s/g, '-')}`}>{t.name}</a>)}
-        </div>
-
-        <div class="footer-links">
-          <h4>Company</h4>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>&copy; 2026 JacksonCountyMS.com &mdash; Part of the County Directory Network</p>
-      </div>
-    </div>
-  </footer>
+  <Footer />
 
 </Layout>
 
 <style>
-  /* ════════════════════ HEADER ════════════════════ */
-  .site-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background: rgba(13, 33, 55, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    transition: background 0.3s;
-  }
-
-  .header-inner {
-    display: flex;
-    align-items: center;
-    height: 72px;
-    gap: 2rem;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-shrink: 0;
-  }
-
-  .logo-img {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-sm);
-    object-fit: cover;
-  }
-
-  .logo-text { display: flex; flex-direction: column; }
-
-  .logo-title {
-    font-family: var(--font-heading);
-    font-weight: 400;
-    font-size: 1.15rem;
-    color: var(--white);
-    line-height: 1.2;
-    font-style: italic;
-  }
-
-  .logo-title strong {
-    font-weight: 700;
-    font-style: normal;
-  }
-
-  .logo-sub {
-    font-size: 0.65rem;
-    color: var(--gold);
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-  }
-
-  .nav-desktop {
-    display: flex;
-    gap: 1.75rem;
-    margin-left: auto;
-  }
-
-  .nav-desktop a {
-    color: rgba(255,255,255,0.7);
-    font-weight: 600;
-    font-size: 0.88rem;
-    letter-spacing: 0.3px;
-    transition: color 0.2s;
-  }
-
-  .nav-desktop a:hover { color: var(--white); }
-
-  .nav-desktop a.nav-active {
-    color: var(--gold);
-  }
-
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    padding: 8px;
-    margin-left: auto;
-  }
-
-  .nav-toggle span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--white);
-    border-radius: 2px;
-    transition: 0.3s;
-  }
-
-  .nav-mobile {
-    display: none;
-    flex-direction: column;
-    padding: 1rem var(--gutter) 1.5rem;
-    background: var(--navy);
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .nav-mobile a {
-    color: rgba(255,255,255,0.85);
-    padding: 0.75rem 0;
-    font-weight: 600;
-    font-size: 1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .nav-mobile a:hover { color: var(--gold); }
-
   /* ════════════════════ BUTTONS ════════════════════ */
   .btn {
     display: inline-flex;
@@ -943,127 +686,15 @@ const categories = [
     line-height: 1.4;
   }
 
-  /* ════════════════════ CONTACT ════════════════════ */
-  .contact {
-    padding: 5rem 0;
-    background: var(--gray-100);
-  }
-
-  .contact-form {
-    max-width: 700px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
-  .form-group label {
-    font-weight: 600;
-    font-size: 0.88rem;
-    color: var(--navy);
-  }
-
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    padding: 0.8rem 1rem;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    color: var(--gray-800);
-    background: var(--white);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-  }
-
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    border-color: var(--teal);
-    box-shadow: 0 0 0 3px rgba(26,127,122,0.1);
-  }
-
-  .contact-form .btn { align-self: flex-start; margin-top: 0.5rem; }
-
-  /* ════════════════════ FOOTER ════════════════════ */
-  .site-footer {
-    background: var(--navy);
-    padding: 4rem 0 0;
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 3rem;
-    padding-bottom: 3rem;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .footer-brand p {
-    color: rgba(255,255,255,0.55);
-    font-size: 0.9rem;
-    line-height: 1.7;
-    max-width: 300px;
-  }
-
-  .footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  .footer-links h4 {
-    font-family: var(--font-heading);
-    color: var(--white);
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .footer-links a {
-    color: rgba(255,255,255,0.55);
-    font-size: 0.88rem;
-    transition: color 0.2s;
-  }
-
-  .footer-links a:hover { color: var(--gold); }
-
-  .footer-bottom {
-    padding: 1.5rem 0;
-    text-align: center;
-  }
-
-  .footer-bottom p {
-    color: rgba(255,255,255,0.35);
-    font-size: 0.8rem;
-  }
-
   /* ════════════════════ RESPONSIVE ════════════════════ */
   @media (max-width: 900px) {
     .towns-grid { grid-template-columns: repeat(2, 1fr); }
     .cat-grid { grid-template-columns: repeat(2, 1fr); }
     .cta-card { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem; }
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
     .showcase-card { aspect-ratio: 2 / 1; }
   }
 
   @media (max-width: 768px) {
-    .nav-desktop, .header-cta { display: none; }
-    .nav-toggle { display: flex; }
-    .nav-mobile.open { display: flex; }
-
     .hero-content { padding: 7rem 1rem 5rem; }
 
     .search-box { flex-direction: column; border-radius: var(--radius-md); }
@@ -1076,7 +707,6 @@ const categories = [
     .stat strong { font-size: 1.1rem; }
 
     .hero-cities { grid-template-columns: repeat(2, 1fr); }
-    .form-row { grid-template-columns: 1fr; }
     .showcase-overlay { padding: 1.5rem; }
     .showcase-overlay h3 { font-size: 1.4rem; }
     .showcase-overlay p { font-size: 0.88rem; }
@@ -1085,32 +715,13 @@ const categories = [
   @media (max-width: 600px) {
     .towns-grid { grid-template-columns: 1fr; }
     .cat-grid { grid-template-columns: 1fr; }
-    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
     .cta-card { padding: 2rem; }
     .showcase-card { aspect-ratio: 1.4 / 1; }
   }
 </style>
 
 <script>
-  // Mobile menu toggle
-  const toggle = document.querySelector('.nav-toggle');
-  const menu = document.getElementById('mobile-menu');
-
-  toggle?.addEventListener('click', () => {
-    const open = menu?.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(open));
-  });
-
-  // Close menu on link click
-  menu?.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menu.classList.remove('open');
-      toggle?.setAttribute('aria-expanded', 'false');
-    });
-  });
-
   // Scroll animations with Intersection Observer
-  // Hero elements animate immediately; others wait for scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1122,17 +733,10 @@ const categories = [
 
   document.querySelectorAll('.animate').forEach(el => {
     if (el.closest('.hero')) {
-      // Hero elements run immediately
       el.style.animationPlayState = 'running';
     } else {
       el.style.animationPlayState = 'paused';
       observer.observe(el);
     }
   });
-
-  // Sticky header scroll effect
-  const header = document.getElementById('header');
-  window.addEventListener('scroll', () => {
-    header?.classList.toggle('scrolled', window.scrollY > 80);
-  }, { passive: true });
 </script>

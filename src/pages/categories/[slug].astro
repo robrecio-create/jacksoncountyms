@@ -1,0 +1,172 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { categories } from '../../data/constants';
+import businessData from '../../data/businesses.json';
+
+export function getStaticPaths() {
+  const businesses = businessData as any[];
+  return categories.map(cat => {
+    const catBusinesses = businesses.filter(b =>
+      b.categories?.includes(cat.name)
+    );
+    return {
+      params: { slug: cat.slug },
+      props: { category: cat, businesses: catBusinesses },
+    };
+  });
+}
+
+const { category, businesses } = Astro.props;
+---
+
+<Layout title={`${category.name} — Jackson County MS`}>
+  <Header activePage="Categories" />
+
+  <section class="page-hero">
+    <div class="container">
+      <a href="/categories/" class="back-link">&larr; All Categories</a>
+      <span class="page-icon">{category.icon}</span>
+      <h1>{category.name}</h1>
+      <p>{businesses.length} businesses in Jackson County</p>
+    </div>
+  </section>
+
+  <section class="listings-section">
+    <div class="container">
+      <div class="listings-grid">
+        {businesses.map((biz: any) => (
+          <a href={`/listing/${biz.slug}/`} class="listing-card">
+            <div class="listing-top">
+              <h3>{biz.title}</h3>
+              {biz.featured && <span class="badge-featured">Featured</span>}
+            </div>
+            {biz.content && <p class="listing-desc">{biz.content.substring(0, 120)}{biz.content.length > 120 ? '...' : ''}</p>}
+            <div class="listing-meta">
+              {biz.location?.[0] && <span class="listing-loc">📍 {biz.location[0]}</span>}
+              {biz.phone && <span class="listing-phone">📞 {biz.phone}</span>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    padding: 8rem 0 3.5rem;
+    text-align: center;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--white); }
+
+  .page-icon {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .page-hero p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.05rem;
+  }
+
+  .listings-section {
+    padding: 3.5rem 0 5rem;
+    background: var(--gray-100);
+  }
+
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .listing-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    transition: all 0.25s;
+  }
+
+  .listing-card:hover {
+    border-color: var(--teal);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+  }
+
+  .listing-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .listing-top h3 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  .badge-featured {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gold);
+    background: rgba(232,160,32,0.12);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .listing-desc {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    flex: 1;
+  }
+
+  .listing-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--gray-600);
+  }
+
+  @media (max-width: 900px) {
+    .listings-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .listings-grid { grid-template-columns: 1fr; }
+  }
+</style>
