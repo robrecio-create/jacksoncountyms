@@ -44,7 +44,7 @@ export const POST: APIRoute = async ({ request }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'JacksonCountyMS.com <noreply@jacksoncountyms.com>',
+        from: 'JacksonCountyMS.com <noreply@contact.jacksoncountyms.com>',
         to: ['hello@jacksoncountyms.com'],
         subject: `New Contact: ${business || name} — JacksonCountyMS.com`,
         reply_to: email,
