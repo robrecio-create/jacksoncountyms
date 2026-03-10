@@ -2,12 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 
 const towns = [
-  { name: 'Ocean Springs', icon: '🎨', desc: 'Arts, culture & coastal charm' },
-  { name: 'Pascagoula', icon: '⚓', desc: 'Maritime heritage & industry' },
-  { name: 'Gautier', icon: '🌿', desc: 'Nature trails & bayou life' },
-  { name: 'Moss Point', icon: '🌊', desc: 'Waterways & community spirit' },
-  { name: 'Vancleave', icon: '🌲', desc: 'Rural beauty & open spaces' },
-  { name: 'Escatawpa', icon: '🏡', desc: 'Small-town Southern living' },
+  { name: 'Ocean Springs', businesses: 192 },
+  { name: 'Pascagoula', businesses: 82 },
+  { name: 'Gautier', businesses: 67 },
+  { name: 'Moss Point', businesses: 65 },
+  { name: 'Vancleave', businesses: 58 },
+  { name: 'Escatawpa', businesses: 52 },
 ];
 
 const categories = [
@@ -36,24 +36,22 @@ const categories = [
   <header class="site-header" id="header">
     <div class="container header-inner">
       <a href="/" class="logo" aria-label="Jackson County MS Home">
-        <div class="logo-mark">
-          <span class="logo-jc">JC</span>
-          <span class="logo-ms">MS</span>
-        </div>
+        <img src="/images/favicon.png" alt="JC MS logo" class="logo-img" width="40" height="40" />
         <div class="logo-text">
-          <span class="logo-title">Jackson County</span>
-          <span class="logo-sub">Mississippi</span>
+          <span class="logo-title">Jackson County <strong>MS</strong></span>
+          <span class="logo-sub">CONNECT</span>
         </div>
       </a>
 
       <nav class="nav-desktop" aria-label="Primary">
-        <a href="#towns">Towns</a>
-        <a href="#categories">Directory</a>
-        <a href="#about">About</a>
+        <a href="/" class="nav-active">Home</a>
+        <a href="#categories">Listings</a>
+        <a href="#categories">Categories</a>
+        <a href="#towns">Locations</a>
+        <a href="#about">Guides</a>
+        <a href="#contact">Add Listing</a>
         <a href="#contact">Contact</a>
       </nav>
-
-      <a href="#contact" class="btn btn-gold btn-sm header-cta">Get Listed</a>
 
       <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -61,11 +59,13 @@ const categories = [
     </div>
 
     <nav class="nav-mobile" id="mobile-menu" aria-label="Mobile navigation">
-      <a href="#towns">Towns</a>
-      <a href="#categories">Directory</a>
-      <a href="#about">About</a>
+      <a href="/">Home</a>
+      <a href="#categories">Listings</a>
+      <a href="#categories">Categories</a>
+      <a href="#towns">Locations</a>
+      <a href="#about">Guides</a>
+      <a href="#contact">Add Listing</a>
       <a href="#contact">Contact</a>
-      <a href="#contact" class="btn btn-gold" style="margin-top:0.5rem;text-align:center;">Get Listed</a>
     </nav>
   </header>
 
@@ -77,14 +77,23 @@ const categories = [
     <div class="hero-overlay"></div>
 
     <div class="hero-content container">
-      <span class="hero-eyebrow animate">Gulf Coast Living</span>
-      <h1 class="animate delay-1">Discover Jackson County,<br/>Mississippi</h1>
+      <span class="hero-eyebrow animate">Jackson County, Mississippi</span>
+      <h1 class="animate delay-1">Find Local Coupons &amp;<br/>Businesses in Jackson County</h1>
       <p class="hero-subtitle animate delay-2">
-        Find local businesses, events, and deals across six vibrant communities
+        Discover deals, events, and services across six vibrant communities
         on the Mississippi Gulf Coast.
       </p>
 
-      <div class="hero-search animate delay-3">
+      <div class="hero-cities animate delay-3">
+        {towns.map(town => (
+          <a href={`#${town.name.toLowerCase().replace(/\s/g, '-')}`} class="hero-city-card">
+            <strong>{town.name}</strong>
+            <span>{town.businesses} businesses</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="hero-search animate delay-4">
         <div class="search-box">
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           <input type="text" placeholder="Search businesses, restaurants, services..." aria-label="Search businesses" />
@@ -93,7 +102,7 @@ const categories = [
       </div>
 
       <div class="hero-stats animate delay-4">
-        <div class="stat"><strong>6</strong> Towns</div>
+        <div class="stat"><strong>6</strong> Cities</div>
         <div class="stat-divider"></div>
         <div class="stat"><strong>16</strong> Categories</div>
         <div class="stat-divider"></div>
@@ -113,16 +122,15 @@ const categories = [
     <div class="container">
       <div class="section-header">
         <span class="section-eyebrow">Our Communities</span>
-        <h2>Explore Jackson County Towns</h2>
+        <h2>Explore Jackson County Cities</h2>
         <p>Six unique communities, each with their own character and charm.</p>
       </div>
 
       <div class="towns-grid">
         {towns.map((town, i) => (
           <a href={`#${town.name.toLowerCase().replace(/\s/g, '-')}`} class={`town-card animate delay-${(i % 4) + 1}`}>
-            <span class="town-icon">{town.icon}</span>
             <h3>{town.name}</h3>
-            <p>{town.desc}</p>
+            <p>{town.businesses} businesses</p>
             <span class="town-arrow">&rarr;</span>
           </a>
         ))}
@@ -257,13 +265,9 @@ const categories = [
       <div class="footer-grid">
         <div class="footer-brand">
           <div class="logo" style="margin-bottom:1rem;">
-            <div class="logo-mark">
-              <span class="logo-jc">JC</span>
-              <span class="logo-ms">MS</span>
-            </div>
             <div class="logo-text">
-              <span class="logo-title">Jackson County</span>
-              <span class="logo-sub">Mississippi</span>
+              <span class="logo-title">Jackson County <strong>MS</strong></span>
+              <span class="logo-sub">CONNECT</span>
             </div>
           </div>
           <p>Connecting communities and businesses across Jackson County on the Mississippi Gulf Coast.</p>
@@ -327,85 +331,56 @@ const categories = [
     flex-shrink: 0;
   }
 
-  .logo-mark {
-    width: 44px;
-    height: 44px;
-    background: var(--navy-light);
+  .logo-img {
+    width: 40px;
+    height: 40px;
     border-radius: var(--radius-sm);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-
-  .logo-jc {
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--white);
-    letter-spacing: -0.5px;
-  }
-
-  .logo-ms {
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 0.55rem;
-    color: var(--gold);
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    object-fit: cover;
   }
 
   .logo-text { display: flex; flex-direction: column; }
 
   .logo-title {
     font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 1.05rem;
+    font-weight: 400;
+    font-size: 1.15rem;
     color: var(--white);
     line-height: 1.2;
+    font-style: italic;
+  }
+
+  .logo-title strong {
+    font-weight: 700;
+    font-style: normal;
   }
 
   .logo-sub {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--gold);
     font-weight: 600;
-    letter-spacing: 1.5px;
+    letter-spacing: 3px;
     text-transform: uppercase;
   }
 
   .nav-desktop {
     display: flex;
-    gap: 2rem;
+    gap: 1.75rem;
     margin-left: auto;
   }
 
   .nav-desktop a {
-    color: rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.7);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     letter-spacing: 0.3px;
     transition: color 0.2s;
-    position: relative;
   }
 
   .nav-desktop a:hover { color: var(--white); }
 
-  .nav-desktop a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--gold);
-    transition: width 0.25s;
+  .nav-desktop a.nav-active {
+    color: var(--gold);
   }
-
-  .nav-desktop a:hover::after { width: 100%; }
-
-  .header-cta { margin-left: 1rem; }
 
   .nav-toggle {
     display: none;
@@ -634,6 +609,42 @@ const categories = [
     background: rgba(255,255,255,0.2);
   }
 
+  .hero-cities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    max-width: 700px;
+    margin: 2.5rem auto 2rem;
+  }
+
+  .hero-city-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.25rem;
+    background: rgba(13,33,55,0.55);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-sm);
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .hero-city-card:hover {
+    background: rgba(13,33,55,0.75);
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  .hero-city-card strong {
+    color: var(--white);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .hero-city-card span {
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
   .hero-wave {
     position: absolute;
     bottom: -1px;
@@ -725,11 +736,6 @@ const categories = [
   }
 
   .town-card:hover::before { transform: scaleX(1); }
-
-  .town-icon {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
 
   .town-card h3 {
     font-family: var(--font-heading);
@@ -1069,6 +1075,7 @@ const categories = [
     .stat { font-size: 0.85rem; }
     .stat strong { font-size: 1.1rem; }
 
+    .hero-cities { grid-template-columns: repeat(2, 1fr); }
     .form-row { grid-template-columns: 1fr; }
     .showcase-overlay { padding: 1.5rem; }
     .showcase-overlay h3 { font-size: 1.4rem; }
