@@ -1,4 +1,6 @@
 ---
+import SpeedInsights from '@vercel/speed-insights/astro';
+
 interface Props {
   title: string;
   description?: string;
@@ -23,6 +25,7 @@ const { title, description = 'Find local businesses, coupons, events, and more a
   </head>
   <body>
     <slot />
+    <SpeedInsights />
   </body>
 </html>
 
