@@ -4,9 +4,21 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { towns, categories } from '../data/constants';
 import businessData from '../data/businesses.json';
+import eventsData from '../data/events.json';
 
 const businesses = businessData as any[];
 const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
+const allEvents = (eventsData as any[]).filter(e => e.status === 'publish');
+allEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+const upcomingEvents = allEvents.slice(0, 4);
+
+function getMonthDay(dateStr: string) {
+  const date = new Date(dateStr + 'T00:00:00');
+  return {
+    month: date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+    day: date.getDate(),
+  };
+}
 ---
 
 <Layout title="Jackson County MS — Discover Local Businesses & Community">
@@ -130,6 +142,51 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
       <div class="deals-cta">
         <a href="/deals/" class="btn btn-gold">View All Deals</a>
         <a href="/pricing/" class="btn btn-ghost-dark">Post Your Deal</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ EVENTS ════════════════════ -->
+  <section class="home-events" id="events">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">What's Happening</span>
+        <h2>Upcoming Events</h2>
+        <p>Festivals, markets, and community gatherings across Jackson County.</p>
+      </div>
+
+      {upcomingEvents.length > 0 ? (
+        <div class="events-grid">
+          {upcomingEvents.map(event => {
+            const { month, day } = getMonthDay(event.date);
+            return (
+              <a href={`/event/${event.slug}/`} class="hp-event-card animate">
+                <div class="hp-event-date">
+                  <span class="hp-event-month">{month}</span>
+                  <span class="hp-event-day">{day}</span>
+                </div>
+                <div class="hp-event-info">
+                  <h3>{event.title}</h3>
+                  <div class="hp-event-meta">
+                    <span>{event.start_time}{event.end_time ? ` – ${event.end_time}` : ''}</span>
+                    <span>{event.venue}</span>
+                  </div>
+                  {event.location && <span class="hp-event-location">{event.location}</span>}
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      ) : (
+        <div class="deals-empty animate">
+          <span class="deals-empty-icon">📅</span>
+          <p>New events coming soon! <a href="/contact/">Submit an event</a> to be featured.</p>
+        </div>
+      )}
+
+      <div class="events-cta">
+        <a href="/events/" class="btn btn-gold">View All Events</a>
+        <a href="/contact/" class="btn btn-ghost-dark">Submit an Event</a>
       </div>
     </div>
   </section>
@@ -1001,6 +1058,99 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
     .coupon-title { font-size: 1.25rem; }
   }
 
+  /* ════════════════════ HOME EVENTS ════════════════════ */
+  .home-events {
+    padding: 5rem 0;
+    background: var(--gray-100);
+  }
+
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hp-event-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    transition: all 0.25s;
+  }
+
+  .hp-event-card:hover {
+    border-color: var(--teal);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  .hp-event-date {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hp-event-month {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+  }
+
+  .hp-event-day {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .hp-event-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .hp-event-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--navy);
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+  }
+
+  .hp-event-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.78rem;
+    color: var(--gray-600);
+  }
+
+  .hp-event-location {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--teal);
+    margin-top: 0.25rem;
+  }
+
+  .events-cta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
   /* ════════════════════ ABOUT / CTA ════════════════════ */
   .about-cta {
     padding: 5rem 0;
@@ -1120,6 +1270,7 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
     .towns-grid { grid-template-columns: 1fr; }
     .cat-grid { grid-template-columns: 1fr; }
     .deals-grid { grid-template-columns: 1fr; }
+    .events-grid { grid-template-columns: 1fr; }
     .cta-card { padding: 2rem; }
     .showcase-card { aspect-ratio: 1.4 / 1; }
   }
