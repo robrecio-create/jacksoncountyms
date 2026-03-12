@@ -173,19 +173,14 @@ const biz = business as any;
       name: (document.getElementById('name') as HTMLInputElement).value,
       email: (document.getElementById('email') as HTMLInputElement).value,
       phone: (document.getElementById('phone') as HTMLInputElement).value,
-      business: (document.getElementById('business-name') as HTMLInputElement).value,
-      town: '',
-      message: [
-        `CLAIM REQUEST for: ${(document.getElementById('business-name') as HTMLInputElement).value}`,
-        `Listing: /listing/${(document.getElementById('business-slug') as HTMLInputElement).value}/`,
-        `Role: ${(document.getElementById('role') as HTMLSelectElement).value}`,
-        `Verification Method: ${(document.getElementById('verification') as HTMLSelectElement).value}`,
-        `Notes: ${(document.getElementById('notes') as HTMLTextAreaElement).value || 'None'}`,
-      ].join('\n'),
+      role: (document.getElementById('role') as HTMLSelectElement).value,
+      verification: (document.getElementById('verification') as HTMLSelectElement).value,
+      notes: (document.getElementById('notes') as HTMLTextAreaElement).value,
+      slug: (document.getElementById('business-slug') as HTMLInputElement).value,
     };
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('/api/claim', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
