@@ -63,7 +63,10 @@ const townCategories = categories
           <a href={`/listing/${biz.slug}/`} class="listing-card" data-category={biz.categories?.[0] || ''}>
             <div class="listing-top">
               <h3>{biz.title}</h3>
-              {biz.featured && <span class="badge-featured">Featured</span>}
+              <div class="listing-badges">
+                {biz.featured && <span class="badge-featured">Featured</span>}
+                {biz.tags?.includes('locally-owned') && <span class="badge-local">Locally Owned</span>}
+              </div>
             </div>
             {biz.content && <p class="listing-desc">{biz.content.substring(0, 120)}{biz.content.length > 120 ? '...' : ''}</p>}
             <div class="listing-meta">
@@ -192,6 +195,12 @@ const townCategories = categories
     line-height: 1.3;
   }
 
+  .listing-badges {
+    display: flex;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
   .badge-featured {
     font-size: 0.65rem;
     font-weight: 700;
@@ -202,7 +211,18 @@ const townCategories = categories
     padding: 0.2rem 0.6rem;
     border-radius: 100px;
     white-space: nowrap;
-    flex-shrink: 0;
+  }
+
+  .badge-local {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--teal);
+    background: rgba(26,127,122,0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    white-space: nowrap;
   }
 
   .listing-desc {

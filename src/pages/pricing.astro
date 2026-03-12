@@ -8,61 +8,90 @@ const plans = [
     name: 'Verified Listing',
     price: 'Free',
     period: '',
-    description: 'Get your business listed in the Jackson County directory at no cost.',
+    annual: '',
+    description: 'Claim & verify your listing',
     featured: false,
     highlight: false,
+    badge: '',
+    cta: 'Get Started',
+    ctaLink: '/claim/',
     features: [
-      { text: 'Basic business listing', included: true },
-      { text: 'Address, phone & email', included: true },
-      { text: 'Map location', included: true },
-      { text: 'Up to 2 categories', included: true },
-      { text: '1 photo', included: true },
-      { text: 'Claim your listing', included: true },
+      { text: 'Business name, address & phone', included: true },
+      { text: 'Category & town placement', included: true },
+      { text: 'Add a logo or photo', included: true },
+      { text: 'Post coupons & deals', included: true },
+      { text: 'Link to your website', included: true },
+      { text: 'Verified owner badge', included: true },
+      { text: 'Short vanity URL', included: true },
+      { text: 'Multiple photos', included: false },
+      { text: 'Expanded description', included: false },
       { text: 'Featured badge', included: false },
-      { text: 'Photo gallery (10 images)', included: false },
-      { text: 'Video embed', included: false },
-      { text: 'Customer reviews', included: false },
-      { text: 'Post deals & coupons', included: false },
+      { text: 'Priority placement', included: false },
     ],
   },
   {
     name: 'Featured Listing',
     price: '$29',
     period: '/month',
-    description: 'Stand out with a featured badge and more ways to showcase your business.',
+    annual: '2 months free with annual plan',
+    description: 'Stand out from the crowd',
     featured: true,
     highlight: true,
+    badge: 'Most Popular',
+    cta: 'Choose Plan',
+    ctaLink: '/contact/',
     features: [
-      { text: 'Everything in Free, plus:', included: true },
-      { text: 'Featured badge', included: true },
-      { text: 'Photo gallery (10 images)', included: true },
+      { text: 'Everything in Verified, plus:', included: true },
+      { text: 'Multiple photos on listing', included: true },
+      { text: 'Expanded services & description', included: true },
+      { text: 'Your listing as a mini-website', included: true },
+      { text: 'Featured badge in directory', included: true },
+      { text: 'Priority search placement', included: true },
       { text: 'Video embed', included: true },
       { text: 'Customer reviews', included: true },
-      { text: 'Post deals & coupons', included: true },
-      { text: 'Unlimited description', included: true },
-      { text: 'Up to 2 locations', included: true },
-      { text: 'Priority placement', included: true },
+      { text: 'Up to 3 categories', included: true },
     ],
   },
   {
-    name: 'Featured Listing',
+    name: 'Elevated Listing',
     price: '$199',
-    period: '/year',
-    description: 'Best value — save over 40% with an annual plan. All premium features included.',
+    period: '/month',
+    annual: '2 months free with annual plan',
+    description: 'Your own page on JacksonCountyMS.com',
     featured: true,
     highlight: false,
-    badge: 'Best Value',
+    badge: 'Premium',
+    cta: 'Choose Plan',
+    ctaLink: '/contact/',
     features: [
-      { text: 'Everything in Monthly, plus:', included: true },
+      { text: 'Everything in Featured, plus:', included: true },
+      { text: 'Fully custom page with tabs & branding', included: true },
+      { text: 'Dedicated vanity URL', included: true },
+      { text: 'Visitor analytics & tracking', included: true },
+      { text: 'No related business links on page', included: true },
       { text: 'Unlimited categories', included: true },
-      { text: 'Unlimited locations', included: true },
-      { text: 'Unlimited description', included: true },
-      { text: 'Photo gallery (10 images)', included: true },
-      { text: 'Video embed', included: true },
-      { text: 'Customer reviews', included: true },
-      { text: 'Post deals & coupons', included: true },
-      { text: 'Priority placement', included: true },
-      { text: 'Save over 40%', included: true },
+      { text: 'Unlimited photos', included: true },
+      { text: 'Priority support', included: true },
+    ],
+  },
+  {
+    name: 'Full SEO Package',
+    price: 'From $500',
+    period: '/month',
+    annual: '2 months free with annual plan',
+    description: 'Dominate the local map pack',
+    featured: true,
+    highlight: false,
+    badge: '',
+    cta: 'Contact Us',
+    ctaLink: '/contact/',
+    features: [
+      { text: 'Everything in Elevated, plus:', included: true },
+      { text: 'Professional website redesign', included: true },
+      { text: 'Google Business Profile optimization', included: true },
+      { text: 'Quarterly highlight article with backlink', included: true },
+      { text: 'Local SEO strategy & reporting', included: true },
+      { text: 'Monthly performance reviews', included: true },
     ],
   },
 ];
@@ -90,9 +119,10 @@ const plans = [
               <span class="price">{plan.price}</span>
               {plan.period && <span class="period">{plan.period}</span>}
             </div>
+            {plan.annual && <p class="plan-annual">{plan.annual}</p>}
             <p class="plan-desc">{plan.description}</p>
-            <a href="/contact/" class={`btn ${plan.highlight ? 'btn-gold' : 'btn-outline'}`}>
-              {plan.price === 'Free' ? 'Get Started' : 'Choose Plan'}
+            <a href={plan.ctaLink} class={`btn ${plan.highlight ? 'btn-gold' : 'btn-outline'}`}>
+              {plan.cta}
             </a>
             <ul class="plan-features">
               {plan.features.map((f: any) => (
@@ -106,24 +136,90 @@ const plans = [
         ))}
       </div>
 
+      <div class="compare-section">
+        <h2>Compare Plans</h2>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Verified</th>
+                <th>Featured</th>
+                <th>Elevated</th>
+                <th>SEO Package</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Business name, address & phone</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Category & town placement</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Short business description</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Appear in search results</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Add a logo or photo</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Post coupons & deals</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Link to your website</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Verified owner badge</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Short vanity URL</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr class="divider"><td colspan="5"></td></tr>
+              <tr><td>Multiple photos on listing</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Expanded services & description</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Your listing as a mini-website</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Featured badge in directory</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Priority search placement</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Video embed</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Customer reviews</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr class="divider"><td colspan="5"></td></tr>
+              <tr><td>Fully custom page with tabs & branding</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Dedicated vanity URL</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Visitor analytics & tracking</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>No related business links on page</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Unlimited categories & photos</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Priority support</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr class="divider"><td colspan="5"></td></tr>
+              <tr><td>Professional website redesign</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Google Business Profile optimization</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Quarterly highlight article with backlink</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Local SEO strategy & reporting</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Monthly performance reviews</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td><a href="/claim/" class="btn btn-outline btn-sm">Get Started</a></td>
+                <td><a href="/contact/" class="btn btn-gold btn-sm">Choose Plan</a></td>
+                <td><a href="/contact/" class="btn btn-outline btn-sm">Choose Plan</a></td>
+                <td><a href="/contact/" class="btn btn-outline btn-sm">Contact Us</a></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
       <div class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <div class="faq-grid">
           <div class="faq-item">
             <h4>How do I claim my listing?</h4>
-            <p>Find your business on our site, click "Claim This Listing," and fill out the contact form. We'll verify your ownership and get you set up.</p>
+            <p>Find your business on our site, click "Claim This Listing," and verify your ownership. Once approved, you can update your info, add photos, and post deals — all for free.</p>
           </div>
           <div class="faq-item">
-            <h4>Can I upgrade later?</h4>
-            <p>Absolutely. Start with a free listing and upgrade to a Featured plan anytime to unlock more features and visibility.</p>
+            <h4>Can I post deals with the free Verified listing?</h4>
+            <p>Yes! Every verified listing can post coupons and deals to attract customers. Upgrade to Featured for even more visibility and features.</p>
           </div>
           <div class="faq-item">
-            <h4>What is a Featured listing?</h4>
-            <p>Featured listings get a gold badge, priority placement in search results, and access to post deals, upload photo galleries, and receive customer reviews.</p>
+            <h4>What's included in the annual plan?</h4>
+            <p>All paid plans offer an annual option with 2 months free. That's 12 months of service for the price of 10. Cancel anytime.</p>
           </div>
           <div class="faq-item">
-            <h4>Can I cancel anytime?</h4>
-            <p>Monthly plans can be canceled at any time. Your listing will revert to the free tier at the end of your billing period.</p>
+            <h4>What is an Elevated listing?</h4>
+            <p>Elevated listings get a fully custom branded page on our site with visitor analytics, dedicated vanity URL, and no competing business links on your page.</p>
+          </div>
+          <div class="faq-item">
+            <h4>What does the SEO Package include?</h4>
+            <p>Our Full SEO Package includes professional website redesign, Google Business Profile optimization, quarterly highlight articles, and ongoing local SEO strategy.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Can I upgrade or cancel anytime?</h4>
+            <p>Start free and upgrade whenever you're ready. Monthly plans can be canceled at any time — your listing reverts to the free tier at the end of your billing period.</p>
           </div>
         </div>
       </div>
@@ -171,8 +267,8 @@ const plans = [
 
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
     margin-bottom: 5rem;
   }
 
@@ -234,6 +330,14 @@ const plans = [
     font-size: 0.95rem;
     color: var(--gray-600);
     font-weight: 400;
+  }
+
+  .plan-annual {
+    font-size: 0.78rem;
+    color: var(--teal);
+    font-weight: 600;
+    margin-top: -0.25rem;
+    margin-bottom: 0.5rem;
   }
 
   .plan-desc {
@@ -313,6 +417,102 @@ const plans = [
     color: var(--gray-400);
   }
 
+  /* ── Compare Plans Table ── */
+  .compare-section {
+    margin-bottom: 5rem;
+  }
+
+  .compare-section h2 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .compare-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+    min-width: 700px;
+  }
+
+  .compare-table thead th {
+    background: var(--navy);
+    color: var(--white);
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem 1.25rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .compare-table thead th:first-child {
+    text-align: left;
+    width: 40%;
+  }
+
+  .compare-table tbody td {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.88rem;
+    color: var(--gray-700);
+    text-align: center;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .compare-table tbody td:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: var(--gray-800);
+  }
+
+  .compare-table tbody tr:hover {
+    background: var(--gray-50, #f9fafb);
+  }
+
+  .compare-table td.yes {
+    color: var(--teal);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .compare-table td.no {
+    color: var(--gray-300);
+    font-size: 1rem;
+  }
+
+  .compare-table tr.divider td {
+    padding: 0;
+    height: 3px;
+    background: var(--gray-100);
+    border: none;
+  }
+
+  .compare-table tfoot td {
+    padding: 1.25rem;
+    background: var(--gray-50, #f9fafb);
+    border-top: 2px solid var(--gray-200);
+  }
+
+  .btn-sm {
+    padding: 0.55rem 1.2rem;
+    font-size: 0.8rem;
+    width: auto;
+    display: inline-flex;
+    margin-bottom: 0;
+  }
+
   .faq-section h2 {
     font-family: var(--font-heading);
     font-size: 1.6rem;
@@ -349,7 +549,11 @@ const plans = [
     line-height: 1.6;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 650px) {
     .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
     .plan-highlight { transform: none; }
     .faq-grid { grid-template-columns: 1fr; }
