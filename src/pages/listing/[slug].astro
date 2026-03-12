@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import businessData from '../../data/businesses.json';
+import { createClient } from '@supabase/supabase-js';
 
 export function getStaticPaths() {
   const businesses = businessData as any[];
@@ -14,6 +15,40 @@ export function getStaticPaths() {
 
 const { business } = Astro.props;
 const biz = business as any;
+
+// Fetch photos from Supabase at build time
+let photos: any[] = [];
+const supabaseUrl = import.meta.env.SUPABASE_URL;
+const supabaseKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (supabaseUrl && supabaseKey) {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    // Look up business by county + slug to get UUID
+    const { data: sbBiz } = await supabase
+      .from('businesses')
+      .select('id')
+      .eq('county', 'jackson')
+      .eq('slug', biz.slug)
+      .single();
+
+    if (sbBiz) {
+      const { data: photoData } = await supabase
+        .from('business_photos')
+        .select('*')
+        .eq('business_id', sbBiz.id)
+        .order('is_primary', { ascending: false })
+        .order('sort_order', { ascending: true });
+
+      if (photoData) photos = photoData;
+    }
+  } catch (e) {
+    // Silently fail — photos are optional
+  }
+}
+
+const primaryPhoto = photos.find((p: any) => p.is_primary) || photos[0];
+const otherPhotos = photos.filter((p: any) => p !== primaryPhoto);
 
 // Find related businesses (same category, same city, excluding self)
 const allBusinesses = businessData as any[];
@@ -54,6 +89,39 @@ const related = allBusinesses
       </div>
     </div>
   </section>
+
+  {photos.length > 0 && (
+    <section class="biz-gallery-section">
+      <div class="container">
+        <div class="biz-gallery">
+          {primaryPhoto && (
+            <div class="gallery-hero">
+              <img
+                src={primaryPhoto.url}
+                alt={primaryPhoto.alt_text || biz.title}
+                loading="eager"
+                class="gallery-hero-img"
+                data-lightbox
+              />
+            </div>
+          )}
+          {otherPhotos.length > 0 && (
+            <div class="gallery-thumbs">
+              {otherPhotos.map((photo: any) => (
+                <img
+                  src={photo.url}
+                  alt={photo.alt_text || biz.title}
+                  loading="lazy"
+                  class="gallery-thumb"
+                  data-lightbox
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
 
   <section class="biz-content">
     <div class="container">
@@ -485,11 +553,176 @@ const related = allBusinesses
     box-shadow: 0 4px 16px rgba(232,160,32,0.35);
   }
 
+  /* Photo Gallery */
+  .biz-gallery-section {
+    padding: 2rem 0 0;
+    background: var(--gray-100);
+  }
+
+  .biz-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .gallery-hero {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    max-height: 480px;
+  }
+
+  .gallery-hero-img {
+    width: 100%;
+    height: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .gallery-hero-img:hover {
+    transform: scale(1.01);
+  }
+
+  .gallery-thumbs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
+  .gallery-thumb {
+    width: 100px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .gallery-thumb:hover {
+    border-color: var(--teal);
+    transform: scale(1.05);
+  }
+
+  /* Lightbox */
+  .lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    cursor: pointer;
+  }
+
+  .lightbox-overlay img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    cursor: default;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+    padding: 0.5rem;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+
+  .lightbox-close:hover { opacity: 1; }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    background: rgba(0,0,0,0.3);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .lightbox-nav:hover { opacity: 1; }
+  .lightbox-prev { left: 1rem; }
+  .lightbox-next { right: 1rem; }
+
   @media (max-width: 900px) {
     .biz-layout {
       grid-template-columns: 1fr;
     }
     .sidebar-card { position: static; }
     .related-grid { grid-template-columns: 1fr; }
+    .gallery-hero { max-height: 320px; }
+    .gallery-hero-img { max-height: 320px; }
   }
 </style>
+
+<script>
+  // Simple lightbox
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('[data-lightbox]');
+    if (!images.length) return;
+
+    const srcs = Array.from(images).map(img => (img as HTMLImageElement).src);
+    let currentIdx = 0;
+
+    function openLightbox(idx: number) {
+      currentIdx = idx;
+      const overlay = document.createElement('div');
+      overlay.className = 'lightbox-overlay';
+      overlay.innerHTML = `
+        <button class="lightbox-close">&times;</button>
+        ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-prev">&lsaquo;</button>' : ''}
+        <img src="${srcs[idx]}" alt="Photo" />
+        ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-next">&rsaquo;</button>' : ''}
+      `;
+
+      overlay.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.classList.contains('lightbox-overlay') || target.classList.contains('lightbox-close')) {
+          overlay.remove();
+        } else if (target.classList.contains('lightbox-prev')) {
+          currentIdx = (currentIdx - 1 + srcs.length) % srcs.length;
+          (overlay.querySelector('img') as HTMLImageElement).src = srcs[currentIdx];
+        } else if (target.classList.contains('lightbox-next')) {
+          currentIdx = (currentIdx + 1) % srcs.length;
+          (overlay.querySelector('img') as HTMLImageElement).src = srcs[currentIdx];
+        }
+      });
+
+      document.addEventListener('keydown', function handler(e) {
+        if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', handler); }
+        if (e.key === 'ArrowLeft') { currentIdx = (currentIdx - 1 + srcs.length) % srcs.length; (overlay.querySelector('img') as HTMLImageElement).src = srcs[currentIdx]; }
+        if (e.key === 'ArrowRight') { currentIdx = (currentIdx + 1) % srcs.length; (overlay.querySelector('img') as HTMLImageElement).src = srcs[currentIdx]; }
+      });
+
+      document.body.appendChild(overlay);
+    }
+
+    images.forEach((img, idx) => {
+      img.addEventListener('click', () => openLightbox(idx));
+    });
+  });
+</script>
