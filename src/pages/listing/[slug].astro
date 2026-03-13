@@ -2,18 +2,18 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import businessData from '../../data/businesses.json';
+import { getJacksonBusinesses } from '../../lib/businesses';
 import { createClient } from '@supabase/supabase-js';
 
-export function getStaticPaths() {
-  const businesses = businessData as any[];
+export async function getStaticPaths() {
+  const businesses = await getJacksonBusinesses();
   return businesses.map(biz => ({
     params: { slug: biz.slug },
-    props: { business: biz },
+    props: { business: biz, allBusinesses: businesses },
   }));
 }
 
-const { business } = Astro.props;
+const { business, allBusinesses } = Astro.props;
 const biz = business as any;
 const COUNTY = 'jackson';
 
@@ -97,8 +97,7 @@ const avgRating = reviews.length > 0
   : 0;
 
 // Related businesses
-const allBusinesses = businessData as any[];
-const related = allBusinesses
+const related = (allBusinesses as any[])
   .filter(b =>
     b.slug !== biz.slug &&
     (b.categories?.[0] === biz.categories?.[0] || b.location?.[0] === biz.location?.[0])

@@ -3,10 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { categories, towns } from '../data/constants';
-import businessData from '../data/businesses.json';
+import { getJacksonBusinesses } from '../lib/businesses';
 import { createClient } from '@supabase/supabase-js';
 
-const businesses = (businessData as any[]).sort((a: any, b: any) => {
+const allBusinessData = await getJacksonBusinesses();
+const businesses = allBusinessData.sort((a: any, b: any) => {
   if (a.featured && !b.featured) return -1;
   if (!a.featured && b.featured) return 1;
   return a.title.localeCompare(b.title);

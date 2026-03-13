@@ -3,11 +3,11 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { categories } from '../../data/constants';
-import businessData from '../../data/businesses.json';
+import { getJacksonBusinesses } from '../../lib/businesses';
 import { createClient } from '@supabase/supabase-js';
 
-export function getStaticPaths() {
-  const businesses = businessData as any[];
+export async function getStaticPaths() {
+  const businesses = await getJacksonBusinesses();
   return categories.map(cat => {
     const catBusinesses = businesses
       .filter(b => b.categories?.includes(cat.name))

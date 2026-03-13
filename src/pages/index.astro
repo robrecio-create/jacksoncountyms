@@ -3,10 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { towns, categories } from '../data/constants';
-import businessData from '../data/businesses.json';
+import { getJacksonBusinesses } from '../lib/businesses';
 import eventsData from '../data/events.json';
 
-const businesses = businessData as any[];
+const businesses = await getJacksonBusinesses();
 const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
 
 // Compute per-town business counts dynamically
