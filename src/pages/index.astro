@@ -1285,6 +1285,20 @@ function getMonthDay(dateStr: string) {
 </style>
 
 <script>
+  // Homepage search → redirect to /listings/?q=
+  const heroSearchInput = document.querySelector('.search-box input') as HTMLInputElement;
+  const heroSearchBtn = document.querySelector('.search-box .btn') as HTMLButtonElement;
+  function doHeroSearch() {
+    const q = heroSearchInput?.value.trim();
+    if (q) {
+      window.location.href = `/listings/?q=${encodeURIComponent(q)}`;
+    } else {
+      window.location.href = '/listings/';
+    }
+  }
+  heroSearchBtn?.addEventListener('click', doHeroSearch);
+  heroSearchInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') doHeroSearch(); });
+
   // Scroll animations with Intersection Observer
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {

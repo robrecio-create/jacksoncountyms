@@ -346,4 +346,12 @@ if (supabaseUrl && supabaseKey) {
   searchInput.addEventListener('input', filterListings);
   cityFilter.addEventListener('change', filterListings);
   catFilter.addEventListener('change', filterListings);
+
+  // Pre-fill search from URL param ?q=
+  const urlQ = new URLSearchParams(window.location.search).get('q');
+  if (urlQ) {
+    searchInput.value = urlQ;
+    filterListings();
+    searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 </script>
