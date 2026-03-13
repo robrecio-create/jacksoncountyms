@@ -4,13 +4,18 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { towns, categories } from '../../data/constants';
 import businessData from '../../data/businesses.json';
+import { createClient } from '@supabase/supabase-js';
 
 export function getStaticPaths() {
   const businesses = businessData as any[];
   return towns.map(town => {
-    const townBusinesses = businesses.filter(b =>
-      b.location?.includes(town.name)
-    );
+    const townBusinesses = businesses
+      .filter(b => b.location?.includes(town.name))
+      .sort((a: any, b: any) => {
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return a.title.localeCompare(b.title);
+      });
     return {
       params: { slug: town.slug },
       props: { town, businesses: townBusinesses },
@@ -32,6 +37,26 @@ const townCategories = categories
   .filter(c => catCounts.has(c.name))
   .map(c => ({ ...c, count: catCounts.get(c.name)! }))
   .sort((a, b) => b.count - a.count);
+
+// Fetch verified business slugs from Supabase
+const verifiedSlugs = new Set<string>();
+const supabaseUrl = import.meta.env.SUPABASE_URL;
+const supabaseKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+if (supabaseUrl && supabaseKey) {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data: claims } = await supabase
+      .from('business_claims')
+      .select('business_id, businesses!inner(slug)')
+      .eq('status', 'approved');
+    if (claims) {
+      for (const c of claims) {
+        const biz = (c as any).businesses;
+        if (biz?.slug) verifiedSlugs.add(biz.slug);
+      }
+    }
+  } catch {}
+}
 ---
 
 <Layout title={`${town.name} — Jackson County MS`}>
@@ -66,6 +91,7 @@ const townCategories = categories
               <div class="listing-badges">
                 {biz.featured && <span class="badge-featured">Featured</span>}
                 {biz.tags?.includes('locally-owned') && <span class="badge-local">Locally Owned</span>}
+                {verifiedSlugs.has(biz.slug) && <span class="badge-verified">&#10003; Verified</span>}
               </div>
             </div>
             {biz.content && <p class="listing-desc">{biz.content.substring(0, 120)}{biz.content.length > 120 ? '...' : ''}</p>}
@@ -220,6 +246,18 @@ const townCategories = categories
     letter-spacing: 1px;
     color: var(--teal);
     background: rgba(26,127,122,0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .badge-verified {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #34d399;
+    background: rgba(52,211,153,0.12);
     padding: 0.2rem 0.6rem;
     border-radius: 100px;
     white-space: nowrap;

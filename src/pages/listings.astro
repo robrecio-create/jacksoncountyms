@@ -4,8 +4,33 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { categories, towns } from '../data/constants';
 import businessData from '../data/businesses.json';
+import { createClient } from '@supabase/supabase-js';
 
-const businesses = businessData as any[];
+const businesses = (businessData as any[]).sort((a: any, b: any) => {
+  if (a.featured && !b.featured) return -1;
+  if (!a.featured && b.featured) return 1;
+  return a.title.localeCompare(b.title);
+});
+
+// Fetch verified business slugs from Supabase
+const verifiedSlugs = new Set<string>();
+const supabaseUrl = import.meta.env.SUPABASE_URL;
+const supabaseKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+if (supabaseUrl && supabaseKey) {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data: claims } = await supabase
+      .from('business_claims')
+      .select('business_id, businesses!inner(slug)')
+      .eq('status', 'approved');
+    if (claims) {
+      for (const c of claims) {
+        const biz = (c as any).businesses;
+        if (biz?.slug) verifiedSlugs.add(biz.slug);
+      }
+    }
+  } catch {}
+}
 ---
 
 <Layout title="All Listings — Jackson County MS">
@@ -47,6 +72,7 @@ const businesses = businessData as any[];
               <h3>{biz.title}</h3>
               <div class="listing-badges">
                 {biz.featured && <span class="badge-featured">Featured</span>}
+                {verifiedSlugs.has(biz.slug) && <span class="badge-verified">&#10003; Verified</span>}
                 {biz.tags?.includes('locally-owned') && <span class="badge-local">Locally Owned</span>}
               </div>
             </div>
@@ -211,6 +237,18 @@ const businesses = businessData as any[];
     letter-spacing: 1px;
     color: var(--gold);
     background: rgba(232,160,32,0.12);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .badge-verified {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #34d399;
+    background: rgba(52,211,153,0.12);
     padding: 0.2rem 0.6rem;
     border-radius: 100px;
     white-space: nowrap;
