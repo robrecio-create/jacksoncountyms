@@ -8,6 +8,12 @@ import eventsData from '../data/events.json';
 
 const businesses = businessData as any[];
 const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
+
+// Compute per-town business counts dynamically
+const townsWithCounts = towns.map(town => ({
+  ...town,
+  businesses: businesses.filter(b => b.location?.includes(town.name)).length,
+}));
 const allEvents = (eventsData as any[]).filter(e => e.status === 'publish');
 allEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 const upcomingEvents = allEvents.slice(0, 4);
@@ -41,7 +47,7 @@ function getMonthDay(dateStr: string) {
       </p>
 
       <div class="hero-cities animate delay-3">
-        {towns.map(town => (
+        {townsWithCounts.map(town => (
           <a href={`/locations/${town.slug}/`} class="hero-city-card">
             <strong>{town.name}</strong>
             <span>{town.businesses} businesses</span>
@@ -62,7 +68,7 @@ function getMonthDay(dateStr: string) {
         <div class="stat-divider"></div>
         <div class="stat"><strong>18</strong> Categories</div>
         <div class="stat-divider"></div>
-        <div class="stat"><strong>435</strong> Businesses</div>
+        <div class="stat"><strong>{businesses.length}</strong> Businesses</div>
       </div>
     </div>
 
@@ -201,7 +207,7 @@ function getMonthDay(dateStr: string) {
       </div>
 
       <div class="towns-grid">
-        {towns.map((town, i) => (
+        {townsWithCounts.map((town, i) => (
           <a href={`/locations/${town.slug}/`} class={`town-card animate delay-${(i % 4) + 1}`}>
             <h3>{town.name}</h3>
             <p>{town.businesses} businesses</p>

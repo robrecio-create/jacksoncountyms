@@ -3,6 +3,13 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { towns } from '../../data/constants';
+import businessData from '../../data/businesses.json';
+
+const businesses = businessData as any[];
+const townsWithCounts = towns.map(town => ({
+  ...town,
+  businesses: businesses.filter(b => b.location?.includes(town.name)).length,
+}));
 ---
 
 <Layout title="Explore Cities — Jackson County MS">
@@ -19,7 +26,7 @@ import { towns } from '../../data/constants';
   <section class="locations-section">
     <div class="container">
       <div class="towns-grid">
-        {towns.map(town => (
+        {townsWithCounts.map(town => (
           <a href={`/locations/${town.slug}/`} class="town-card animate">
             <h3>{town.name}</h3>
             <p>{town.businesses} businesses</p>
