@@ -59,7 +59,10 @@ if (supabaseUrl && supabaseKey) {
 }
 ---
 
-<Layout title={`${town.name} — Jackson County MS`}>
+<Layout
+  title={`${town.name} — Local Businesses in ${town.name}, Jackson County MS`}
+  description={`Discover ${businesses.length} local businesses in ${town.name}, Mississippi. Browse restaurants, services, shops, and more serving the ${town.name} community.`}
+>
   <Header activePage="Locations" />
 
   <section class="page-hero">

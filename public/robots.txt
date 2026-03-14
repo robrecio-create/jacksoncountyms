@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jacksoncountyms.com/sitemap-index.xml
+Sitemap: https://www.jacksoncountyms.com/sitemap-index.xml

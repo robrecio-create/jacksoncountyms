@@ -46,7 +46,10 @@ if (supabaseUrl && supabaseKey) {
 }
 ---
 
-<Layout title={`${category.name} — Jackson County MS`}>
+<Layout
+  title={`${category.name} — Jackson County MS`}
+  description={`Find ${category.name.toLowerCase()} businesses in Jackson County, Mississippi. Browse ${businesses.length} local ${category.name.toLowerCase()} listings across Ocean Springs, Pascagoula, Gautier, and more.`}
+>
   <Header activePage="Categories" />
 
   <section class="page-hero">

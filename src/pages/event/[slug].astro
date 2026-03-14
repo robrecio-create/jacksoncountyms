@@ -15,9 +15,50 @@ function formatDate(dateStr: string) {
   const date = new Date(dateStr + 'T00:00:00');
   return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 }
+
+const rawEventDesc = event.content || '';
+const eventSeoDesc = rawEventDesc.length > 155
+  ? rawEventDesc.slice(0, 152).trimEnd() + '...'
+  : rawEventDesc || `${event.title} — ${formatDate(event.date)} at ${event.venue} in ${event.location || 'Jackson County'}, MS.`;
 ---
 
-<Layout title={`${event.title} — Jackson County MS Events`}>
+<Layout
+  title={`${event.title} — Jackson County MS Events`}
+  description={eventSeoDesc}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": event.title,
+    "description": eventSeoDesc,
+    "startDate": event.start_time ? `${event.date}T${event.start_time}` : event.date,
+    "endDate": event.end_time ? `${event.date}T${event.end_time}` : undefined,
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "location": {
+      "@type": "Place",
+      "name": event.venue,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": event.address || event.venue,
+        "addressLocality": event.location || "Jackson County",
+        "addressRegion": "MS",
+        "addressCountry": "US"
+      }
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "JacksonCountyMS.com",
+      "url": "https://www.jacksoncountyms.com"
+    },
+    "offers": event.cost ? {
+      "@type": "Offer",
+      "price": event.cost === "Free" ? "0" : event.cost,
+      "priceCurrency": "USD"
+    } : undefined,
+    "url": `https://www.jacksoncountyms.com/event/${event.slug}/`
+  })} />
+
   <Header activePage="Events" />
 
   <section class="page-hero">

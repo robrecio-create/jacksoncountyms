@@ -109,9 +109,49 @@ const isFeatured = biz.featured === true;
 const hasDeal = !!biz.deal_title;
 const hasServices = services.length > 0;
 const hasGallery = photos.length > 0 || !!videoEmbedUrl;
+
+// SEO description: use excerpt, or first 155 chars of content, or fallback
+const rawDesc = biz.excerpt || biz.content || '';
+const seoDescription = rawDesc.length > 155
+  ? rawDesc.slice(0, 152).trimEnd() + '...'
+  : rawDesc || `${biz.title} is a local business in ${biz.location?.[0] || 'Jackson County'}, Mississippi. Find contact info, hours, and more.`;
 ---
 
-<Layout title={`${biz.title} — Jackson County MS`}>
+<Layout
+  title={`${biz.title} — Jackson County MS`}
+  description={seoDescription}
+  ogImage={primaryPhoto?.url || undefined}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": biz.title,
+    "description": seoDescription,
+    "address": biz.address ? {
+      "@type": "PostalAddress",
+      "streetAddress": biz.address,
+      "addressLocality": biz.location?.[0] || "Jackson County",
+      "addressRegion": "MS",
+      "addressCountry": "US"
+    } : undefined,
+    "telephone": biz.phone || undefined,
+    "email": biz.email || undefined,
+    "url": biz.website || `https://www.jacksoncountyms.com/listing/${biz.slug}/`,
+    "image": primaryPhoto?.url || undefined,
+    "geo": (biz.latitude && biz.longitude) ? {
+      "@type": "GeoCoordinates",
+      "latitude": biz.latitude,
+      "longitude": biz.longitude
+    } : undefined,
+    ...(avgRating > 0 ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": avgRating.toFixed(1),
+        "reviewCount": reviews.length
+      }
+    } : {})
+  })} />
+
   <Header activePage="Listings" />
 
   <section class="page-hero">

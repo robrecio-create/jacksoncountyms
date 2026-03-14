@@ -27,7 +27,22 @@ function getMonthDay(dateStr: string) {
 }
 ---
 
-<Layout title="Jackson County MS — Find Local Coupons and Businesses in Jackson County">
+<Layout
+  title="Jackson County MS — Find Local Coupons and Businesses in Jackson County"
+  description="Discover local businesses, restaurants, services, and events across Jackson County, Mississippi — Ocean Springs, Pascagoula, Gautier, Moss Point, Vancleave, and Escatawpa."
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "JacksonCountyMS.com",
+    "url": "https://www.jacksoncountyms.com",
+    "description": "Local business directory for Jackson County, Mississippi",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.jacksoncountyms.com/listings/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  })} />
 
   <Header activePage="Home" />
 
