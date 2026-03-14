@@ -13,7 +13,7 @@ export async function getJacksonBusinesses(): Promise<any[]> {
     const supabase = createClient(supabaseUrl, supabaseKey);
     const { data, error } = await supabase
       .from('businesses')
-      .select('id, legacy_id, title, slug, status, content, excerpt, address, phone, email, website, featured, categories, location, tags, deal_title, deal_description, deal_expiry, latitude, longitude')
+      .select('id, legacy_id, title, slug, status, content, excerpt, address, phone, email, website, featured, categories, location, tags, deal_title, deal_description, deal_expiry, latitude, longitude, vanity_url')
       .eq('county', 'jackson')
       .eq('status', 'publish')
       .order('featured', { ascending: false })
