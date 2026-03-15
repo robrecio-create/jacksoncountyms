@@ -8,6 +8,12 @@ import eventsData from '../data/events.json';
 
 const businesses = await getJacksonBusinesses();
 const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
+const searchData = JSON.stringify(businesses.map(b => ({
+  title: b.title,
+  slug: b.slug,
+  categories: b.categories || [],
+  location: b.location || [],
+})));
 
 // Compute per-town business counts dynamically
 const townsWithCounts = towns.map(town => ({
@@ -71,10 +77,10 @@ function getMonthDay(dateStr: string) {
       </div>
 
       <div class="hero-search animate delay-4">
-        <div class="search-box">
+        <div class="search-box" id="search-wrapper" data-businesses={searchData}>
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" placeholder="Search businesses, restaurants, services..." aria-label="Search businesses" />
-          <button class="btn btn-gold">Search</button>
+          <input type="text" id="hero-search-input" placeholder="Search businesses, restaurants, services..." aria-label="Search businesses" autocomplete="off" />
+          <button class="btn btn-gold" id="hero-search-btn">Search</button>
         </div>
       </div>
 
@@ -405,7 +411,7 @@ function getMonthDay(dateStr: string) {
 
   .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 5;
     text-align: center;
     padding: 8rem 0 6rem;
     max-width: 800px;
@@ -450,7 +456,6 @@ function getMonthDay(dateStr: string) {
     display: flex;
     background: var(--white);
     border-radius: var(--radius-lg);
-    overflow: hidden;
     box-shadow: var(--shadow-lg);
     position: relative;
   }
@@ -1299,20 +1304,206 @@ function getMonthDay(dateStr: string) {
   }
 </style>
 
-<script>
-  // Homepage search → redirect to /listings/?q=
-  const heroSearchInput = document.querySelector('.search-box input') as HTMLInputElement;
-  const heroSearchBtn = document.querySelector('.search-box .btn') as HTMLButtonElement;
-  function doHeroSearch() {
-    const q = heroSearchInput?.value.trim();
-    if (q) {
-      window.location.href = `/listings/?q=${encodeURIComponent(q)}`;
-    } else {
-      window.location.href = '/listings/';
+<style is:global>
+  .search-dropdown {
+    display: none;
+    position: absolute;
+    background: #fff;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    max-height: 340px;
+    overflow-y: auto;
+    z-index: 9999;
+    border-top: 1px solid #e5e7eb;
+  }
+  .search-dropdown.open { display: block; }
+  .search-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1.25rem;
+    text-decoration: none;
+    color: #374151;
+    transition: background 0.15s;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .search-dropdown-item:last-child { border-bottom: none; }
+  .search-dropdown-item:hover,
+  .search-dropdown-item.active { background: #f3f4f6; }
+  .search-dropdown-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #1a7f7a, #2ab0a8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .search-dropdown-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 2;
+  }
+  .search-dropdown-info { flex: 1; min-width: 0; }
+  .search-dropdown-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #0d2137;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-dropdown-meta {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .search-dropdown-all {
+    display: block;
+    text-align: center;
+    padding: 0.75rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #1a7f7a;
+    border-top: 1px solid #e5e7eb;
+    transition: background 0.15s;
+  }
+  .search-dropdown-all:hover { background: #f3f4f6; }
+  .search-dropdown-empty {
+    padding: 1.25rem;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 768px) {
+    .search-dropdown {
+      max-height: 260px;
+      border-radius: 0 0 8px 8px;
     }
   }
-  heroSearchBtn?.addEventListener('click', doHeroSearch);
-  heroSearchInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') doHeroSearch(); });
+</style>
+
+<script>
+  // ════════════════════ HERO SEARCH AUTOCOMPLETE ════════════════════
+  (() => {
+    const input = document.getElementById('hero-search-input') as HTMLInputElement;
+    const searchBtn = document.getElementById('hero-search-btn')!;
+    const wrapper = document.getElementById('search-wrapper')!;
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'search-dropdown';
+    document.body.appendChild(dropdown);
+
+    const businesses: { title: string; slug: string; categories: string[]; location: string[] }[] =
+      JSON.parse(wrapper.dataset.businesses || '[]');
+
+    let activeIdx = -1;
+
+    function goToListings(q: string) {
+      window.location.href = '/listings/' + (q ? '?q=' + encodeURIComponent(q) : '');
+    }
+
+    function positionDropdown() {
+      const r = wrapper.getBoundingClientRect();
+      dropdown.style.top = (r.bottom + window.scrollY) + 'px';
+      dropdown.style.left = r.left + 'px';
+      dropdown.style.width = r.width + 'px';
+    }
+
+    function render(q: string) {
+      activeIdx = -1;
+      if (!q || q.length < 2) {
+        dropdown.classList.remove('open');
+        dropdown.innerHTML = '';
+        return;
+      }
+      positionDropdown();
+
+      const ql = q.toLowerCase();
+      const matches = businesses.filter(b =>
+        b.title.toLowerCase().includes(ql) ||
+        (b.categories || []).some((c: string) => c.toLowerCase().includes(ql))
+      ).slice(0, 6);
+
+      if (matches.length === 0) {
+        dropdown.innerHTML = '<div class="search-dropdown-empty">No businesses found</div>' +
+          '<a href="/listings/?q=' + encodeURIComponent(q) + '" class="search-dropdown-all">Search all listings &rarr;</a>';
+        dropdown.classList.add('open');
+        return;
+      }
+
+      let html = '';
+      matches.forEach((biz, i) => {
+        const cat = (biz.categories || [])[0] || '';
+        const loc = (biz.location || [])[0] || '';
+        const meta = [cat, loc].filter(Boolean).join(' \u00b7 ');
+        html += '<a href="/listing/' + biz.slug + '/" class="search-dropdown-item" data-idx="' + i + '">' +
+          '<div class="search-dropdown-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>' +
+          '<div class="search-dropdown-info"><div class="search-dropdown-name">' + biz.title + '</div>' +
+          (meta ? '<div class="search-dropdown-meta">' + meta + '</div>' : '') +
+          '</div></a>';
+      });
+      html += '<a href="/listings/?q=' + encodeURIComponent(q) + '" class="search-dropdown-all">View all results &rarr;</a>';
+      dropdown.innerHTML = html;
+      dropdown.classList.add('open');
+    }
+
+    input.addEventListener('input', () => render(input.value.trim()));
+
+    input.addEventListener('keydown', (e) => {
+      const items = dropdown.querySelectorAll('.search-dropdown-item');
+      if (!items.length) {
+        if (e.key === 'Enter') { e.preventDefault(); goToListings(input.value.trim()); }
+        return;
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeIdx = Math.min(activeIdx + 1, items.length - 1);
+        items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIdx = Math.max(activeIdx - 1, -1);
+        items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (activeIdx >= 0 && items[activeIdx]) {
+          (items[activeIdx] as HTMLAnchorElement).click();
+        } else {
+          goToListings(input.value.trim());
+        }
+      } else if (e.key === 'Escape') {
+        dropdown.classList.remove('open');
+      }
+    });
+
+    searchBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToListings(input.value.trim());
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!wrapper.contains(e.target as Node)) {
+        dropdown.classList.remove('open');
+      }
+    });
+
+    input.addEventListener('focus', () => {
+      if (input.value.trim().length >= 2) render(input.value.trim());
+    });
+
+    window.addEventListener('scroll', () => {
+      if (dropdown.classList.contains('open')) positionDropdown();
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      if (dropdown.classList.contains('open')) positionDropdown();
+    });
+  })();
 
   // Scroll animations with Intersection Observer
   const observer = new IntersectionObserver((entries) => {
