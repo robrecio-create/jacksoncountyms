@@ -35,7 +35,7 @@ if (supabaseUrl && supabaseKey) {
 
     const { data: sbBiz } = await supabase
       .from('businesses')
-      .select('id, services, video_url')
+      .select('id, services, video_url, listing_tier')
       .eq('county', COUNTY)
       .eq('slug', biz.slug)
       .single();
@@ -100,6 +100,9 @@ const related = (allBusinesses as any[])
   .slice(0, 3);
 
 const isFeatured = biz.featured === true;
+const listingTier = sbBizData?.listing_tier || (isFeatured ? 'featured' : 'free');
+const isElevated = listingTier === 'elevated' || listingTier === 'seo';
+
 const hasDeal = !!biz.deal_title;
 const hasServices = services.length > 0;
 const hasGallery = photos.length > 0 || !!videoEmbedUrl;
@@ -154,7 +157,8 @@ const vanitySeoDec = rawVanityDesc.length > 155
         <div>
           <h1>{biz.title}</h1>
           <div class="biz-badges">
-            {biz.featured && <span class="badge badge-featured">Featured</span>}
+            {isElevated && <span class="badge badge-elevated">★ Elevated</span>}
+            {biz.featured && !isElevated && <span class="badge badge-featured">Featured</span>}
             {isVerified && <span class="badge badge-verified">&#10003; Verified</span>}
             {biz.tags?.includes('locally-owned') && <span class="badge badge-local">Locally Owned</span>}
             {avgRating > 0 && (
@@ -335,7 +339,7 @@ const vanitySeoDec = rawVanityDesc.length > 155
             </>
           )}
 
-          {related.length > 0 && (
+          {related.length > 0 && !isElevated && (
             <div class="related-section">
               <h2>Related Businesses</h2>
               <div class="related-grid">
@@ -415,6 +419,7 @@ const vanitySeoDec = rawVanityDesc.length > 155
   .biz-header h1 { font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--white); margin-bottom: 0.5rem; }
   .biz-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
   .badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 0.25rem 0.75rem; border-radius: 100px; }
+  .badge-elevated { color: #a78bfa; background: rgba(167,139,250,0.15); border: 1px solid rgba(167,139,250,0.3); }
   .badge-featured { color: var(--gold); background: rgba(232,160,32,0.15); border: 1px solid rgba(232,160,32,0.3); }
   .badge-verified { color: #34d399; background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.3); }
   .badge-local { color: var(--teal-light); background: rgba(26,127,122,0.15); border: 1px solid rgba(26,127,122,0.3); }

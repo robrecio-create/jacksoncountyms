@@ -75,7 +75,8 @@ if (supabaseUrl && supabaseKey) {
             <div class="listing-top">
               <h3>{biz.title}</h3>
               <div class="listing-badges">
-                {biz.featured && <span class="badge-featured">Featured</span>}
+                {(biz.listing_tier === 'elevated' || biz.listing_tier === 'seo') && <span class="badge-elevated">★ Elevated</span>}
+                {biz.featured && biz.listing_tier !== 'elevated' && biz.listing_tier !== 'seo' && <span class="badge-featured">Featured</span>}
                 {verifiedSlugs.has(biz.slug) && <span class="badge-verified">&#10003; Verified</span>}
                 {biz.tags?.includes('locally-owned') && <span class="badge-local">Locally Owned</span>}
               </div>
@@ -232,6 +233,18 @@ if (supabaseUrl && supabaseKey) {
     display: flex;
     gap: 0.35rem;
     flex-shrink: 0;
+  }
+
+  .badge-elevated {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #a78bfa;
+    background: rgba(167,139,250,0.12);
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    white-space: nowrap;
   }
 
   .badge-featured {
