@@ -193,27 +193,25 @@ const seoDescription = rawDesc.length > 155
     </div>
   </section>
 
-  {/* Non-featured: simple photo hero */}
-  {!isFeatured && photos.length > 0 && (
-    <section class="biz-gallery-section">
-      <div class="container">
-        <div class="biz-gallery">
-          {primaryPhoto && (
-            <div class="gallery-hero">
-              <img src={primaryPhoto.url} alt={primaryPhoto.alt_text || biz.title} loading="eager" class="gallery-hero-img" data-lightbox />
-            </div>
-          )}
-          {otherPhotos.length > 0 && (
-            <div class="gallery-thumbs">
-              {otherPhotos.map((photo: any) => (
-                <img src={photo.url} alt={photo.alt_text || biz.title} loading="lazy" class="gallery-thumb" data-lightbox />
-              ))}
-            </div>
-          )}
-        </div>
+  {/* Non-featured: simple photo hero (build-time + client-side refresh) */}
+  <section class="biz-gallery-section" id="photo-gallery" data-slug={biz.slug} data-title={biz.title} style={!isFeatured && photos.length > 0 ? '' : (!isFeatured ? 'display:none' : 'display:none')}>
+    <div class="container">
+      <div class="biz-gallery" id="photo-gallery-inner">
+        {primaryPhoto && (
+          <div class="gallery-hero">
+            <img src={primaryPhoto.url} alt={primaryPhoto.alt_text || biz.title} loading="eager" class="gallery-hero-img" data-lightbox />
+          </div>
+        )}
+        {otherPhotos.length > 0 && (
+          <div class="gallery-thumbs">
+            {otherPhotos.map((photo: any) => (
+              <img src={photo.url} alt={photo.alt_text || biz.title} loading="lazy" class="gallery-thumb" data-lightbox />
+            ))}
+          </div>
+        )}
       </div>
-    </section>
-  )}
+    </div>
+  </section>
 
   <section class="biz-content">
     <div class="container">
@@ -253,13 +251,11 @@ const seoDescription = rawDesc.length > 155
               {/* Gallery Tab */}
               {hasGallery && (
                 <div class="tab-panel" id="tab-gallery">
-                  {photos.length > 0 && (
-                    <div class="tab-gallery-grid">
-                      {photos.map((photo: any) => (
-                        <img src={photo.url} alt={photo.alt_text || biz.title} loading="lazy" class="tab-gallery-img" data-lightbox />
-                      ))}
-                    </div>
-                  )}
+                  <div class="tab-gallery-grid" id="featured-photo-grid">
+                    {photos.map((photo: any) => (
+                      <img src={photo.url} alt={photo.alt_text || biz.title} loading="lazy" class="tab-gallery-img" data-lightbox />
+                    ))}
+                  </div>
                   {videoEmbedUrl && (
                     <div class="video-embed">
                       <iframe src={videoEmbedUrl} title={`${biz.title} video`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -615,6 +611,77 @@ const seoDescription = rawDesc.length > 155
         document.body.appendChild(overlay);
       }
       images.forEach((img, idx) => { img.addEventListener('click', () => openLightbox(idx)); });
+    }
+
+    // Client-side photo refresh — fetches latest photos from Supabase
+    const gallerySection = document.getElementById('photo-gallery');
+    const slug = gallerySection?.dataset.slug;
+    const bizTitle = gallerySection?.dataset.title || '';
+    if (slug) {
+      fetch(`/api/photos?slug=${encodeURIComponent(slug)}`)
+        .then(r => r.json())
+        .then(({ photos: freshPhotos }) => {
+          if (!freshPhotos || freshPhotos.length === 0) return;
+
+          // Non-featured gallery
+          const galleryInner = document.getElementById('photo-gallery-inner');
+          if (galleryInner && gallerySection) {
+            gallerySection.style.display = '';
+            const primary = freshPhotos.find((p: any) => p.is_primary) || freshPhotos[0];
+            const others = freshPhotos.filter((p: any) => p !== primary);
+            galleryInner.innerHTML = `
+              <div class="gallery-hero">
+                <img src="${primary.url}" alt="${primary.alt_text || bizTitle}" loading="eager" class="gallery-hero-img" data-lightbox />
+              </div>
+              ${others.length > 0 ? `<div class="gallery-thumbs">${others.map((p: any) =>
+                `<img src="${p.url}" alt="${p.alt_text || bizTitle}" loading="lazy" class="gallery-thumb" data-lightbox />`
+              ).join('')}</div>` : ''}
+            `;
+          }
+
+          // Featured gallery tab
+          const featuredGrid = document.getElementById('featured-photo-grid');
+          if (featuredGrid) {
+            featuredGrid.innerHTML = freshPhotos.map((p: any) =>
+              `<img src="${p.url}" alt="${p.alt_text || bizTitle}" loading="lazy" class="tab-gallery-img" data-lightbox />`
+            ).join('');
+            // Show gallery tab button if it was hidden
+            const galleryTabBtn = document.querySelector('[data-tab="gallery"]') as HTMLElement;
+            if (galleryTabBtn) galleryTabBtn.style.display = '';
+          }
+
+          // Re-bind lightbox for new images
+          const newImages = document.querySelectorAll('[data-lightbox]');
+          if (newImages.length) {
+            const srcs = Array.from(newImages).map(img => (img as HTMLImageElement).src);
+            let currentIdx = 0;
+            function openLB(idx: number) {
+              currentIdx = idx;
+              const overlay = document.createElement('div');
+              overlay.className = 'lightbox-overlay';
+              overlay.innerHTML = `
+                <button class="lightbox-close">&times;</button>
+                ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-prev">&lsaquo;</button>' : ''}
+                <img src="${srcs[idx]}" alt="Photo" />
+                ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-next">&rsaquo;</button>' : ''}
+              `;
+              overlay.addEventListener('click', (e) => {
+                const target = e.target as HTMLElement;
+                if (target.classList.contains('lightbox-overlay') || target.classList.contains('lightbox-close')) { overlay.remove(); }
+                else if (target.classList.contains('lightbox-prev')) { currentIdx = (currentIdx - 1 + srcs.length) % srcs.length; (overlay.querySelector('img') as HTMLImageElement).src = srcs[currentIdx]; }
+                else if (target.classList.contains('lightbox-next')) { currentIdx = (currentIdx + 1) % srcs.length; (overlay.querySelector('img') as HTMLImageElement).src = srcs[currentIdx]; }
+              });
+              document.addEventListener('keydown', function handler(e) {
+                if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', handler); }
+                if (e.key === 'ArrowLeft') { currentIdx = (currentIdx - 1 + srcs.length) % srcs.length; (overlay.querySelector('img') as HTMLImageElement).src = srcs[currentIdx]; }
+                if (e.key === 'ArrowRight') { currentIdx = (currentIdx + 1) % srcs.length; (overlay.querySelector('img') as HTMLImageElement).src = srcs[currentIdx]; }
+              });
+              document.body.appendChild(overlay);
+            }
+            newImages.forEach((img, idx) => { img.addEventListener('click', () => openLB(idx)); });
+          }
+        })
+        .catch(() => { /* silently fail — build-time photos still work */ });
     }
 
     // Review form submission
