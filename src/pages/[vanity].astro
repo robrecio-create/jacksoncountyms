@@ -389,6 +389,7 @@ const vanitySeoDec = rawVanityDesc.length > 155
                 <span class="claim-icon">✅</span>
                 <strong>Verified Business</strong>
                 <p>This listing has been claimed and verified by the business owner.</p>
+                <a href="https://gulfcoast-directory-admin.vercel.app/login" target="_blank" rel="noopener" class="manage-link">Manage your listing &rarr;</a>
               </div>
             ) : (
               <div class="claim-block">
@@ -491,6 +492,8 @@ const vanitySeoDec = rawVanityDesc.length > 155
   .claim-icon { font-size: 1.75rem; display: block; margin-bottom: 0.5rem; }
   .claim-block strong { display: block; font-family: var(--font-heading); font-size: 1rem; color: var(--navy); margin-bottom: 0.35rem; }
   .claim-block p { color: var(--gray-600); font-size: 0.82rem; line-height: 1.5; margin: 0 0 1rem; }
+  .manage-link { display: inline-block; color: var(--teal); font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: color 0.2s; }
+  .manage-link:hover { color: var(--teal-light); text-decoration: underline; }
   .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 0.8rem 1.6rem; font-weight: 700; font-size: 0.9rem; border-radius: var(--radius-md); border: 2px solid transparent; transition: all 0.25s; margin-top: 0.5rem; cursor: pointer; }
   .btn-teal { background: var(--teal); color: var(--white); border-color: var(--teal); }
   .btn-teal:hover { background: var(--teal-light); transform: translateY(-1px); box-shadow: var(--shadow-glow); }
