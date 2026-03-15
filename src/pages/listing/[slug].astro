@@ -399,12 +399,20 @@ const seoDescription = rawDesc.length > 155
               <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(biz.address)}`} target="_blank" rel="noopener noreferrer" class="btn btn-teal">Get Directions &rarr;</a>
             )}
             <div class="claim-divider"></div>
-            <div class="claim-block">
-              <span class="claim-icon">🏢</span>
-              <strong>Own this business?</strong>
-              <p>Claim this listing to update your info, add photos, post deals, and connect with customers.</p>
-              <a href={`/claim/${biz.slug}/`} class="btn btn-gold">Claim This Listing</a>
-            </div>
+            {isVerified ? (
+              <div class="claim-block claimed">
+                <span class="claim-icon">✅</span>
+                <strong>Verified Business</strong>
+                <p>This listing has been claimed and verified by the business owner.</p>
+              </div>
+            ) : (
+              <div class="claim-block">
+                <span class="claim-icon">🏢</span>
+                <strong>Own this business?</strong>
+                <p>Claim this listing to update your info, add photos, post deals, and connect with customers.</p>
+                <a href={`/claim/${biz.slug}/`} class="btn btn-gold">Claim This Listing</a>
+              </div>
+            )}
           </div>
         </aside>
       </div>
