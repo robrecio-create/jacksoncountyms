@@ -28,9 +28,13 @@ const townsWithCounts = towns.map(town => ({
 
   <section class="locations-section">
     <div class="container">
-      <div class="towns-grid">
+      <div class="search-bar">
+        <input type="text" id="loc-search" placeholder="Search locations..." autocomplete="off" />
+      </div>
+      <p class="result-count" id="loc-result-count">{townsWithCounts.length} locations</p>
+      <div class="towns-grid" id="towns-grid">
         {townsWithCounts.map(town => (
-          <a href={`/locations/${town.slug}/`} class="town-card animate">
+          <a href={`/locations/${town.slug}/`} class="town-card animate" data-name={town.name.toLowerCase()}>
             <h3>{town.name}</h3>
             <p>{town.businesses} businesses</p>
             <span class="town-arrow">&rarr;</span>
@@ -82,6 +86,31 @@ const townsWithCounts = towns.map(town => ({
     font-size: 1.1rem;
     max-width: 500px;
     margin: 0 auto;
+  }
+
+  .search-bar {
+    max-width: 480px;
+    margin: 0 auto 1rem;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-bar input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,128,128,0.1);
+  }
+  .result-count {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
   }
 
   .locations-section {
@@ -208,3 +237,21 @@ const townsWithCounts = towns.map(town => ({
     .cta-card { padding: 3rem 1.5rem; }
   }
 </style>
+
+<script>
+  const input = document.getElementById('loc-search') as HTMLInputElement;
+  const grid = document.getElementById('towns-grid')!;
+  const countEl = document.getElementById('loc-result-count')!;
+  const cards = Array.from(grid.querySelectorAll('.town-card')) as HTMLElement[];
+
+  input?.addEventListener('input', () => {
+    const q = input.value.toLowerCase().trim();
+    let visible = 0;
+    cards.forEach(card => {
+      const match = !q || card.dataset.name?.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    countEl.textContent = `${visible} location${visible === 1 ? '' : 's'}`;
+  });
+</script>

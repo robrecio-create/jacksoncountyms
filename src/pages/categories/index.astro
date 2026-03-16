@@ -28,9 +28,13 @@ const categoriesWithCounts = categories.map(cat => ({
 
   <section class="categories-section">
     <div class="container">
-      <div class="cat-grid">
+      <div class="search-bar">
+        <input type="text" id="cat-search" placeholder="Search categories..." autocomplete="off" />
+      </div>
+      <p class="result-count" id="cat-result-count">{categoriesWithCounts.length} categories</p>
+      <div class="cat-grid" id="cat-grid">
         {categoriesWithCounts.map(cat => (
-          <a href={`/categories/${cat.slug}/`} class="cat-card animate">
+          <a href={`/categories/${cat.slug}/`} class="cat-card animate" data-name={cat.name.toLowerCase()}>
             <span class="cat-icon">{cat.icon}</span>
             <div class="cat-info">
               <h3>{cat.name}</h3>
@@ -75,6 +79,31 @@ const categoriesWithCounts = categories.map(cat => ({
     font-size: 1.1rem;
     max-width: 500px;
     margin: 0 auto;
+  }
+
+  .search-bar {
+    max-width: 480px;
+    margin: 0 auto 1rem;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-bar input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,128,128,0.1);
+  }
+  .result-count {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
   }
 
   .categories-section {
@@ -138,3 +167,21 @@ const categoriesWithCounts = categories.map(cat => ({
     .cat-grid { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  const input = document.getElementById('cat-search') as HTMLInputElement;
+  const grid = document.getElementById('cat-grid')!;
+  const countEl = document.getElementById('cat-result-count')!;
+  const cards = Array.from(grid.querySelectorAll('.cat-card')) as HTMLElement[];
+
+  input?.addEventListener('input', () => {
+    const q = input.value.toLowerCase().trim();
+    let visible = 0;
+    cards.forEach(card => {
+      const match = !q || card.dataset.name?.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    countEl.textContent = `${visible} categor${visible === 1 ? 'y' : 'ies'}`;
+  });
+</script>
