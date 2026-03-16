@@ -12,8 +12,13 @@ export async function getStaticPaths() {
     const catBusinesses = businesses
       .filter(b => b.categories?.includes(cat.name))
       .sort((a: any, b: any) => {
-        if (a.featured && !b.featured) return -1;
-        if (!a.featured && b.featured) return 1;
+        const tierRank = (biz: any) => {
+          if (biz.listing_tier === 'elevated' || biz.listing_tier === 'seo') return 0;
+          if (biz.featured || biz.listing_tier === 'featured') return 1;
+          return 2;
+        };
+        const rankDiff = tierRank(a) - tierRank(b);
+        if (rankDiff !== 0) return rankDiff;
         return a.title.localeCompare(b.title);
       });
     return {
@@ -65,7 +70,7 @@ if (supabaseUrl && supabaseKey) {
     <div class="container">
       <div class="listings-grid">
         {businesses.map((biz: any) => (
-          <a href={`/listing/${biz.slug}/`} class="listing-card">
+          <a href={`/listing/${biz.slug}/`} class={`listing-card ${(biz.listing_tier === 'elevated' || biz.listing_tier === 'seo') ? 'listing-card-elevated' : ''}`}>
             <div class="listing-top">
               <h3>{biz.title}</h3>
               <div class="listing-badges">
@@ -149,6 +154,27 @@ if (supabaseUrl && supabaseKey) {
     border-color: var(--teal);
     box-shadow: var(--shadow-sm);
     transform: translateY(-2px);
+  }
+
+  .listing-card-elevated {
+    border: 2px solid rgba(167,139,250,0.4);
+    background: linear-gradient(135deg, #faf5ff 0%, #f5f0ff 100%);
+    box-shadow: 0 2px 12px rgba(167,139,250,0.1);
+    position: relative;
+  }
+  .listing-card-elevated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #a78bfa, #7c3aed, #a78bfa);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+  .listing-card-elevated:hover {
+    border-color: #a78bfa;
+    box-shadow: 0 6px 24px rgba(167,139,250,0.2);
   }
 
   .listing-top {
