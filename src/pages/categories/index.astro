@@ -44,6 +44,7 @@ const categoriesWithCounts = categories.map(cat => ({
           </a>
         ))}
       </div>
+      <p class="no-results" id="cat-no-results" style="display:none;">No results found. Try a different search term.</p>
     </div>
   </section>
 
@@ -159,6 +160,14 @@ const categoriesWithCounts = categories.map(cat => ({
 
   .cat-card:hover .cat-arrow { transform: translateX(4px); }
 
+  .no-results {
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 0.95rem;
+    padding: 3rem 1rem;
+    font-style: italic;
+  }
+
   @media (max-width: 900px) {
     .cat-grid { grid-template-columns: repeat(2, 1fr); }
   }
@@ -183,5 +192,7 @@ const categoriesWithCounts = categories.map(cat => ({
       if (match) visible++;
     });
     countEl.textContent = `${visible} categor${visible === 1 ? 'y' : 'ies'}`;
+    const noResults = document.getElementById('cat-no-results')!;
+    noResults.style.display = visible === 0 ? '' : 'none';
   });
 </script>

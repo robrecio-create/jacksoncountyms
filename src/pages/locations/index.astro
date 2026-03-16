@@ -41,6 +41,7 @@ const townsWithCounts = towns.map(town => ({
           </a>
         ))}
       </div>
+      <p class="no-results" id="loc-no-results" style="display:none;">No results found. Try a different search term.</p>
     </div>
   </section>
 
@@ -228,6 +229,14 @@ const townsWithCounts = towns.map(town => ({
     box-shadow: 0 4px 16px rgba(232,160,32,0.35);
   }
 
+  .no-results {
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 0.95rem;
+    padding: 3rem 1rem;
+    font-style: italic;
+  }
+
   @media (max-width: 900px) {
     .towns-grid { grid-template-columns: repeat(2, 1fr); }
   }
@@ -253,5 +262,7 @@ const townsWithCounts = towns.map(town => ({
       if (match) visible++;
     });
     countEl.textContent = `${visible} location${visible === 1 ? '' : 's'}`;
+    const noResults = document.getElementById('loc-no-results')!;
+    noResults.style.display = visible === 0 ? '' : 'none';
   });
 </script>
