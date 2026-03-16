@@ -306,34 +306,6 @@
     "deal_expiry": ""
   },
   {
-    "id": 175,
-    "title": "Gulf Coast Marketing Solutions",
-    "slug": "gulf-coast-marketing-solutions",
-    "status": "publish",
-    "content": "Digital marketing  social media management  and web design for local businesses.",
-    "excerpt": "",
-    "post_date": "2026-03-05 00:00:00",
-    "address": "900 Washington Ave Ocean Springs MS 39564",
-    "phone": "(228) 872-5100",
-    "email": "",
-    "website": "",
-    "latitude": "",
-    "longitude": "",
-    "featured": false,
-    "categories": [
-      "Professional Services"
-    ],
-    "location": [
-      "Ocean Springs"
-    ],
-    "tags": [
-      "locally-owned"
-    ],
-    "deal_title": "",
-    "deal_description": "",
-    "deal_expiry": ""
-  },
-  {
     "id": 176,
     "title": "Ocean Springs Insurance Agency",
     "slug": "ocean-springs-insurance-agency",
@@ -4959,34 +4931,6 @@
     "post_date": "2026-03-05 00:00:00",
     "address": "12400 Hwy 57 Vancleave MS 39565",
     "phone": "(228) 826-5700",
-    "email": "",
-    "website": "",
-    "latitude": "",
-    "longitude": "",
-    "featured": false,
-    "categories": [
-      "Professional Services"
-    ],
-    "location": [
-      "Vancleave"
-    ],
-    "tags": [
-      "locally-owned"
-    ],
-    "deal_title": "",
-    "deal_description": "",
-    "deal_expiry": ""
-  },
-  {
-    "id": 367,
-    "title": "2Can Design",
-    "slug": "2can-design",
-    "status": "publish",
-    "content": "Web design and digital marketing for small businesses.",
-    "excerpt": "",
-    "post_date": "2026-03-05 00:00:00",
-    "address": "Vancleave Vancleave MS 39565",
-    "phone": "(228) 826-5800",
     "email": "",
     "website": "",
     "latitude": "",
@@ -12947,34 +12891,6 @@
     "post_date": "2026-03-11 00:00:00",
     "address": "1117 Bienville Blvd Ocean Springs MS 39564",
     "phone": "(228) 222-2066",
-    "email": "",
-    "website": "",
-    "latitude": "",
-    "longitude": "",
-    "featured": false,
-    "categories": [
-      "Professional Services"
-    ],
-    "location": [
-      "Ocean Springs"
-    ],
-    "tags": [
-      "locally-owned"
-    ],
-    "deal_title": "",
-    "deal_description": "",
-    "deal_expiry": ""
-  },
-  {
-    "id": 830,
-    "title": "Hilltree Marketing",
-    "slug": "hilltree-marketing",
-    "status": "publish",
-    "content": "Marketing firm offering digital marketing and business growth solutions.",
-    "excerpt": "",
-    "post_date": "2026-03-11 00:00:00",
-    "address": "14020 Glendale Rd Ocean Springs MS 39565",
-    "phone": "(228) 860-2872",
     "email": "",
     "website": "",
     "latitude": "",
