@@ -27,9 +27,11 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
     <div class="container">
       {deals.length > 0 ? (
         <div class="deals-grid">
-          {deals.map(biz => (
-            <div class="deal-card">
-              <div class="deal-badge">Deal</div>
+          {deals.map(biz => {
+            const isPaid = biz.listing_tier === 'featured' || biz.listing_tier === 'elevated' || biz.listing_tier === 'seo';
+            return (
+            <div class={`deal-card${isPaid ? ' deal-card-featured' : ''}`}>
+              <div class="deal-badge">{isPaid ? '⭐ Featured Deal' : 'Deal'}</div>
               <h3>{biz.deal_title}</h3>
               <p class="deal-business">
                 <a href={`/listing/${biz.slug}/`}>{biz.title}</a>
@@ -39,7 +41,8 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
               {biz.deal_expiry && <p class="deal-expiry">Expires: {biz.deal_expiry}</p>}
               <a href={`/listing/${biz.slug}/`} class="btn btn-gold btn-sm">Redeem &rarr;</a>
             </div>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div class="empty-state">
@@ -109,6 +112,17 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
     display: flex;
     flex-direction: column;
     position: relative;
+  }
+
+  .deal-card-featured {
+    border: 2px solid var(--gold);
+    background: linear-gradient(135deg, #fffef5 0%, #fff9e6 100%);
+    box-shadow: 0 2px 12px rgba(232,160,32,0.1);
+  }
+  .deal-card-featured .deal-badge {
+    background: linear-gradient(135deg, var(--gold), #d4940a);
+    font-size: 0.6rem;
+    padding: 0.25rem 0.75rem;
   }
 
   .deal-badge {

@@ -113,10 +113,12 @@ function getMonthDay(dateStr: string) {
 
       {deals.length > 0 ? (
         <div class="deals-grid">
-          {deals.map(biz => (
+          {deals.map(biz => {
+            const isPaid = biz.listing_tier === 'featured' || biz.listing_tier === 'elevated' || biz.listing_tier === 'seo';
+            return (
             <button
               type="button"
-              class="deal-card animate"
+              class={`deal-card animate${isPaid ? ' deal-card-featured' : ''}`}
               data-deal-title={biz.deal_title}
               data-deal-desc={biz.deal_description || ''}
               data-deal-expiry={biz.deal_expiry || ''}
@@ -125,7 +127,7 @@ function getMonthDay(dateStr: string) {
               data-biz-phone={biz.phone || ''}
               data-biz-address={biz.address || ''}
             >
-              <div class="deal-badge">Deal</div>
+              <div class="deal-badge">{isPaid ? '⭐ Featured Deal' : 'Deal'}</div>
               <h3>{biz.deal_title}</h3>
               <p class="deal-biz">{biz.title}</p>
               {biz.deal_description && <p class="deal-desc">{biz.deal_description}</p>}
@@ -134,7 +136,8 @@ function getMonthDay(dateStr: string) {
                 <span class="deal-redeem">Redeem &rarr;</span>
               </div>
             </button>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div class="deals-empty animate">
@@ -791,6 +794,20 @@ function getMonthDay(dateStr: string) {
     border-color: var(--gold);
     box-shadow: 0 4px 20px rgba(232,160,32,0.12);
     transform: translateY(-2px);
+  }
+
+  .deal-card-featured {
+    border: 2px solid var(--gold);
+    background: linear-gradient(135deg, #fffef5 0%, #fff9e6 100%);
+    box-shadow: 0 2px 12px rgba(232,160,32,0.1);
+  }
+  .deal-card-featured:hover {
+    box-shadow: 0 6px 24px rgba(232,160,32,0.2);
+  }
+  .deal-card-featured .deal-badge {
+    background: linear-gradient(135deg, var(--gold), #d4940a);
+    font-size: 0.6rem;
+    padding: 0.25rem 0.75rem;
   }
 
   .deal-badge {
