@@ -43,7 +43,10 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <slot name="head" />
   </head>
   <body>
-    <slot />
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content">
+      <slot />
+    </main>
   </body>
 </html>
 
@@ -125,4 +128,19 @@ const ogImageURL = new URL(ogImage, Astro.site);
   .delay-2 { animation-delay: 0.2s; }
   .delay-3 { animation-delay: 0.3s; }
   .delay-4 { animation-delay: 0.4s; }
+
+  /* ── Skip Link ── */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--navy);
+    color: white;
+    padding: 8px 16px;
+    z-index: 10000;
+    transition: top 0.2s;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
 </style>

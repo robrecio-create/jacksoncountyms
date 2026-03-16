@@ -29,7 +29,7 @@ const categoriesWithCounts = categories.map(cat => ({
   <section class="categories-section">
     <div class="container">
       <div class="search-bar">
-        <input type="text" id="cat-search" placeholder="Search categories..." autocomplete="off" />
+        <input type="text" id="cat-search" placeholder="Search categories..." autocomplete="off" aria-label="Search categories" />
       </div>
       <p class="result-count" id="cat-result-count">{categoriesWithCounts.length} categories</p>
       <div class="cat-grid" id="cat-grid">
@@ -37,7 +37,7 @@ const categoriesWithCounts = categories.map(cat => ({
           <a href={`/categories/${cat.slug}/`} class="cat-card animate" data-name={cat.name.toLowerCase()}>
             <span class="cat-icon">{cat.icon}</span>
             <div class="cat-info">
-              <h3>{cat.name}</h3>
+              <h2>{cat.name}</h2>
               <span class="cat-count">{cat.count} businesses</span>
             </div>
             <span class="cat-arrow">&rarr;</span>
@@ -139,9 +139,10 @@ const categoriesWithCounts = categories.map(cat => ({
 
   .cat-info { flex: 1; }
 
-  .cat-info h3 {
+  .cat-info h2 {
     font-family: var(--font-heading);
     font-size: 1.05rem;
+    font-weight: 600;
     color: var(--navy);
     margin-bottom: 0.15rem;
   }

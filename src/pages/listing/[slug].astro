@@ -581,10 +581,10 @@ const seoDescription = rawDesc.length > 155
         const overlay = document.createElement('div');
         overlay.className = 'lightbox-overlay';
         overlay.innerHTML = `
-          <button class="lightbox-close">&times;</button>
-          ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-prev">&lsaquo;</button>' : ''}
+          <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+          ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-prev" aria-label="Previous photo">&lsaquo;</button>' : ''}
           <img src="${srcs[idx]}" alt="Photo" />
-          ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-next">&rsaquo;</button>' : ''}
+          ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-next" aria-label="Next photo">&rsaquo;</button>' : ''}
         `;
         overlay.addEventListener('click', (e) => {
           const target = e.target as HTMLElement;
@@ -642,10 +642,10 @@ const seoDescription = rawDesc.length > 155
               const overlay = document.createElement('div');
               overlay.className = 'lightbox-overlay';
               overlay.innerHTML = `
-                <button class="lightbox-close">&times;</button>
-                ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-prev">&lsaquo;</button>' : ''}
+                <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+                ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-prev" aria-label="Previous photo">&lsaquo;</button>' : ''}
                 <img src="${srcs[idx]}" alt="Photo" />
-                ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-next">&rsaquo;</button>' : ''}
+                ${srcs.length > 1 ? '<button class="lightbox-nav lightbox-next" aria-label="Next photo">&rsaquo;</button>' : ''}
               `;
               overlay.addEventListener('click', (e) => {
                 const target = e.target as HTMLElement;

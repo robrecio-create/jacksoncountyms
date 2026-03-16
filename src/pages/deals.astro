@@ -32,7 +32,7 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
             return (
             <div class={`deal-card${isPaid ? ' deal-card-featured' : ''}`}>
               <div class="deal-badge">{isPaid ? '⭐ Featured Deal' : 'Deal'}</div>
-              <h3>{biz.deal_title}</h3>
+              <h2>{biz.deal_title}</h2>
               <p class="deal-business">
                 <a href={`/listing/${biz.slug}/`}>{biz.title}</a>
                 {biz.location?.[0] && <span> &middot; {biz.location[0]}</span>}
@@ -139,9 +139,10 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
     border-radius: 100px;
   }
 
-  .deal-card h3 {
+  .deal-card h2 {
     font-family: var(--font-heading);
     font-size: 1.15rem;
+    font-weight: 600;
     color: var(--navy);
     margin-bottom: 0.4rem;
     padding-right: 3rem;

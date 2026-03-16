@@ -29,13 +29,13 @@ const townsWithCounts = towns.map(town => ({
   <section class="locations-section">
     <div class="container">
       <div class="search-bar">
-        <input type="text" id="loc-search" placeholder="Search locations..." autocomplete="off" />
+        <input type="text" id="loc-search" placeholder="Search locations..." autocomplete="off" aria-label="Search locations" />
       </div>
       <p class="result-count" id="loc-result-count">{townsWithCounts.length} locations</p>
       <div class="towns-grid" id="towns-grid">
         {townsWithCounts.map(town => (
           <a href={`/locations/${town.slug}/`} class="town-card animate" data-name={town.name.toLowerCase()}>
-            <h3>{town.name}</h3>
+            <h2>{town.name}</h2>
             <p>{town.businesses} businesses</p>
             <span class="town-arrow">&rarr;</span>
           </a>
@@ -157,7 +157,7 @@ const townsWithCounts = towns.map(town => ({
 
   .town-card:hover::before { transform: scaleX(1); }
 
-  .town-card h3 {
+  .town-card h2 {
     font-family: var(--font-heading);
     font-size: 1.25rem;
     font-weight: 600;
