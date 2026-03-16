@@ -39,12 +39,17 @@ function getMonthDay(dateStr: string) {
 
   <section class="events-section">
     <div class="container">
+      <div class="search-bar">
+        <input type="text" id="event-search" placeholder="Search events..." autocomplete="off" />
+      </div>
+      <p class="result-count" id="event-result-count">{events.length} event{events.length === 1 ? '' : 's'}</p>
+
       {events.length > 0 ? (
-        <div class="events-list">
+        <div class="events-list" id="events-list">
           {events.map(event => {
             const { month, day } = getMonthDay(event.date);
             return (
-              <a href={`/event/${event.slug}/`} class="event-card">
+              <a href={`/event/${event.slug}/`} class="event-card" data-name={event.title.toLowerCase()} data-location={(event.location || '').toLowerCase()}>
                 <div class="event-date-badge">
                   <span class="event-month">{month}</span>
                   <span class="event-day">{day}</span>
@@ -84,6 +89,8 @@ function getMonthDay(dateStr: string) {
           <p>Check back soon for community events across Jackson County.</p>
         </div>
       )}
+
+      <p class="no-results" id="event-no-results" style="display:none;">No events found. Try a different search term.</p>
 
       <div class="cta-block">
         <h2>Have an Event to Share?</h2>
@@ -314,6 +321,42 @@ function getMonthDay(dateStr: string) {
     box-shadow: 0 4px 16px rgba(232,160,32,0.35);
   }
 
+  .search-bar {
+    max-width: 480px;
+    margin: 0 auto 1rem;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-bar input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,128,128,0.1);
+  }
+
+  .result-count {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
+  }
+
+  .no-results {
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 0.95rem;
+    padding: 3rem 1rem;
+    font-style: italic;
+  }
+
   @media (max-width: 600px) {
     .event-card {
       flex-direction: column;
@@ -327,3 +370,25 @@ function getMonthDay(dateStr: string) {
     .cta-block { padding: 2.5rem 1.5rem; }
   }
 </style>
+
+<script>
+  const input = document.getElementById('event-search') as HTMLInputElement;
+  const list = document.getElementById('events-list')!;
+  const countEl = document.getElementById('event-result-count')!;
+  const noResults = document.getElementById('event-no-results')!;
+  const cards = Array.from(list?.querySelectorAll('.event-card') || []) as HTMLElement[];
+
+  input?.addEventListener('input', () => {
+    const q = input.value.toLowerCase().trim();
+    let visible = 0;
+    cards.forEach(card => {
+      const nameMatch = card.dataset.name?.includes(q);
+      const locMatch = card.dataset.location?.includes(q);
+      const match = !q || nameMatch || locMatch;
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    countEl.textContent = `${visible} event${visible === 1 ? '' : 's'}`;
+    noResults.style.display = visible === 0 ? '' : 'none';
+  });
+</script>
