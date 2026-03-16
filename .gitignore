@@ -5,3 +5,7 @@ dist/
 .DS_Store
 Icon?
 Icon
+
+# Temp files
+events.png
+CLAUDE.md
