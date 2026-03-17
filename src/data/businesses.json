@@ -14,6 +14,7 @@
     "latitude": "30.4179855",
     "longitude": "-88.8378889",
     "featured": true,
+    "listing_tier": "elevated",
     "categories": [
       "Appliances & Rentals"
     ],
