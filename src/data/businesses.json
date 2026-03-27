@@ -19517,5 +19517,61 @@
     ],
     "tags": [],
     "featured": false
+  },
+  {
+    "id": 1106,
+    "title": "Coffee News South Mississippi",
+    "slug": "coffee-news-south-mississippi",
+    "status": "publish",
+    "content": "Coffee News is a fun, weekly paper distributed free to restaurants, coffee shops, and waiting areas across South Mississippi. The light-hearted, family-friendly content includes unusual stories, jokes, trivia, amazing facts, horoscopes, and local events. Businesses can advertise affordably to build top-of-mind awareness in the local community. Submit your church, civic group, or nonprofit events for the What's Happening section.",
+    "excerpt": "",
+    "post_date": "2026-03-27 00:00:00",
+    "address": "Ocean Springs, MS",
+    "phone": "",
+    "email": "",
+    "website": "https://coffeenews-ms.com/",
+    "latitude": "",
+    "longitude": "",
+    "featured": false,
+    "categories": [
+      "Professional Services"
+    ],
+    "location": [
+      "Ocean Springs"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "deal_title": "",
+    "deal_description": "",
+    "deal_expiry": ""
+  },
+  {
+    "id": 1107,
+    "title": "AmSpirit MS Gulf Coast",
+    "slug": "amspirit-ms-gulf-coast",
+    "status": "publish",
+    "content": "AmSpirit MS Gulf Coast is a motivated network of entrepreneurs, professionals, and business leaders who gather weekly to share referrals and build meaningful business relationships. The Thursday Morning Referral Crew meets at Fig & Olive in Ocean Springs from 8:15 AM to 9:30 AM. Built on relationships, not cold calls, this is South Mississippi's premier referral network for serious business growth. Guests welcome.",
+    "excerpt": "",
+    "post_date": "2026-03-27 00:00:00",
+    "address": "Fig & Olive, Ocean Springs, MS",
+    "phone": "",
+    "email": "",
+    "website": "https://amspiritmsgulfcoast.com/",
+    "latitude": "",
+    "longitude": "",
+    "featured": false,
+    "categories": [
+      "Professional Services"
+    ],
+    "location": [
+      "Ocean Springs"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "deal_title": "",
+    "deal_description": "",
+    "deal_expiry": ""
   }
 ]
