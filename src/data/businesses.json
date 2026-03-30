@@ -19673,5 +19673,102 @@
       "locally-owned"
     ],
     "featured": false
+  },
+  {
+    "id": 1113,
+    "title": "Bayshore Electric & HVAC",
+    "slug": "bayshore-electric-hvac",
+    "status": "publish",
+    "content": "Bayshore Electric & HVAC is a family-owned electrical and air conditioning contractor serving Jackson County since 1987. From panel upgrades and rewiring to AC installation and repair, the licensed team handles residential and commercial projects of all sizes. 24/7 emergency service available. Free estimates on new system installations.",
+    "phone": "(228) 555-0147",
+    "website": "https://www.bayshoreelectrichvac.com",
+    "address": "4215 Bienville Blvd, Ocean Springs, MS 39564",
+    "categories": [
+      "Home Services & Contractors"
+    ],
+    "location": [
+      "Ocean Springs"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "featured": false
+  },
+  {
+    "id": 1114,
+    "title": "Magnolia Title & Escrow",
+    "slug": "magnolia-title-escrow",
+    "status": "publish",
+    "content": "Magnolia Title & Escrow provides comprehensive real estate closing services throughout the Mississippi Gulf Coast. The experienced team handles title searches, title insurance, escrow services, and residential and commercial closings. Conveniently located in downtown Pascagoula with satellite offices in Ocean Springs and Gautier.",
+    "phone": "(228) 555-0293",
+    "website": "https://www.magnoliatitlems.com",
+    "address": "701 Delmas Ave, Pascagoula, MS 39567",
+    "categories": [
+      "Real Estate",
+      "Financial Services"
+    ],
+    "location": [
+      "Pascagoula"
+    ],
+    "tags": [],
+    "featured": false
+  },
+  {
+    "id": 1115,
+    "title": "Gulf Pines Veterinary Clinic",
+    "slug": "gulf-pines-veterinary-clinic",
+    "status": "publish",
+    "content": "Gulf Pines Veterinary Clinic offers compassionate care for dogs, cats, and exotic pets in Gautier. Services include wellness exams, vaccinations, surgery, dental care, and boarding. The modern facility features digital x-ray and in-house lab work for fast results. Open Monday through Saturday with same-day sick appointments available.",
+    "phone": "(228) 555-0418",
+    "website": "https://www.gulfpinesvet.com",
+    "address": "2890 Highway 90, Gautier, MS 39553",
+    "categories": [
+      "Animal & Pet Services"
+    ],
+    "location": [
+      "Gautier"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "featured": false
+  },
+  {
+    "id": 1116,
+    "title": "Coastal Collision Center",
+    "slug": "coastal-collision-center",
+    "status": "publish",
+    "content": "Coastal Collision Center is a full-service auto body shop in Moss Point specializing in collision repair, paintless dent removal, and auto painting. The I-CAR certified technicians work with all insurance companies and provide free computerized estimates. Lifetime warranty on all repairs. Rental car assistance available.",
+    "phone": "(228) 555-0562",
+    "website": "https://www.coastalcollisionms.com",
+    "address": "5501 Main St, Moss Point, MS 39563",
+    "categories": [
+      "Auto Services"
+    ],
+    "location": [
+      "Moss Point"
+    ],
+    "tags": [],
+    "featured": false
+  },
+  {
+    "id": 1117,
+    "title": "Riverbend Family Dentistry",
+    "slug": "riverbend-family-dentistry",
+    "status": "publish",
+    "content": "Riverbend Family Dentistry provides gentle, comprehensive dental care for patients of all ages in Vancleave. Dr. Sarah Mitchell and her team offer cleanings, fillings, crowns, root canals, extractions, and cosmetic dentistry including whitening and veneers. New patients welcome. Most insurance accepted.",
+    "phone": "(228) 555-0684",
+    "website": "https://www.riverbendfamilydental.com",
+    "address": "18420 Highway 63, Vancleave, MS 39565",
+    "categories": [
+      "Health & Medical"
+    ],
+    "location": [
+      "Vancleave"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "featured": false
   }
 ]
