@@ -14,7 +14,7 @@ export async function getJacksonBusinesses(): Promise<any[]> {
     const { data, error } = await supabase
       .from('businesses')
       .select('id, legacy_id, title, slug, status, content, excerpt, address, phone, email, website, featured, listing_tier, categories, location, tags, deal_title, deal_description, deal_expiry, latitude, longitude, vanity_url')
-      .ilike('county', 'jackson')
+      .ilike('county', 'jackson-ms')
       .ilike('status', 'publish%')
       .order('featured', { ascending: false })
       .order('title', { ascending: true });
