@@ -19573,5 +19573,105 @@
     "deal_title": "",
     "deal_description": "",
     "deal_expiry": ""
+  },
+  {
+    "id": 1108,
+    "title": "The Shed BBQ & Blues Joint",
+    "slug": "the-shed-bbq-blues-joint",
+    "status": "publish",
+    "content": "The Shed is a legendary Mississippi barbecue destination known for slow-smoked meats, live blues music, and authentic Southern hospitality. What started as a backyard cookout has grown into a nationally recognized BBQ joint featured on Food Network and the Travel Channel. The rustic roadhouse atmosphere, complete with corrugated tin and folk art decor, makes every visit an experience. Menu highlights include pulled pork, ribs, brisket, smoked chicken, and homemade sides. Live music most weekends.",
+    "phone": "(228) 875-9590",
+    "website": "https://www.theshedbbq.com",
+    "address": "7501 MS-57, Ocean Springs, MS 39565",
+    "categories": [
+      "Restaurants & Dining"
+    ],
+    "location": [
+      "Ocean Springs"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "featured": false
+  },
+  {
+    "id": 1109,
+    "title": "Phoenicia Gourmet",
+    "slug": "phoenicia-gourmet",
+    "status": "publish",
+    "content": "Phoenicia Gourmet brings authentic Lebanese and Mediterranean cuisine to the Mississippi Gulf Coast. Family-owned and operated, the restaurant serves fresh hummus, falafel, shawarma, kabobs, and traditional Lebanese dishes made from scratch daily. The intimate setting in Ocean Springs offers a warm, welcoming atmosphere for lunch and dinner.",
+    "phone": "(228) 872-0220",
+    "website": "https://www.phoeniciagourmet.com",
+    "address": "1011 Government St, Ocean Springs, MS 39564",
+    "categories": [
+      "Restaurants & Dining"
+    ],
+    "location": [
+      "Ocean Springs"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "featured": false
+  },
+  {
+    "id": 1110,
+    "title": "Murky Waters BBQ",
+    "slug": "murky-waters-bbq",
+    "status": "publish",
+    "content": "Murky Waters BBQ serves up competition-style smoked meats in a casual, family-friendly environment. The Gautier restaurant specializes in slow-smoked brisket, pulled pork, ribs, and smoked sausage, all prepared in-house with signature dry rubs and sauces. Popular sides include mac and cheese, baked beans, and coleslaw.",
+    "phone": "(228) 518-5088",
+    "website": "",
+    "address": "2608 US-90, Gautier, MS 39553",
+    "categories": [
+      "Restaurants & Dining"
+    ],
+    "location": [
+      "Gautier"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "featured": false
+  },
+  {
+    "id": 1111,
+    "title": "Los Tres Amigos",
+    "slug": "los-tres-amigos",
+    "status": "publish",
+    "content": "Los Tres Amigos is a family-owned Mexican restaurant serving authentic Mexican cuisine in Pascagoula. The menu features tacos, enchiladas, fajitas, burritos, and traditional favorites prepared with fresh ingredients. Known for generous portions, friendly service, and affordable prices, it's a local favorite for lunch and dinner.",
+    "phone": "(228) 938-6468",
+    "website": "",
+    "address": "3909 Denny Ave, Pascagoula, MS 39581",
+    "categories": [
+      "Restaurants & Dining"
+    ],
+    "location": [
+      "Pascagoula"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "featured": false
+  },
+  {
+    "id": 1112,
+    "title": "Glory Bound Gyro Co.",
+    "slug": "glory-bound-gyro-co",
+    "status": "publish",
+    "content": "Glory Bound Gyro Co. brings creative, fresh gyros and Mediterranean-inspired street food to Ocean Springs. The casual eatery is known for its hand-carved gyro meat, house-made sauces, and inventive flavor combinations. Popular items include the signature gyro, loaded fries, and fresh salads. Great for a quick lunch or casual dinner.",
+    "phone": "(228) 215-4999",
+    "website": "https://www.gloryboundgyro.com",
+    "address": "1200 Government St, Ocean Springs, MS 39564",
+    "categories": [
+      "Restaurants & Dining"
+    ],
+    "location": [
+      "Ocean Springs"
+    ],
+    "tags": [
+      "locally-owned"
+    ],
+    "featured": false
   }
 ]
