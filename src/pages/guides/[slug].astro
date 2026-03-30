@@ -1,0 +1,200 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map(guide => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await guide.render();
+---
+
+<Layout
+  title={`${guide.data.title} — Jackson County MS`}
+  description={guide.data.description}
+>
+  <Header activePage="Guides" />
+
+  <article class="guide-article">
+    <header class="guide-header">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="/">Home</a>
+          <span>›</span>
+          <a href="/guides/">Guides</a>
+          <span>›</span>
+          <span>{guide.data.title}</span>
+        </div>
+        <div class="meta">
+          {guide.data.town && <span class="town">{guide.data.town}</span>}
+          <span class="category">{guide.data.category}</span>
+        </div>
+        <h1>{guide.data.title}</h1>
+        <p class="description">{guide.data.description}</p>
+      </div>
+    </header>
+
+    <div class="guide-content container">
+      <Content />
+    </div>
+
+    <footer class="guide-footer container">
+      <a href="/guides/" class="back-link">← Back to all guides</a>
+    </footer>
+  </article>
+
+  <Footer />
+</Layout>
+
+<style>
+  .guide-article {
+    padding-bottom: 4rem;
+  }
+
+  .guide-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    padding: 8rem 0 3rem;
+  }
+
+  .breadcrumb {
+    font-size: 0.875rem;
+    color: var(--gray-400);
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb a {
+    color: var(--gray-400);
+    transition: color 0.2s;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--teal-light);
+  }
+
+  .meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .town, .category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+  }
+
+  .town {
+    background: var(--teal);
+    color: var(--white);
+  }
+
+  .category {
+    background: rgba(255,255,255,0.1);
+    color: var(--gray-400);
+  }
+
+  .guide-header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    font-size: 1.125rem;
+    color: var(--gray-400);
+    max-width: 700px;
+  }
+
+  .guide-content {
+    padding: 3rem 0;
+    max-width: 800px;
+  }
+
+  .guide-content :global(h2) {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    color: var(--navy);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--gray-200);
+  }
+
+  .guide-content :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .guide-content :global(h3) {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--navy);
+    margin: 2rem 0 0.75rem;
+  }
+
+  .guide-content :global(p) {
+    margin-bottom: 1.25rem;
+    line-height: 1.75;
+    color: var(--gray-800);
+  }
+
+  .guide-content :global(strong) {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  .guide-content :global(ul),
+  .guide-content :global(ol) {
+    margin: 1rem 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .guide-content :global(li) {
+    margin-bottom: 0.5rem;
+    line-height: 1.65;
+  }
+
+  .guide-content :global(hr) {
+    border: none;
+    border-top: 2px solid var(--gray-200);
+    margin: 2.5rem 0;
+  }
+
+  .guide-content :global(a) {
+    color: var(--teal);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .guide-content :global(a:hover) {
+    color: var(--teal-light);
+  }
+
+  .guide-footer {
+    padding-top: 2rem;
+    border-top: 1px solid var(--gray-200);
+  }
+
+  .back-link {
+    color: var(--teal);
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: var(--teal-light);
+  }
+</style>

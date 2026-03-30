@@ -1,0 +1,145 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const guides = [
+  { slug: 'best-restaurants-ocean-springs', title: 'Best Restaurants in Ocean Springs', town: 'Ocean Springs', category: 'Food & Dining' },
+  { slug: 'best-restaurants-pascagoula', title: 'Best Restaurants in Pascagoula', town: 'Pascagoula', category: 'Food & Dining' },
+  { slug: 'best-restaurants-moss-point', title: 'Best Restaurants in Moss Point', town: 'Moss Point', category: 'Food & Dining' },
+  { slug: 'best-seafood-gulf-coast', title: 'Best Seafood on the Gulf Coast', town: 'Countywide', category: 'Food & Dining' },
+  { slug: 'things-to-do-ocean-springs', title: 'Things to Do in Ocean Springs', town: 'Ocean Springs', category: 'Activities' },
+  { slug: 'things-to-do-pascagoula', title: 'Things to Do in Pascagoula', town: 'Pascagoula', category: 'Activities' },
+  { slug: 'things-to-do-gautier', title: 'Things to Do in Gautier', town: 'Gautier', category: 'Activities' },
+  { slug: 'things-to-do-moss-point', title: 'Things to Do in Moss Point', town: 'Moss Point', category: 'Activities' },
+  { slug: 'things-to-do-vancleave', title: 'Things to Do in Vancleave', town: 'Vancleave', category: 'Activities' },
+  { slug: 'guide-escatawpa', title: 'Escatawpa: Jackson County\'s Smallest Community', town: 'Escatawpa', category: 'Town Guide' },
+  { slug: 'hidden-gems-jackson-county', title: 'Hidden Gems in Jackson County', town: 'Countywide', category: 'Exploration' },
+  { slug: 'family-activities-jackson-county', title: 'Family Activities in Jackson County', town: 'Countywide', category: 'Activities' },
+  { slug: 'where-to-watch-sunset-jackson-county', title: 'Where to Watch the Sunset in Jackson County', town: 'Countywide', category: 'Exploration' },
+];
+
+const categories = [...new Set(guides.map(g => g.category))];
+---
+
+<Layout
+  title="Local Guides — Jackson County MS"
+  description="Discover the best of Jackson County, Mississippi with our local guides. Find restaurants, things to do, hidden gems, and more across Ocean Springs, Pascagoula, Gautier, Moss Point, Vancleave, and Escatawpa."
+>
+  <Header activePage="Guides" />
+
+  <section class="hero">
+    <div class="container">
+      <h1>Local Guides</h1>
+      <p class="hero-sub">Insider tips and recommendations for exploring Jackson County</p>
+    </div>
+  </section>
+
+  <section class="guides-section">
+    <div class="container">
+      {categories.map(category => (
+        <div class="category-group">
+          <h2 class="category-title">{category}</h2>
+          <div class="guides-grid">
+            {guides.filter(g => g.category === category).map(guide => (
+              <a href={`/guides/${guide.slug}/`} class="guide-card">
+                <span class="guide-town">{guide.town}</span>
+                <h3>{guide.title}</h3>
+                <span class="read-more">Read guide →</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    padding: 8rem 0 4rem;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-sub {
+    color: var(--gray-400);
+    font-size: 1.125rem;
+  }
+
+  .guides-section {
+    padding: 4rem 0;
+    background: var(--gray-100);
+  }
+
+  .category-group {
+    margin-bottom: 3rem;
+  }
+
+  .category-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .category-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--teal);
+    display: inline-block;
+  }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .guide-card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .guide-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .guide-town {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--teal);
+  }
+
+  .guide-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  .read-more {
+    margin-top: auto;
+    font-size: 0.875rem;
+    color: var(--teal);
+    font-weight: 600;
+  }
+</style>
