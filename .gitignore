@@ -11,3 +11,4 @@ events.png
 CLAUDE.md
 
 .vercel
+.env*.local

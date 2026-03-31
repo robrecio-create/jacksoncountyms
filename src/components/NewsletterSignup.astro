@@ -1,9 +1,10 @@
 ---
 interface Props {
   variant?: 'hero' | 'section' | 'footer';
+  beehiivUrl?: string;
 }
 
-const { variant = 'section' } = Astro.props;
+const { variant = 'section', beehiivUrl = 'https://jacksoncountyms.beehiiv.com/subscribe' } = Astro.props;
 ---
 
 <div class={`newsletter-signup newsletter-${variant}`} id="newsletter-signup">
@@ -11,27 +12,20 @@ const { variant = 'section' } = Astro.props;
     {variant !== 'footer' && (
       <>
         <span class="newsletter-eyebrow">Stay Connected</span>
-        <h3>Get the Jackson County Newsletter</h3>
-        <p>Local news, events, deals, and community updates delivered to your inbox.</p>
+        <h3>Get the Jackson County Weekly</h3>
+        <p>Local events, deals & business spotlights every Friday.</p>
       </>
     )}
     {variant === 'footer' && (
       <>
-        <h4>Newsletter</h4>
-        <p>Get local updates & deals</p>
+        <h4>Jackson County Weekly</h4>
+        <p>Local events, deals & business spotlights every Friday</p>
       </>
     )}
   </div>
 
-  <form class="newsletter-form" id="newsletter-form">
+  <form class="newsletter-form" action={beehiivUrl} method="POST" target="_blank">
     <div class="newsletter-inputs">
-      <input
-        type="text"
-        name="name"
-        placeholder="Name (optional)"
-        class="newsletter-input newsletter-name"
-        autocomplete="name"
-      />
       <input
         type="email"
         name="email"
@@ -42,14 +36,8 @@ const { variant = 'section' } = Astro.props;
       />
       <button type="submit" class="newsletter-btn">
         <span class="btn-text">Subscribe</span>
-        <span class="btn-loading" style="display:none;">
-          <svg class="spinner" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="31.4 31.4" />
-          </svg>
-        </span>
       </button>
     </div>
-    <div class="newsletter-message" id="newsletter-message"></div>
   </form>
 </div>
 
@@ -113,7 +101,7 @@ const { variant = 'section' } = Astro.props;
   .newsletter-inputs {
     display: flex;
     gap: 0.75rem;
-    max-width: 600px;
+    max-width: 500px;
     margin: 0 auto;
   }
 
@@ -136,10 +124,6 @@ const { variant = 'section' } = Astro.props;
 
   .newsletter-input:focus {
     border-color: var(--teal);
-  }
-
-  .newsletter-name {
-    flex: 0.7;
   }
 
   .newsletter-email {
@@ -169,38 +153,6 @@ const { variant = 'section' } = Astro.props;
     box-shadow: 0 4px 16px rgba(232,160,32,0.35);
   }
 
-  .newsletter-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  .spinner {
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  .newsletter-message {
-    text-align: center;
-    margin-top: 0.75rem;
-    font-size: 0.9rem;
-    min-height: 1.5rem;
-  }
-
-  .newsletter-message.success {
-    color: #4ade80;
-  }
-
-  .newsletter-message.error {
-    color: #f87171;
-  }
-
   /* Footer variant */
   .newsletter-footer {
     padding: 0;
@@ -228,6 +180,7 @@ const { variant = 'section' } = Astro.props;
     color: rgba(255,255,255,0.55);
     font-size: 0.85rem;
     margin: 0;
+    max-width: none;
   }
 
   .newsletter-footer .newsletter-inputs {
@@ -253,19 +206,10 @@ const { variant = 'section' } = Astro.props;
     background: rgba(255,255,255,0.15);
   }
 
-  .newsletter-footer .newsletter-name {
-    flex: 1;
-  }
-
   .newsletter-footer .newsletter-btn {
     width: 100%;
     padding: 0.7rem 1rem;
     font-size: 0.88rem;
-  }
-
-  .newsletter-footer .newsletter-message {
-    text-align: left;
-    font-size: 0.8rem;
   }
 
   @media (max-width: 700px) {
@@ -277,7 +221,6 @@ const { variant = 'section' } = Astro.props;
       flex-direction: column;
     }
 
-    .newsletter-name,
     .newsletter-email {
       flex: 1;
     }
@@ -287,55 +230,3 @@ const { variant = 'section' } = Astro.props;
     }
   }
 </style>
-
-<script>
-  const form = document.getElementById('newsletter-form') as HTMLFormElement;
-  const messageEl = document.getElementById('newsletter-message')!;
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const btn = form.querySelector('.newsletter-btn') as HTMLButtonElement;
-    const btnText = btn.querySelector('.btn-text') as HTMLElement;
-    const btnLoading = btn.querySelector('.btn-loading') as HTMLElement;
-    const emailInput = form.querySelector('.newsletter-email') as HTMLInputElement;
-    const nameInput = form.querySelector('.newsletter-name') as HTMLInputElement;
-
-    // Show loading state
-    btn.disabled = true;
-    btnText.style.display = 'none';
-    btnLoading.style.display = 'block';
-    messageEl.textContent = '';
-    messageEl.className = 'newsletter-message';
-
-    try {
-      const res = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: emailInput.value,
-          name: nameInput.value,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        messageEl.textContent = data.message || "You're subscribed!";
-        messageEl.className = 'newsletter-message success';
-        emailInput.value = '';
-        nameInput.value = '';
-      } else {
-        messageEl.textContent = data.error || 'Something went wrong.';
-        messageEl.className = 'newsletter-message error';
-      }
-    } catch (err) {
-      messageEl.textContent = 'Network error. Please try again.';
-      messageEl.className = 'newsletter-message error';
-    } finally {
-      btn.disabled = false;
-      btnText.style.display = 'block';
-      btnLoading.style.display = 'none';
-    }
-  });
-</script>
