@@ -1,0 +1,341 @@
+---
+interface Props {
+  variant?: 'hero' | 'section' | 'footer';
+}
+
+const { variant = 'section' } = Astro.props;
+---
+
+<div class={`newsletter-signup newsletter-${variant}`} id="newsletter-signup">
+  <div class="newsletter-content">
+    {variant !== 'footer' && (
+      <>
+        <span class="newsletter-eyebrow">Stay Connected</span>
+        <h3>Get the Jackson County Newsletter</h3>
+        <p>Local news, events, deals, and community updates delivered to your inbox.</p>
+      </>
+    )}
+    {variant === 'footer' && (
+      <>
+        <h4>Newsletter</h4>
+        <p>Get local updates & deals</p>
+      </>
+    )}
+  </div>
+
+  <form class="newsletter-form" id="newsletter-form">
+    <div class="newsletter-inputs">
+      <input
+        type="text"
+        name="name"
+        placeholder="Name (optional)"
+        class="newsletter-input newsletter-name"
+        autocomplete="name"
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Your email address"
+        class="newsletter-input newsletter-email"
+        required
+        autocomplete="email"
+      />
+      <button type="submit" class="newsletter-btn">
+        <span class="btn-text">Subscribe</span>
+        <span class="btn-loading" style="display:none;">
+          <svg class="spinner" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="31.4 31.4" />
+          </svg>
+        </span>
+      </button>
+    </div>
+    <div class="newsletter-message" id="newsletter-message"></div>
+  </form>
+</div>
+
+<style>
+  .newsletter-signup {
+    padding: 3rem;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    border-radius: var(--radius-xl);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .newsletter-signup::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 80%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(26,127,122,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .newsletter-content {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .newsletter-eyebrow {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .newsletter-content h3 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .newsletter-content p {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.95rem;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .newsletter-form {
+    position: relative;
+    z-index: 1;
+  }
+
+  .newsletter-inputs {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    background: var(--white);
+    color: var(--gray-800);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter-input::placeholder {
+    color: var(--gray-400);
+  }
+
+  .newsletter-input:focus {
+    border-color: var(--teal);
+  }
+
+  .newsletter-name {
+    flex: 0.7;
+  }
+
+  .newsletter-email {
+    flex: 1;
+  }
+
+  .newsletter-btn {
+    padding: 0.9rem 1.8rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.25s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 130px;
+  }
+
+  .newsletter-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(232,160,32,0.35);
+  }
+
+  .newsletter-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .newsletter-message {
+    text-align: center;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    min-height: 1.5rem;
+  }
+
+  .newsletter-message.success {
+    color: #4ade80;
+  }
+
+  .newsletter-message.error {
+    color: #f87171;
+  }
+
+  /* Footer variant */
+  .newsletter-footer {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .newsletter-footer::before {
+    display: none;
+  }
+
+  .newsletter-footer .newsletter-content {
+    text-align: left;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-footer .newsletter-content h4 {
+    font-family: var(--font-heading);
+    color: var(--white);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .newsletter-footer .newsletter-content p {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  .newsletter-footer .newsletter-inputs {
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: none;
+  }
+
+  .newsletter-footer .newsletter-input {
+    padding: 0.7rem 1rem;
+    font-size: 0.88rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--white);
+  }
+
+  .newsletter-footer .newsletter-input::placeholder {
+    color: rgba(255,255,255,0.4);
+  }
+
+  .newsletter-footer .newsletter-input:focus {
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.15);
+  }
+
+  .newsletter-footer .newsletter-name {
+    flex: 1;
+  }
+
+  .newsletter-footer .newsletter-btn {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-size: 0.88rem;
+  }
+
+  .newsletter-footer .newsletter-message {
+    text-align: left;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 700px) {
+    .newsletter-signup {
+      padding: 2rem 1.5rem;
+    }
+
+    .newsletter-inputs {
+      flex-direction: column;
+    }
+
+    .newsletter-name,
+    .newsletter-email {
+      flex: 1;
+    }
+
+    .newsletter-btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('newsletter-form') as HTMLFormElement;
+  const messageEl = document.getElementById('newsletter-message')!;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const btn = form.querySelector('.newsletter-btn') as HTMLButtonElement;
+    const btnText = btn.querySelector('.btn-text') as HTMLElement;
+    const btnLoading = btn.querySelector('.btn-loading') as HTMLElement;
+    const emailInput = form.querySelector('.newsletter-email') as HTMLInputElement;
+    const nameInput = form.querySelector('.newsletter-name') as HTMLInputElement;
+
+    // Show loading state
+    btn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'block';
+    messageEl.textContent = '';
+    messageEl.className = 'newsletter-message';
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: emailInput.value,
+          name: nameInput.value,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        messageEl.textContent = data.message || "You're subscribed!";
+        messageEl.className = 'newsletter-message success';
+        emailInput.value = '';
+        nameInput.value = '';
+      } else {
+        messageEl.textContent = data.error || 'Something went wrong.';
+        messageEl.className = 'newsletter-message error';
+      }
+    } catch (err) {
+      messageEl.textContent = 'Network error. Please try again.';
+      messageEl.className = 'newsletter-message error';
+    } finally {
+      btn.disabled = false;
+      btnText.style.display = 'block';
+      btnLoading.style.display = 'none';
+    }
+  });
+</script>
