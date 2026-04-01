@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { getJacksonBusinesses } from '../../lib/businesses';
 import { createClient } from '@supabase/supabase-js';
+import { marked } from 'marked';
 
 export async function getStaticPaths() {
   const businesses = await getJacksonBusinesses();
@@ -132,6 +133,9 @@ const hasGallery = photos.length > 0 || !!videoEmbedUrl;
 // SEO description: use excerpt, or first 155 chars of content, or fallback
 const rawDesc = biz.excerpt || biz.content || '';
 const seoDescription = rawDesc.length > 155
+
+// Parse markdown content
+const parsedContent = biz.content ? marked.parse(biz.content) : '';
   ? rawDesc.slice(0, 152).trimEnd() + '...'
   : rawDesc || `${biz.title} is a local business in ${biz.location?.[0] || 'Jackson County'}, Mississippi. Find contact info, hours, and more.`;
 ---
@@ -249,7 +253,7 @@ const seoDescription = rawDesc.length > 155
               {/* About Tab */}
               <div class="tab-panel active" id="tab-about">
                 <div class="biz-description">
-                  {biz.content && <p>{biz.content}</p>}
+                  {biz.content && <div class="prose" set:html={parsedContent} />}
                   {!biz.content && <p class="text-gray">No description available yet.</p>}
                 </div>
               </div>
@@ -376,7 +380,7 @@ const seoDescription = rawDesc.length > 155
               {biz.content && (
                 <div class="biz-description">
                   <h2>About</h2>
-                  <p>{biz.content}</p>
+                  <div class="prose" set:html={parsedContent} />
                 </div>
               )}
 
@@ -1151,3 +1155,44 @@ const seoDescription = rawDesc.length > 155
     }
   });
 </script>
+
+<style is:global>
+  /* Prose styling for markdown content */
+  .prose {
+    line-height: 1.7;
+    color: var(--gray-700, #374151);
+  }
+  .prose h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 1.5rem 0 0.75rem;
+    color: var(--navy, #0f172a);
+  }
+  .prose h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 1.25rem 0 0.5rem;
+    color: var(--navy, #0f172a);
+  }
+  .prose p {
+    margin: 0.75rem 0;
+  }
+  .prose ul, .prose ol {
+    margin: 0.75rem 0;
+    padding-left: 1.5rem;
+  }
+  .prose li {
+    margin: 0.35rem 0;
+  }
+  .prose strong {
+    font-weight: 600;
+    color: var(--navy, #0f172a);
+  }
+  .prose a {
+    color: var(--teal, #0d9488);
+    text-decoration: underline;
+  }
+  .prose a:hover {
+    color: var(--teal-dark, #0f766e);
+  }
+</style>
