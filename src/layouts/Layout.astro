@@ -7,9 +7,9 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description = 'Find local businesses, coupons, events, and more across Jackson County, Mississippi.', ogImage = '/images/hero-beach.jpg' } = Astro.props;
+const { title, description = 'Find local businesses, coupons, events, and more across Jackson County, Mississippi.', ogImage } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageURL = new URL(ogImage, Astro.site);
+const ogImageURL = ogImage ? new URL(ogImage, Astro.site) : null;
 ---
 
 <!doctype html>
@@ -24,15 +24,15 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageURL.href} />
+    {ogImageURL && <meta property="og:image" content={ogImageURL.href} />}
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:site_name" content="JacksonCountyMS.com" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content={ogImageURL ? "summary_large_image" : "summary"} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImageURL.href} />
+    {ogImageURL && <meta name="twitter:image" content={ogImageURL.href} />}
 
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192.png" />
