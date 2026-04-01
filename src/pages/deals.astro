@@ -31,7 +31,7 @@ const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
             const isPaid = biz.listing_tier === 'featured' || biz.listing_tier === 'elevated' || biz.listing_tier === 'seo';
             return (
             <div class={`deal-card${isPaid ? ' deal-card-featured' : ''}`}>
-              <div class="deal-badge">{isPaid ? '⭐ Featured Deal' : 'Deal'}</div>
+              <div class="deal-badge">{isPaid ? '★ PREMIER DEAL' : 'Deal'}</div>
               <h2>{biz.deal_title}</h2>
               <p class="deal-business">
                 <a href={`/listing/${biz.slug}/`}>{biz.title}</a>
