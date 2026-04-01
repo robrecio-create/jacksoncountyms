@@ -133,11 +133,11 @@ const hasGallery = photos.length > 0 || !!videoEmbedUrl;
 // SEO description: use excerpt, or first 155 chars of content, or fallback
 const rawDesc = biz.excerpt || biz.content || '';
 const seoDescription = rawDesc.length > 155
+  ? rawDesc.slice(0, 152).trimEnd() + '...'
+  : rawDesc || `${biz.title} is a local business in ${biz.location?.[0] || 'Jackson County'}, Mississippi. Find contact info, hours, and more.`;
 
 // Parse markdown content
 const parsedContent = biz.content ? marked.parse(biz.content) : '';
-  ? rawDesc.slice(0, 152).trimEnd() + '...'
-  : rawDesc || `${biz.title} is a local business in ${biz.location?.[0] || 'Jackson County'}, Mississippi. Find contact info, hours, and more.`;
 ---
 
 <Layout
