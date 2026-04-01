@@ -16,7 +16,7 @@ const { business } = Astro.props;
 const biz = business as any;
 ---
 
-<Layout title={`Claim ${biz.title} — Jackson County MS`}>
+<Layout title={biz.title.length > 40 ? `Claim ${biz.title}` : `Claim ${biz.title} — Jackson County MS`}>
   <Header activePage="" />
 
   <section class="page-hero">
