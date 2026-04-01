@@ -86,7 +86,7 @@ export const POST: APIRoute = async ({ request }) => {
         `Notes: ${notes || 'None'}`,
         '',
         `Review this claim in the admin dashboard:`,
-        `https://gulfcoast-directory-admin.vercel.app/admin/claims`,
+        `https://gulfcoast-admin.vercel.app/admin/claims`,
       ].join('\n');
 
       await fetch('https://api.resend.com/emails', {
