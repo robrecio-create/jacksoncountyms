@@ -172,17 +172,15 @@ function getMonthDay(dateStr: string) {
         </div>
       </div>
 
+      <!-- Newsletter moved under coupons -->
+      <div class="deals-newsletter">
+        <NewsletterSignup variant="section" />
+      </div>
+
       <div class="deals-cta">
         <a href="/deals/" class="btn btn-gold">View All Deals</a>
         <a href="/pricing/" class="btn btn-ghost-dark">Post Your Deal</a>
       </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════ NEWSLETTER ════════════════════ -->
-  <section class="newsletter-section" id="newsletter">
-    <div class="container">
-      <NewsletterSignup variant="section" />
     </div>
   </section>
 
@@ -895,6 +893,13 @@ function getMonthDay(dateStr: string) {
   }
 
   .deals-empty a:hover { text-decoration: underline; }
+
+  .deals-newsletter {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: var(--gray-50);
+    border-radius: 1rem;
+  }
 
   .deals-cta {
     display: flex;
