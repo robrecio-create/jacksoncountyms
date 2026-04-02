@@ -77,16 +77,7 @@ function getMonthDay(dateStr: string) {
         on the Mississippi Gulf Coast.
       </p>
 
-      <div class="hero-cities animate delay-3">
-        {townsWithCounts.map(town => (
-          <a href={`/locations/${town.slug}/`} class="hero-city-card">
-            <strong>{town.name}</strong>
-            <span>{town.businesses} businesses</span>
-          </a>
-        ))}
-      </div>
-
-      <div class="hero-search animate delay-4">
+      <div class="hero-search animate delay-3">
         <div class="search-box" id="search-wrapper" data-businesses={searchData}>
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           <input type="text" id="hero-search-input" placeholder="Search businesses, restaurants, services..." aria-label="Search businesses" autocomplete="off" />
@@ -94,7 +85,7 @@ function getMonthDay(dateStr: string) {
         </div>
       </div>
 
-      <div class="hero-stats animate delay-4">
+      <div class="hero-stats animate delay-3">
         <div class="stat"><strong>6</strong> Cities</div>
         <div class="stat-divider"></div>
         <div class="stat"><strong>18</strong> Categories</div>
@@ -236,27 +227,6 @@ function getMonthDay(dateStr: string) {
       <div class="events-cta">
         <a href="/events/" class="btn btn-gold">View All Events</a>
         <a href="/submit-event/" class="btn btn-ghost-dark">Submit an Event</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════ TOWNS ════════════════════ -->
-  <section class="towns" id="towns">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-eyebrow">Our Communities</span>
-        <h2>Explore Jackson County Cities</h2>
-        <p>Six unique communities, each with their own character and charm.</p>
-      </div>
-
-      <div class="towns-grid">
-        {townsWithCounts.map((town, i) => (
-          <a href={`/locations/${town.slug}/`} class={`town-card animate delay-${(i % 4) + 1}`}>
-            <h3>{town.name}</h3>
-            <p>{town.businesses} businesses</p>
-            <span class="town-arrow">&rarr;</span>
-          </a>
-        ))}
       </div>
     </div>
   </section>
