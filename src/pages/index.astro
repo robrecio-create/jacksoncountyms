@@ -21,7 +21,16 @@ const townsWithCounts = towns.map(town => ({
   ...town,
   businesses: businesses.filter(b => b.location?.includes(town.name)).length,
 }));
-const allEvents = (eventsData as any[]).filter(e => e.status === 'publish');
+// Get today's date at midnight for comparison
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+// Filter: published AND not in the past
+const allEvents = (eventsData as any[]).filter(e => {
+  if (e.status !== 'publish') return false;
+  const eventDate = new Date(e.date + 'T00:00:00');
+  return eventDate >= today;
+});
 allEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 const upcomingEvents = allEvents.slice(0, 4);
 

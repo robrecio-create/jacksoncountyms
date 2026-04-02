@@ -4,7 +4,16 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import eventsData from '../data/events.json';
 
-const events = (eventsData as any[]).filter(e => e.status === 'publish');
+// Get today's date at midnight for comparison
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+// Filter: published AND not in the past
+const events = (eventsData as any[]).filter(e => {
+  if (e.status !== 'publish') return false;
+  const eventDate = new Date(e.date + 'T00:00:00');
+  return eventDate >= today;
+});
 
 // Sort by date ascending (upcoming first)
 events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
