@@ -24,6 +24,52 @@
     ]
   },
   {
+    "id": 24,
+    "title": "Poet's Cafe at The Mary C",
+    "slug": "poets-cafe-mary-c-april-2026",
+    "status": "publish",
+    "content": "Join local poets and writers for an evening of spoken word and poetry at The Mary C. O'Keefe Cultural Arts Center. Open mic and featured readers.",
+    "date": "2026-04-02",
+    "start_time": "6:30 PM",
+    "end_time": "7:30 PM",
+    "recurring": "",
+    "venue": "The Mary C. O'Keefe Cultural Arts Center",
+    "address": "1600 Government St, Ocean Springs, MS 39564",
+    "phone": "",
+    "website": "https://themaryc.art",
+    "location": "Ocean Springs",
+    "cost": "",
+    "tags": [
+      "arts",
+      "poetry",
+      "cultural",
+      "community"
+    ]
+  },
+  {
+    "id": 25,
+    "title": "Becoming... A Musical Experience",
+    "slug": "becoming-musical-experience-2026",
+    "status": "publish",
+    "content": "A captivating musical theater experience at The Mary C. O'Keefe Cultural Arts Center. Multiple performances throughout the weekend.",
+    "date": "2026-04-03",
+    "start_time": "7:00 PM",
+    "end_time": "9:00 PM",
+    "recurring": "",
+    "venue": "The Mary C. O'Keefe Cultural Arts Center",
+    "address": "1600 Government St, Ocean Springs, MS 39564",
+    "phone": "",
+    "website": "https://themaryc.art",
+    "location": "Ocean Springs",
+    "cost": "",
+    "tags": [
+      "theater",
+      "musical",
+      "arts",
+      "cultural"
+    ]
+  },
+  {
     "id": 1,
     "title": "Ocean Springs Farmers Market",
     "slug": "ocean-springs-farmers-market-2026",
@@ -71,6 +117,53 @@
     ]
   },
   {
+    "id": 34,
+    "title": "Gulf Coast Community Baby Shower",
+    "slug": "gulf-coast-baby-shower-2026",
+    "status": "publish",
+    "content": "Community baby shower event providing resources, gifts, and support for expecting families in the Gulf Coast area. Hosted at Good Bros Seafood in Moss Point.",
+    "date": "2026-04-04",
+    "start_time": "10:00 AM",
+    "end_time": "2:00 PM",
+    "recurring": "",
+    "venue": "Good Bros Seafood",
+    "address": "Moss Point, MS",
+    "phone": "",
+    "website": "",
+    "location": "Moss Point",
+    "cost": "Free",
+    "tags": [
+      "community",
+      "family",
+      "charity",
+      "resources"
+    ]
+  },
+  {
+    "id": 23,
+    "title": "Ocean Springs Fresh Market",
+    "slug": "ocean-springs-fresh-market-2026",
+    "status": "publish",
+    "content": "Shop local produce, baked goods, handmade crafts, and artisan products every Saturday at the L&N Depot Plaza in downtown Ocean Springs.",
+    "date": "2026-04-05",
+    "start_time": "9:00 AM",
+    "end_time": "1:00 PM",
+    "recurring": "Every Saturday",
+    "venue": "L&N Depot Plaza",
+    "address": "1000 Washington Ave, Ocean Springs, MS 39564",
+    "phone": "",
+    "website": "https://oceanspringschamber.com",
+    "location": "Ocean Springs",
+    "cost": "Free",
+    "tags": [
+      "farmers market",
+      "family-friendly",
+      "outdoor",
+      "food",
+      "shopping"
+    ]
+  },
+  {
     "id": 15,
     "title": "Jackson County Crawfish Boil",
     "slug": "jackson-county-crawfish-boil-2026",
@@ -95,6 +188,53 @@
     ]
   },
   {
+    "id": 26,
+    "title": "Rock the Cause 5K",
+    "slug": "rock-the-cause-5k-2026",
+    "status": "publish",
+    "content": "The 13th annual Rock the Cause 5K at Pascagoula Beach Park benefiting Adrienne's House, a domestic violence shelter program. Registration includes a commemorative t-shirt.",
+    "date": "2026-04-11",
+    "start_time": "7:00 AM",
+    "end_time": "10:00 AM",
+    "recurring": "",
+    "venue": "Pascagoula Beach Park",
+    "address": "Pascagoula Beach Park, MS",
+    "phone": "",
+    "website": "",
+    "location": "Pascagoula",
+    "cost": "$20-25",
+    "tags": [
+      "running",
+      "fitness",
+      "charity",
+      "outdoor",
+      "5k"
+    ]
+  },
+  {
+    "id": 27,
+    "title": "Sean of the South - The Where's Home Tour",
+    "slug": "sean-of-the-south-tour-2026",
+    "status": "publish",
+    "content": "Sean Dietrich, the beloved Southern storyteller known as Sean of the South, brings his Where's Home Tour to The Mary C. A night of heartwarming stories and humor.",
+    "date": "2026-04-11",
+    "start_time": "7:00 PM",
+    "end_time": "9:00 PM",
+    "recurring": "",
+    "venue": "The Mary C. O'Keefe Cultural Arts Center",
+    "address": "1600 Government St, Ocean Springs, MS 39564",
+    "phone": "",
+    "website": "https://themaryc.art",
+    "location": "Ocean Springs",
+    "cost": "",
+    "tags": [
+      "comedy",
+      "storytelling",
+      "arts",
+      "entertainment"
+    ]
+  },
+  {
     "id": 3,
     "title": "Ocean Springs Spring Festival",
     "slug": "ocean-springs-spring-festival-2026",
@@ -116,6 +256,190 @@
       "family-friendly",
       "outdoor",
       "arts"
+    ]
+  },
+  {
+    "id": 28,
+    "title": "420 Gulf Coast & MS Canna Health Festival",
+    "slug": "canna-health-festival-2026",
+    "status": "publish",
+    "content": "Celebrate cannabis culture with outdoor festivities, car/bike show, food trucks, vendors, and an indoor Canna Health Expo featuring expert educators. Ages 21+.",
+    "date": "2026-04-18",
+    "start_time": "10:00 AM",
+    "end_time": "6:00 PM",
+    "recurring": "",
+    "venue": "Jackson County Fairgrounds",
+    "address": "Jackson County Fairgrounds, MS",
+    "phone": "",
+    "website": "",
+    "location": "Pascagoula",
+    "cost": "",
+    "tags": [
+      "festival",
+      "health",
+      "outdoor",
+      "vendors"
+    ]
+  },
+  {
+    "id": 29,
+    "title": "Sip & Shop - Main Street Pascagoula",
+    "slug": "sip-and-shop-pascagoula-april-2026",
+    "status": "publish",
+    "content": "Stroll through the Flagship District with a complimentary wine glass and enjoy discounts at participating retailers. A delightful evening of shopping and sipping in downtown Pascagoula.",
+    "date": "2026-04-18",
+    "start_time": "4:00 PM",
+    "end_time": "7:00 PM",
+    "recurring": "",
+    "venue": "Downtown Pascagoula - Flagship District",
+    "address": "Downtown Pascagoula, MS",
+    "phone": "",
+    "website": "https://mainstreetpascagoula.com",
+    "location": "Pascagoula",
+    "cost": "",
+    "tags": [
+      "shopping",
+      "wine",
+      "downtown",
+      "community"
+    ]
+  },
+  {
+    "id": 30,
+    "title": "Gulf Coast Gearheads Gathering",
+    "slug": "gulf-coast-gearheads-april-2026",
+    "status": "publish",
+    "content": "Monthly cruise-in hosted by the Back In The Day Cruisers. Classic cars, hot rods, and car enthusiasts gather at Gulf Coast Army Navy Store in Pascagoula.",
+    "date": "2026-04-18",
+    "start_time": "5:00 PM",
+    "end_time": "8:00 PM",
+    "recurring": "Monthly",
+    "venue": "Gulf Coast Army Navy Store",
+    "address": "Pascagoula, MS",
+    "phone": "",
+    "website": "",
+    "location": "Pascagoula",
+    "cost": "Free",
+    "tags": [
+      "cars",
+      "classic cars",
+      "cruise-in",
+      "outdoor"
+    ]
+  },
+  {
+    "id": 31,
+    "title": "OSEA Earth Day Celebration",
+    "slug": "osea-earth-day-2026",
+    "status": "publish",
+    "content": "Celebrate Earth Day with the Ocean Springs Environmental Association at The Mary C. Activities, education, and environmental awareness for all ages.",
+    "date": "2026-04-18",
+    "start_time": "10:00 AM",
+    "end_time": "2:30 PM",
+    "recurring": "",
+    "venue": "The Mary C. O'Keefe Cultural Arts Center",
+    "address": "1600 Government St, Ocean Springs, MS 39564",
+    "phone": "",
+    "website": "https://themaryc.art",
+    "location": "Ocean Springs",
+    "cost": "Free",
+    "tags": [
+      "earth day",
+      "environment",
+      "family-friendly",
+      "education"
+    ]
+  },
+  {
+    "id": 32,
+    "title": "Dolly's Rhinestone Round Up Pub Crawl",
+    "slug": "dollys-rhinestone-roundup-2026",
+    "status": "publish",
+    "content": "Dust off your rhinestones and cowboy boots for a Dolly Parton-themed pub crawl through Downtown Ocean Springs! Country music, costumes, and fun.",
+    "date": "2026-04-25",
+    "start_time": "3:30 PM",
+    "end_time": "9:00 PM",
+    "recurring": "",
+    "venue": "Downtown Ocean Springs",
+    "address": "Downtown Ocean Springs, MS",
+    "phone": "",
+    "website": "",
+    "location": "Ocean Springs",
+    "cost": "",
+    "tags": [
+      "pub crawl",
+      "nightlife",
+      "costume",
+      "downtown"
+    ]
+  },
+  {
+    "id": 33,
+    "title": "MS Poetry Society Spring Festival",
+    "slug": "ms-poetry-society-spring-festival-2026",
+    "status": "publish",
+    "content": "The Mississippi Poetry Society's annual Spring Festival at The Mary C. Two days of poetry readings, workshops, and literary celebration.",
+    "date": "2026-04-25",
+    "start_time": "9:00 AM",
+    "end_time": "5:00 PM",
+    "recurring": "",
+    "venue": "The Mary C. O'Keefe Cultural Arts Center",
+    "address": "1600 Government St, Ocean Springs, MS 39564",
+    "phone": "",
+    "website": "https://themaryc.art",
+    "location": "Ocean Springs",
+    "cost": "",
+    "tags": [
+      "poetry",
+      "arts",
+      "literary",
+      "cultural"
+    ]
+  },
+  {
+    "id": 35,
+    "title": "Ice Cube at The Sound Amphitheater",
+    "slug": "ice-cube-sound-amphitheater-2026",
+    "status": "publish",
+    "content": "Hip hop legend Ice Cube performs live at The Sound Amphitheater in Gautier. An unforgettable night of classic hits and new tracks.",
+    "date": "2026-05-03",
+    "start_time": "7:00 PM",
+    "end_time": "11:00 PM",
+    "recurring": "",
+    "venue": "The Sound Amphitheater",
+    "address": "The Sound Amphitheater, Gautier, MS",
+    "phone": "",
+    "website": "https://ticketmaster.com",
+    "location": "Gautier",
+    "cost": "Varies",
+    "tags": [
+      "concert",
+      "hip hop",
+      "live music",
+      "entertainment"
+    ]
+  },
+  {
+    "id": 36,
+    "title": "Alison Krauss & Union Station at The Sound",
+    "slug": "alison-krauss-union-station-2026",
+    "status": "publish",
+    "content": "Grammy-winning bluegrass and country artist Alison Krauss brings Union Station featuring Jerry Douglas to The Sound Amphitheater.",
+    "date": "2026-05-08",
+    "start_time": "7:30 PM",
+    "end_time": "10:30 PM",
+    "recurring": "",
+    "venue": "The Sound Amphitheater",
+    "address": "The Sound Amphitheater, Gautier, MS",
+    "phone": "",
+    "website": "https://ticketmaster.com",
+    "location": "Gautier",
+    "cost": "Varies",
+    "tags": [
+      "concert",
+      "bluegrass",
+      "country",
+      "live music"
     ]
   },
   {
@@ -162,6 +486,29 @@
       "patriotic",
       "memorial",
       "military",
+      "community"
+    ]
+  },
+  {
+    "id": 37,
+    "title": "Jeepin The Coast 2026",
+    "slug": "jeepin-the-coast-2026",
+    "status": "publish",
+    "content": "The ultimate Jeep enthusiast event on the Mississippi Gulf Coast! Jeep trails, shows, vendors, and a community of Jeep lovers from across the region.",
+    "date": "2026-05-27",
+    "start_time": "9:00 AM",
+    "end_time": "5:00 PM",
+    "recurring": "",
+    "venue": "Gulf Coast",
+    "address": "Mississippi Gulf Coast",
+    "phone": "",
+    "website": "",
+    "location": "Ocean Springs",
+    "cost": "",
+    "tags": [
+      "jeep",
+      "automotive",
+      "outdoor",
       "community"
     ]
   },
