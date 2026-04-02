@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 
 const BEEHIIV_API_KEY = import.meta.env.BEEHIIV_API_KEY || 'EXPNWQ4vBsVLUE7roIzAOQ8TWxD58CnrPi88HidbUvXhAfy6CSGKHs1LF2VBFivz';
