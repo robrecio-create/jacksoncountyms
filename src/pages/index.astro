@@ -103,6 +103,13 @@ function getMonthDay(dateStr: string) {
     </div>
   </section>
 
+  <!-- ════════════════════ NEWSLETTER ════════════════════ -->
+  <section class="newsletter-section" id="newsletter">
+    <div class="container">
+      <NewsletterSignup variant="section" />
+    </div>
+  </section>
+
   <!-- ════════════════════ DEALS / COUPONS ════════════════════ -->
   <section class="deals" id="deals">
     <div class="container">
@@ -170,11 +177,6 @@ function getMonthDay(dateStr: string) {
           </div>
           <p class="coupon-hint">Show this coupon at the business or mention it when calling.</p>
         </div>
-      </div>
-
-      <!-- Newsletter moved under coupons -->
-      <div class="deals-newsletter">
-        <NewsletterSignup variant="section" />
       </div>
 
       <div class="deals-cta">
@@ -893,13 +895,6 @@ function getMonthDay(dateStr: string) {
   }
 
   .deals-empty a:hover { text-decoration: underline; }
-
-  .deals-newsletter {
-    margin: 3rem 0;
-    padding: 2rem;
-    background: var(--gray-50);
-    border-radius: 1rem;
-  }
 
   .deals-cta {
     display: flex;
