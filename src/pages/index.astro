@@ -94,6 +94,15 @@ function getMonthDay(dateStr: string) {
         <div class="stat-divider"></div>
         <div class="stat"><strong>{deals.length}</strong> Coupons</div>
       </div>
+
+      <div class="hero-newsletter animate delay-4">
+        <p class="hero-newsletter-text">📬 Get the weekly newsletter — local events, deals & business spotlights every Wednesday</p>
+        <form class="hero-newsletter-form" id="hero-newsletter-form">
+          <input type="email" placeholder="Enter your email" required aria-label="Email for newsletter" />
+          <button type="submit" class="btn btn-white">Subscribe</button>
+        </form>
+        <p class="hero-newsletter-status" id="hero-newsletter-status"></p>
+      </div>
     </div>
 
     <div class="hero-wave">
@@ -502,6 +511,70 @@ function getMonthDay(dateStr: string) {
     width: 1px;
     height: 24px;
     background: rgba(255,255,255,0.2);
+  }
+
+  .hero-newsletter {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .hero-newsletter-text {
+    color: rgba(255,255,255,0.9);
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
+  .hero-newsletter-form input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: rgba(255,255,255,0.95);
+    color: var(--navy);
+  }
+
+  .hero-newsletter-form input::placeholder {
+    color: #6b7280;
+  }
+
+  .hero-newsletter-form .btn-white {
+    background: var(--white);
+    color: var(--navy);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .hero-newsletter-form .btn-white:hover {
+    background: var(--gold);
+    color: var(--white);
+    transform: translateY(-1px);
+  }
+
+  .hero-newsletter-status {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    min-height: 1.2em;
+  }
+
+  .hero-newsletter-status.success {
+    color: #34d399;
+  }
+
+  .hero-newsletter-status.error {
+    color: #f87171;
   }
 
   .hero-cities {
@@ -1569,6 +1642,43 @@ function getMonthDay(dateStr: string) {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && overlay.classList.contains('open')) closeCoupon();
   });
+
+  // Hero newsletter form
+  const heroForm = document.getElementById('hero-newsletter-form') as HTMLFormElement;
+  const heroStatus = document.getElementById('hero-newsletter-status');
+  
+  if (heroForm && heroStatus) {
+    heroForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = heroForm.querySelector('input[type="email"]') as HTMLInputElement;
+      const email = input.value.trim();
+      
+      if (!email) return;
+      
+      heroStatus.textContent = 'Subscribing...';
+      heroStatus.className = 'hero-newsletter-status';
+      
+      try {
+        const res = await fetch('/api/newsletter-subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        
+        if (res.ok) {
+          heroStatus.textContent = '✓ You\'re subscribed!';
+          heroStatus.className = 'hero-newsletter-status success';
+          input.value = '';
+        } else {
+          heroStatus.textContent = 'Something went wrong. Try again.';
+          heroStatus.className = 'hero-newsletter-status error';
+        }
+      } catch {
+        heroStatus.textContent = 'Network error. Try again.';
+        heroStatus.className = 'hero-newsletter-status error';
+      }
+    });
+  }
 </script>
 <!-- MapPulse Elevated listing Tue Mar 31 19:33:00 CDT 2026 -->
 <!-- force rebuild 1775008367 -->
