@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 
-const BEEHIIV_API_KEY = import.meta.env.BEEHIIV_API_KEY || 'EXPNWQ4vBsVLUE7roIzAOQ8TWxD58CnrPi88HidbUvXhAfy6CSGKHs1LF2VBFivz';
+const BEEHIIV_API_KEY = import.meta.env.BEEHIIV_API_KEY || '1k5NmxyYFTtflwE4K5W3rnKuKeQpF8ZLMH3ej1v87KnBa7dBYuJlRmijv55ZJRYR';
 const PUBLICATION_ID = 'pub_091ecccd-de84-4752-820c-a9a6b7a77248';
 
 export const POST: APIRoute = async ({ request }) => {
@@ -28,6 +28,7 @@ export const POST: APIRoute = async ({ request }) => {
         body: JSON.stringify({
           email,
           reactivate_existing: true,
+          utm_source: 'jacksoncountyms.com',
           send_welcome_email: true
         })
       }
