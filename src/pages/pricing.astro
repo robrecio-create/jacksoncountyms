@@ -25,19 +25,20 @@ const plans = [
       { text: 'Short vanity URL', included: true },
       { text: 'Multiple photos', included: false },
       { text: 'Expanded description', included: false },
-      { text: 'Featured badge', included: false },
       { text: 'Priority placement', included: false },
+      { text: 'Customer reviews', included: false },
+      { text: 'Analytics & tracking', included: false },
     ],
   },
   {
-    name: 'Featured Listing',
-    price: '$29',
-    period: '/month',
-    annual: '2 months free with annual plan',
-    description: 'Stand out from the crowd',
+    name: 'Premier Listing',
+    price: '$297',
+    period: '/year',
+    annual: '',
+    description: 'Our all-in-one premium listing package',
     featured: true,
     highlight: true,
-    badge: 'Most Popular',
+    badge: 'Best Value',
     cta: 'Choose Plan',
     ctaLink: '/contact/',
     features: [
@@ -51,21 +52,6 @@ const plans = [
       { text: 'Customer reviews', included: true },
       { text: 'Up to 3 categories', included: true },
       { text: 'Monthly spotlight in Jackson County Weekly newsletter', included: true },
-    ],
-  },
-  {
-    name: 'Premier Listing',
-    price: '$99',
-    period: '/month',
-    annual: '2 months free with annual plan',
-    description: 'Your own page on JacksonCountyMS.com',
-    featured: true,
-    highlight: false,
-    badge: 'Premium',
-    cta: 'Choose Plan',
-    ctaLink: '/contact/',
-    features: [
-      { text: 'Everything in Featured, plus:', included: true },
       { text: 'Fully custom page with tabs & branding', included: true },
       { text: 'Dedicated vanity URL', included: true },
       { text: 'Visitor analytics & tracking', included: true },
@@ -74,21 +60,6 @@ const plans = [
       { text: 'Unlimited photos', included: true },
       { text: 'Priority support', included: true },
       { text: 'Weekly feature in Jackson County Weekly newsletter', included: true },
-    ],
-  },
-  {
-    name: 'Full SEO Package',
-    price: 'From $500',
-    period: '/month',
-    annual: '2 months free with annual plan',
-    description: 'Dominate the local map pack',
-    featured: true,
-    highlight: false,
-    badge: '',
-    cta: 'Contact Us',
-    ctaLink: '/contact/',
-    features: [
-      { text: 'Everything in Premier, plus:', included: true },
       { text: 'Professional website redesign', included: true },
       { text: 'Google Business Profile optimization', included: true },
       { text: 'Quarterly highlight article with backlink', included: true },
@@ -101,7 +72,7 @@ const plans = [
 
 <Layout
   title="Pricing — Jackson County MS"
-  description="List your Jackson County business for free or upgrade to a featured plan. Choose from Verified, Enhanced, or Premier listing packages for maximum local visibility."
+  description="List your Jackson County business for free or upgrade to our Premier listing for maximum local visibility and premium features."
 >
   <Header activePage="" />
 
@@ -149,52 +120,48 @@ const plans = [
               <tr>
                 <th>Feature</th>
                 <th>Verified</th>
-                <th>Featured</th>
                 <th>Premier</th>
-                <th>SEO Package</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>Business name, address & phone</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Category & town placement</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Short business description</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Appear in search results</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Add a logo or photo</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Post coupons & deals</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Link to your website</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Verified owner badge</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Short vanity URL</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr class="divider"><td colspan="5"></td></tr>
-              <tr><td>Multiple photos on listing</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Expanded services & description</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Your listing as a mini-website</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Featured badge in directory</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Priority search placement</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Video embed</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Customer reviews</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Monthly newsletter spotlight</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr class="divider"><td colspan="5"></td></tr>
-              <tr><td>Fully custom page with tabs & branding</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Weekly newsletter feature</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Dedicated vanity URL</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Visitor analytics & tracking</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>No related business links on page</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Unlimited categories & photos</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Priority support</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr class="divider"><td colspan="5"></td></tr>
-              <tr><td>Professional website redesign</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Google Business Profile optimization</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Quarterly highlight article with backlink</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Local SEO strategy & reporting</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Monthly performance reviews</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Business name, address & phone</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Category & town placement</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Short business description</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Appear in search results</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Add a logo or photo</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Post coupons & deals</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Link to your website</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Verified owner badge</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Short vanity URL</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr class="divider"><td colspan="3"></td></tr>
+              <tr><td>Multiple photos on listing</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Expanded services & description</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Your listing as a mini-website</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Featured badge in directory</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Priority search placement</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Video embed</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Customer reviews</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Monthly newsletter spotlight</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Up to 3 categories</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr class="divider"><td colspan="3"></td></tr>
+              <tr><td>Fully custom page with tabs & branding</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Weekly newsletter feature</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Dedicated vanity URL</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Visitor analytics & tracking</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>No related business links on page</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Unlimited categories & photos</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Priority support</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Professional website redesign</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Google Business Profile optimization</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Quarterly highlight article with backlink</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Local SEO strategy & reporting</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Monthly performance reviews</td><td class="no">—</td><td class="yes">✓</td></tr>
             </tbody>
             <tfoot>
               <tr>
                 <td></td>
                 <td><a href="/claim/" class="btn btn-outline btn-sm">Get Started</a></td>
                 <td><a href="/contact/" class="btn btn-gold btn-sm">Choose Plan</a></td>
-                <td><a href="/contact/" class="btn btn-outline btn-sm">Choose Plan</a></td>
-                <td><a href="/contact/" class="btn btn-outline btn-sm">Contact Us</a></td>
               </tr>
             </tfoot>
           </table>
@@ -210,23 +177,23 @@ const plans = [
           </div>
           <div class="faq-item">
             <h4>Can I post deals with the free Verified listing?</h4>
-            <p>Yes! Every verified listing can post coupons and deals to attract customers. Upgrade to Featured for even more visibility and features.</p>
+            <p>Yes! Every verified listing can post coupons and deals to attract customers. Upgrade to Premier if you want maximum visibility and all premium features.</p>
           </div>
           <div class="faq-item">
-            <h4>What's included in the annual plan?</h4>
-            <p>All paid plans offer an annual option with 2 months free. That's 12 months of service for the price of 10. Cancel anytime.</p>
+            <h4>What is included in Premier?</h4>
+            <p>Premier includes everything in Verified plus multiple photos, expanded content, featured placement, a mini-website experience, customer reviews, tracking, newsletter features, and premium support.</p>
           </div>
           <div class="faq-item">
-            <h4>What is a Premier listing?</h4>
-            <p>Premier listings get a fully custom branded page on our site with visitor analytics, dedicated vanity URL, and no competing business links on your page.</p>
+            <h4>Does Premier include SEO help?</h4>
+            <p>Yes. Premier now includes Google Business Profile optimization, quarterly highlight articles with backlinks, local SEO strategy, and monthly performance reviews.</p>
           </div>
           <div class="faq-item">
-            <h4>What does the SEO Package include?</h4>
-            <p>Our Full SEO Package includes professional website redesign, Google Business Profile optimization, quarterly highlight articles, and ongoing local SEO strategy.</p>
+            <h4>Can I upgrade later?</h4>
+            <p>Absolutely. Start with a free Verified listing and upgrade to Premier whenever you're ready.</p>
           </div>
           <div class="faq-item">
-            <h4>Can I upgrade or cancel anytime?</h4>
-            <p>Start free and upgrade whenever you're ready. Monthly plans can be canceled at any time — your listing reverts to the free tier at the end of your billing period.</p>
+            <h4>How much is Premier?</h4>
+            <p>Premier is $297 per year and bundles all of our premium listing benefits into one package.</p>
           </div>
         </div>
       </div>
