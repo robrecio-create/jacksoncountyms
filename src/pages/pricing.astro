@@ -5,32 +5,6 @@ import Footer from '../components/Footer.astro';
 
 const plans = [
   {
-    name: 'Verified Listing',
-    price: 'Free',
-    period: '',
-    annual: '',
-    description: 'Claim & verify your listing',
-    featured: false,
-    highlight: false,
-    badge: '',
-    cta: 'Get Started',
-    ctaLink: '/claim/',
-    features: [
-      { text: 'Business name, address & phone', included: true },
-      { text: 'Category & town placement', included: true },
-      { text: 'Add a logo or photo', included: true },
-      { text: 'Post coupons & deals', included: true },
-      { text: 'Link to your website', included: true },
-      { text: 'Verified owner badge', included: true },
-      { text: 'Short vanity URL', included: true },
-      { text: 'Multiple photos', included: false },
-      { text: 'Expanded description', included: false },
-      { text: 'Priority placement', included: false },
-      { text: 'Customer reviews', included: false },
-      { text: 'Analytics & tracking', included: false },
-    ],
-  },
-  {
     name: 'Premier Listing',
     price: '$297',
     period: '/year',
@@ -42,7 +16,13 @@ const plans = [
     cta: 'Choose Plan',
     ctaLink: '/contact/',
     features: [
-      { text: 'Everything in Verified, plus:', included: true },
+      { text: 'Business name, address & phone', included: true },
+      { text: 'Category & town placement', included: true },
+      { text: 'Add a logo or photo', included: true },
+      { text: 'Post coupons & deals', included: true },
+      { text: 'Link to your website', included: true },
+      { text: 'Verified owner badge', included: true },
+      { text: 'Short vanity URL', included: true },
       { text: 'Multiple photos on listing', included: true },
       { text: 'Expanded services & description', included: true },
       { text: 'Your listing as a mini-website', included: true },
@@ -112,88 +92,24 @@ const plans = [
         ))}
       </div>
 
-      <div class="compare-section">
-        <h2>Compare Plans</h2>
-        <div class="compare-table-wrap">
-          <table class="compare-table">
-            <thead>
-              <tr>
-                <th>Feature</th>
-                <th>Verified</th>
-                <th>Premier</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Business name, address & phone</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Category & town placement</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Short business description</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Appear in search results</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Add a logo or photo</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Post coupons & deals</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Link to your website</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Verified owner badge</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><td>Short vanity URL</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr class="divider"><td colspan="3"></td></tr>
-              <tr><td>Multiple photos on listing</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Expanded services & description</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Your listing as a mini-website</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Featured badge in directory</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Priority search placement</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Video embed</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Customer reviews</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Monthly newsletter spotlight</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Up to 3 categories</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr class="divider"><td colspan="3"></td></tr>
-              <tr><td>Fully custom page with tabs & branding</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Weekly newsletter feature</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Dedicated vanity URL</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Visitor analytics & tracking</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>No related business links on page</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Unlimited categories & photos</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Priority support</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Professional website redesign</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Google Business Profile optimization</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Quarterly highlight article with backlink</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Local SEO strategy & reporting</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>Monthly performance reviews</td><td class="no">—</td><td class="yes">✓</td></tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td></td>
-                <td><a href="/claim/" class="btn btn-outline btn-sm">Get Started</a></td>
-                <td><a href="/contact/" class="btn btn-gold btn-sm">Choose Plan</a></td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-
       <div class="faq-section">
         <h2>Frequently Asked Questions</h2>
         <div class="faq-grid">
           <div class="faq-item">
-            <h4>How do I claim my listing?</h4>
-            <p>Find your business on our site, click "Claim This Listing," and verify your ownership. Once approved, you can update your info, add photos, and post deals — all for free.</p>
-          </div>
-          <div class="faq-item">
-            <h4>Can I post deals with the free Verified listing?</h4>
-            <p>Yes! Every verified listing can post coupons and deals to attract customers. Upgrade to Premier if you want maximum visibility and all premium features.</p>
-          </div>
-          <div class="faq-item">
             <h4>What is included in Premier?</h4>
-            <p>Premier includes everything in Verified plus multiple photos, expanded content, featured placement, a mini-website experience, customer reviews, tracking, newsletter features, and premium support.</p>
+            <p>Premier includes premium placement, richer content, customer reviews, tracking, newsletter features, and ongoing support in one package.</p>
           </div>
           <div class="faq-item">
             <h4>Does Premier include SEO help?</h4>
-            <p>Yes. Premier now includes Google Business Profile optimization, quarterly highlight articles with backlinks, local SEO strategy, and monthly performance reviews.</p>
-          </div>
-          <div class="faq-item">
-            <h4>Can I upgrade later?</h4>
-            <p>Absolutely. Start with a free Verified listing and upgrade to Premier whenever you're ready.</p>
+            <p>Yes. Premier includes Google Business Profile optimization, quarterly highlight articles with backlinks, local SEO strategy, and monthly performance reviews.</p>
           </div>
           <div class="faq-item">
             <h4>How much is Premier?</h4>
             <p>Premier is $297 per year and bundles all of our premium listing benefits into one package.</p>
+          </div>
+          <div class="faq-item">
+            <h4>How do I get started?</h4>
+            <p>Just contact us and we’ll get your business set up with a Premier listing and walk you through the next steps.</p>
           </div>
         </div>
       </div>
@@ -241,9 +157,10 @@ const plans = [
 
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr;
     gap: 1.25rem;
-    margin-bottom: 5rem;
+    margin: 0 auto 5rem;
+    max-width: 560px;
   }
 
   .plan-card {
@@ -524,7 +441,7 @@ const plans = [
   }
 
   @media (max-width: 1100px) {
-    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    .pricing-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 650px) {
