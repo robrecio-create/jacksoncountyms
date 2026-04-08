@@ -31,8 +31,6 @@ export const categories = [
 export const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'Listings', href: '/listings/' },
-  { label: 'Categories', href: '/categories/' },
-  { label: 'Locations', href: '/locations/' },
   { label: 'Guides', href: '/guides/' },
   { label: 'Events', href: '/events/' },
   { label: 'Deals', href: '/deals/' },
