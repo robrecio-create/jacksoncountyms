@@ -4,7 +4,7 @@
     "title": "Sudsy Co. Washer and Dryer Rentals",
     "slug": "sudsy-co-washer-and-dryer-rentals",
     "status": "publish",
-    "content": "Sudsy Co. is a locally owned washer and dryer rental company based in Ocean Springs, Mississippi, serving families and individuals across the Gulf Coast. Whether you live in Gulfport, Biloxi, Diberville, Ocean Springs, Gautier, or Pascagoula, Sudsy Co. delivers quality appliances right to your door at an affordable price. Rent a complete washer and dryer set for just $59.99 per month, or choose a washer or dryer individually for $40 per month. Every rental includes free delivery, professional installation, and ongoing maintenance at no extra cost. If anything goes wrong, their team will repair or replace your machine within two business days, guaranteed. There are no credit checks, no long-term contracts, and no hidden fees. You can rent month to month and cancel anytime without penalties. Getting started is simple — just choose your package online, schedule a delivery date, and start enjoying fresh, clean laundry from the comfort of home. Sudsy Co. carries top-loading washers and standard capacity dryers from trusted brands you know and love. With a perfect 5.0-star rating on Google and a growing base of happy customers, Sudsy Co. is the smarter, more affordable alternative to the laundromat.",
+    "content": "Sudsy Co. is a locally owned washer and dryer rental company based in Ocean Springs, Mississippi, serving families and individuals across the Gulf Coast. Whether you live in Gulfport, Biloxi, Diberville, Ocean Springs, Gautier, or Pascagoula, Sudsy Co. delivers quality appliances right to your door at an affordable price. Rent a complete washer and dryer set for just $59.99 per month, or choose a washer or dryer individually for $40 per month. Every rental includes free delivery, professional installation, and ongoing maintenance at no extra cost. If anything goes wrong, their team will repair or replace your machine within two business days, guaranteed. There are no credit checks, no long-term contracts, and no hidden fees. You can rent month to month and cancel anytime without penalties. Getting started is simple \u2014 just choose your package online, schedule a delivery date, and start enjoying fresh, clean laundry from the comfort of home. Sudsy Co. carries top-loading washers and standard capacity dryers from trusted brands you know and love. With a perfect 5.0-star rating on Google and a growing base of happy customers, Sudsy Co. is the smarter, more affordable alternative to the laundromat.",
     "excerpt": "",
     "post_date": "2026-03-04 12:04:55",
     "address": "1302, Fort Street, Ocean Springs, Jackson County, Mississippi, United States",
@@ -18677,7 +18677,7 @@
     "title": "The Menagerie on Market",
     "slug": "the-menagerie-on-market",
     "status": "publish",
-    "content": "The Menagerie on Market is a unique hometown emporium housing over 40 small businesses under one roof, including local artists, craftsmen, bakers, and specialty vendors. It also features the on-site Café Marché coffee bar and is open Monday through Saturday.",
+    "content": "The Menagerie on Market is a unique hometown emporium housing over 40 small businesses under one roof, including local artists, craftsmen, bakers, and specialty vendors. It also features the on-site Caf\u00e9 March\u00e9 coffee bar and is open Monday through Saturday.",
     "phone": "(228) 205-0897",
     "website": "https://www.themenagerieonmarket.com",
     "address": "2302 Market St, Pascagoula, MS 39567",
@@ -18803,7 +18803,7 @@
     "title": "Taco Bell Pascagoula",
     "slug": "taco-bell-pascagoula",
     "status": "publish",
-    "content": "Taco Bell serves Mexican-inspired fast food including tacos, burritos, quesadillas, and value menu items. The Pascagoula location stays open until 2–3 AM daily, making it one of the area's most accessible late-night dining options.",
+    "content": "Taco Bell serves Mexican-inspired fast food including tacos, burritos, quesadillas, and value menu items. The Pascagoula location stays open until 2\u20133 AM daily, making it one of the area's most accessible late-night dining options.",
     "phone": "(228) 762-2380",
     "website": "https://www.tacobell.com",
     "address": "3259 Denny Ave, Pascagoula, MS 39581",
@@ -19770,5 +19770,37 @@
       "locally-owned"
     ],
     "featured": false
+  },
+  {
+    "id": 1118,
+    "title": "Southern Bread Company",
+    "slug": "southern-bread-company",
+    "status": "publish",
+    "content": "Southern Bread Company serves the Mississippi Gulf Coast with fresh bread, preorder pickup, and bread classes designed to help people bake with confidence. The business offers artisan-style breads, educational baking experiences, and a community-centered approach to sharing good food.",
+    "excerpt": "Fresh bread, preorder pickup, and bread classes serving the Mississippi Gulf Coast.",
+    "post_date": "2026-04-07 19:49:43",
+    "address": "Jackson County, MS",
+    "phone": "",
+    "email": "",
+    "website": "https://www.southernbreadcompany.com/",
+    "latitude": "",
+    "longitude": "",
+    "featured": false,
+    "listing_tier": "free",
+    "categories": [
+      "Restaurants & Dining"
+    ],
+    "location": [
+      "Ocean Springs"
+    ],
+    "tags": [
+      "bakery",
+      "bread",
+      "classes",
+      "locally-owned"
+    ],
+    "deal_title": "",
+    "deal_description": "",
+    "deal_expiry": ""
   }
 ]
