@@ -19802,5 +19802,38 @@
     "deal_title": "",
     "deal_description": "",
     "deal_expiry": ""
+  },
+  {
+    "id": 1119,
+    "title": "Maybell Party Rentals LLC",
+    "slug": "maybell-party-rentals-llc",
+    "status": "publish",
+    "content": "Maybell Party Rentals LLC offers party supply and rental services in Jackson County, including inflatable rentals and event equipment for celebrations and gatherings.",
+    "excerpt": "Party supply and rental shop offering inflatables and event rentals.",
+    "post_date": "2026-04-07 19:51:14",
+    "address": "Jackson County, MS",
+    "phone": "(228) 777-2789",
+    "email": "maybellpartyrental@gmail.com",
+    "website": "https://maybellpartyrentals.com",
+    "latitude": "",
+    "longitude": "",
+    "featured": false,
+    "listing_tier": "free",
+    "categories": [
+      "Appliances & Rentals"
+    ],
+    "location": [
+      "Vancleave"
+    ],
+    "tags": [
+      "party rentals",
+      "inflatables",
+      "event rentals",
+      "locally-owned"
+    ],
+    "deal_title": "",
+    "deal_description": "",
+    "deal_expiry": "",
+    "facebook_url": "https://www.facebook.com/maybellpartyrentalsllc"
   }
 ]
