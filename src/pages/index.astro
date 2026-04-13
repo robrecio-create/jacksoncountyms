@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import { towns, categories } from '../data/constants';
 import { getJacksonBusinesses } from '../lib/businesses';
-import eventsData from '../data/events.json';
+import { getCountyEvents } from '../lib/events';
 
 const businesses = await getJacksonBusinesses();
 const deals = businesses.filter(b => b.deal_title && b.deal_title.trim());
@@ -21,17 +21,9 @@ const townsWithCounts = towns.map(town => ({
   ...town,
   businesses: businesses.filter(b => b.location?.includes(town.name)).length,
 }));
-// Get today's date at midnight for comparison
-const today = new Date();
-today.setHours(0, 0, 0, 0);
 
-// Filter: published AND not in the past
-const allEvents = (eventsData as any[]).filter(e => {
-  if (e.status !== 'publish') return false;
-  const eventDate = new Date(e.date + 'T00:00:00');
-  return eventDate >= today;
-});
-allEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+// Fetch events from shared Supabase table (falls back to events.json)
+const allEvents = await getCountyEvents('jackson-ms');
 const upcomingEvents = allEvents.slice(0, 4);
 
 function getMonthDay(dateStr: string) {
@@ -213,7 +205,7 @@ function getMonthDay(dateStr: string) {
                     <span>{event.start_time}{event.end_time ? ` – ${event.end_time}` : ''}</span>
                     <span>{event.venue}</span>
                   </div>
-                  {event.location && <span class="hp-event-location">{event.location}</span>}
+                  {event.city && <span class="hp-event-location">{event.city}</span>}
                 </div>
               </a>
             );
