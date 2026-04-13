@@ -24,48 +24,71 @@ export interface SharedEvent {
   image_url: string | null;
 }
 
-/**
- * Fetch approved events for a county from the shared Supabase events table.
- * Falls back to the local events.json if Supabase is unavailable.
- *
- * @param county - County key, e.g. 'jackson-ms'
- */
-export async function getCountyEvents(county: string): Promise<SharedEvent[]> {
+const REGIONAL_COUNTIES = ['jackson-ms', 'harrison-ms', 'hancock-ms'];
+
+const COUNTY_LABELS: Record<string, string> = {
+  'jackson-ms': 'Jackson County',
+  'harrison-ms': 'Harrison County',
+  'hancock-ms': 'Hancock County',
+};
+
+const COUNTY_URLS: Record<string, string> = {
+  'jackson-ms': 'https://www.jacksoncountyms.com',
+  'harrison-ms': 'https://www.harrisoncountyms.com',
+  'hancock-ms': 'https://www.hancockcountyms.com',
+};
+
+function createSupabase() {
   const supabaseUrl = import.meta.env.SUPABASE_URL;
   const supabaseKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!supabaseUrl || !supabaseKey) {
-    return mapFallbackEvents();
+  if (!supabaseUrl || !supabaseKey) return null;
+  return createClient(supabaseUrl, supabaseKey);
+}
+
+export async function getRegionalEvents(fallbackCounty: string = 'jackson-ms'): Promise<SharedEvent[]> {
+  const supabase = createSupabase();
+
+  if (!supabase) {
+    return mapFallbackEvents(fallbackCounty);
   }
 
   try {
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
     const today = new Date().toISOString().split('T')[0];
 
     const { data, error } = await supabase
       .from('events')
       .select('id, title, slug, status, content, date, end_date, start_time, end_time, recurring, venue, address, city, county, cost, phone, website, tags, featured, image_url')
-      .eq('county', county)
+      .in('county', REGIONAL_COUNTIES)
       .eq('status', 'approved')
       .gte('date', today)
       .order('featured', { ascending: false })
       .order('date', { ascending: true });
 
     if (error || !data || data.length === 0) {
-      return mapFallbackEvents();
+      return mapFallbackEvents(fallbackCounty);
     }
 
     return data as SharedEvent[];
   } catch {
-    return mapFallbackEvents();
+    return mapFallbackEvents(fallbackCounty);
   }
 }
 
-/**
- * Map legacy events.json format to SharedEvent interface for fallback.
- */
-function mapFallbackEvents(): SharedEvent[] {
+export async function getCountyEvents(county: string): Promise<SharedEvent[]> {
+  const events = await getRegionalEvents(county);
+  return events.filter((event) => event.county === county);
+}
+
+export function getCountyLabel(county: string): string {
+  return COUNTY_LABELS[county] || county;
+}
+
+export function getCountyUrl(county: string): string {
+  return COUNTY_URLS[county] || '#';
+}
+
+function mapFallbackEvents(fallbackCounty: string): SharedEvent[] {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -90,7 +113,7 @@ function mapFallbackEvents(): SharedEvent[] {
       venue: e.venue || '',
       address: e.address || '',
       city: e.location || '',
-      county: 'jackson-ms',
+      county: fallbackCounty,
       cost: e.cost || '',
       phone: e.phone || '',
       website: e.website || '',

@@ -2,15 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getCountyEvents } from '../lib/events';
+import { getRegionalEvents, getCountyLabel, getCountyUrl } from '../lib/events';
 
-// Fetch events from shared Supabase table (falls back to events.json)
-const events = await getCountyEvents('jackson-ms');
+const events = await getRegionalEvents('jackson-ms');
 
-function formatDate(dateStr: string) {
-  const date = new Date(dateStr + 'T00:00:00');
-  return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-}
+const counties = Array.from(new Set(events.map((event) => event.county))).sort();
+const cities = Array.from(new Set(events.map((event) => event.city).filter(Boolean))).sort((a, b) => a.localeCompare(b));
 
 function getMonthDay(dateStr: string) {
   const date = new Date(dateStr + 'T00:00:00');
@@ -23,7 +20,7 @@ function getMonthDay(dateStr: string) {
 
 <Layout
   title="Events — Jackson County MS"
-  description="Browse upcoming community events in Jackson County, Mississippi. Festivals, markets, fundraisers, and more in Ocean Springs, Pascagoula, Gautier, and beyond."
+  description="Browse upcoming events across Jackson, Harrison, and Hancock counties. Filter by city or county to find what is happening across the Mississippi Gulf Coast."
 >
   <Header activePage="Events" />
 
@@ -31,23 +28,54 @@ function getMonthDay(dateStr: string) {
     <div class="container">
       <span class="page-eyebrow">What's Happening</span>
       <h1>Community Events</h1>
-      <p>Discover upcoming events, festivals, and activities across Jackson County.</p>
+      <p>See what’s happening across the Mississippi Gulf Coast, then filter by city or county if you want to narrow it down.</p>
     </div>
   </section>
 
   <section class="events-section">
     <div class="container">
-      <div class="search-bar">
-        <input type="text" id="event-search" placeholder="Search events..." autocomplete="off" aria-label="Search events" />
+      <div class="filters-wrap">
+        <div class="search-bar">
+          <input type="text" id="event-search" placeholder="Search events..." autocomplete="off" aria-label="Search events" />
+        </div>
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label for="county-filter">County</label>
+            <select id="county-filter">
+              <option value="">All counties</option>
+              {counties.map((county) => (
+                <option value={county}>{getCountyLabel(county)}</option>
+              ))}
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="city-filter">City</label>
+            <select id="city-filter">
+              <option value="">All cities</option>
+              {cities.map((city) => (
+                <option value={city.toLowerCase()}>{city}</option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
+
       <p class="result-count" id="event-result-count">{events.length} event{events.length === 1 ? '' : 's'}</p>
 
       {events.length > 0 ? (
         <div class="events-list" id="events-list">
           {events.map(event => {
             const { month, day } = getMonthDay(event.date);
+            const countyLabel = getCountyLabel(event.county);
+            const eventUrl = `${getCountyUrl(event.county)}/event/${event.slug}/`;
             return (
-              <a href={`/event/${event.slug}/`} class="event-card" data-name={event.title.toLowerCase()} data-location={(event.city || '').toLowerCase()}>
+              <a
+                href={eventUrl}
+                class="event-card"
+                data-name={event.title.toLowerCase()}
+                data-location={(event.city || '').toLowerCase()}
+                data-county={event.county}
+              >
                 <div class="event-date-badge">
                   <span class="event-month">{month}</span>
                   <span class="event-day">{day}</span>
@@ -70,7 +98,10 @@ function getMonthDay(dateStr: string) {
                       </span>
                     )}
                   </div>
-                  {event.recurring && <span class="event-recurring">{event.recurring}</span>}
+                  <div class="event-badges">
+                    <span class="event-county">{countyLabel}</span>
+                    {event.recurring && <span class="event-recurring">{event.recurring}</span>}
+                  </div>
                   <p class="event-excerpt">{event.content.substring(0, 150)}...</p>
                 </div>
                 <div class="event-arrow">
@@ -84,16 +115,16 @@ function getMonthDay(dateStr: string) {
         <div class="empty-state">
           <span class="empty-icon">📅</span>
           <h3>No Upcoming Events</h3>
-          <p>Check back soon for community events across Jackson County.</p>
+          <p>Check back soon for community events across the Mississippi Gulf Coast.</p>
         </div>
       )}
 
-      <p class="no-results" id="event-no-results" style="display:none;">No events found. Try a different search term.</p>
+      <p class="no-results" id="event-no-results" style="display:none;">No events found. Try a different search term or clear your filters.</p>
 
       <div class="cta-block">
         <h2>Have an Event to Share?</h2>
-        <p>Let us know about upcoming community events in Jackson County and we'll add them to the calendar.</p>
-        <a href="/submit-event/" class="btn btn-gold">Submit an Event</a>
+        <p>Submit your event once and get it into the shared Gulf Coast events system.</p>
+        <a href="https://uscountydirectory.com/submit-event" class="btn btn-gold">Submit an Event</a>
       </div>
     </div>
   </section>
@@ -128,11 +159,65 @@ function getMonthDay(dateStr: string) {
   .page-hero p {
     color: rgba(255,255,255,0.7);
     font-size: 1.1rem;
+    max-width: 720px;
+    margin: 0 auto;
   }
 
   .events-section {
     padding: 3.5rem 0 5rem;
     background: var(--gray-100);
+  }
+
+  .filters-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .search-bar {
+    max-width: 560px;
+    margin: 0 auto 1rem;
+  }
+
+  .search-bar input,
+  .filter-group select {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-bar input:focus,
+  .filter-group select:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,128,128,0.1);
+  }
+
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 220px));
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .filter-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--gray-600);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .result-count {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
   }
 
   .events-list {
@@ -220,17 +305,32 @@ function getMonthDay(dateStr: string) {
     flex-shrink: 0;
   }
 
+  .event-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .event-county,
   .event-recurring {
     display: inline-block;
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--teal);
-    background: rgba(0,128,128,0.08);
     padding: 0.15rem 0.6rem;
     border-radius: 100px;
-    margin-bottom: 0.5rem;
+  }
+
+  .event-county {
+    color: var(--navy);
+    background: rgba(11,31,58,0.08);
+  }
+
+  .event-recurring {
+    color: var(--teal);
+    background: rgba(0,128,128,0.08);
   }
 
   .event-excerpt {
@@ -291,7 +391,7 @@ function getMonthDay(dateStr: string) {
   .cta-block p {
     color: rgba(255,255,255,0.7);
     margin-bottom: 1.5rem;
-    max-width: 450px;
+    max-width: 500px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -319,34 +419,6 @@ function getMonthDay(dateStr: string) {
     box-shadow: 0 4px 16px rgba(232,160,32,0.35);
   }
 
-  .search-bar {
-    max-width: 480px;
-    margin: 0 auto 1rem;
-  }
-
-  .search-bar input {
-    width: 100%;
-    padding: 0.85rem 1.25rem;
-    font-size: 1rem;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    background: var(--white);
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-
-  .search-bar input:focus {
-    border-color: var(--teal);
-    box-shadow: 0 0 0 3px rgba(0,128,128,0.1);
-  }
-
-  .result-count {
-    text-align: center;
-    font-size: 0.85rem;
-    color: var(--gray-600);
-    margin-bottom: 1.5rem;
-  }
-
   .no-results {
     text-align: center;
     color: var(--gray-500);
@@ -355,38 +427,57 @@ function getMonthDay(dateStr: string) {
     font-style: italic;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
+    .filter-grid {
+      grid-template-columns: 1fr;
+    }
+
     .event-card {
       flex-direction: column;
       align-items: flex-start;
     }
+
     .event-date-badge {
       width: 60px;
       height: 60px;
     }
+
     .event-arrow { display: none; }
     .cta-block { padding: 2.5rem 1.5rem; }
   }
 </style>
 
 <script>
-  const input = document.getElementById('event-search') as HTMLInputElement;
-  const list = document.getElementById('events-list')!;
-  const countEl = document.getElementById('event-result-count')!;
-  const noResults = document.getElementById('event-no-results')!;
-  const cards = Array.from(list?.querySelectorAll('.event-card') || []) as HTMLElement[];
+  const input = document.getElementById('event-search');
+  const countyFilter = document.getElementById('county-filter');
+  const cityFilter = document.getElementById('city-filter');
+  const list = document.getElementById('events-list');
+  const countEl = document.getElementById('event-result-count');
+  const noResults = document.getElementById('event-no-results');
+  const cards = Array.from(list?.querySelectorAll('.event-card') || []);
 
-  input?.addEventListener('input', () => {
-    const q = input.value.toLowerCase().trim();
+  function applyFilters() {
+    const q = input?.value.toLowerCase().trim() || '';
+    const county = countyFilter?.value || '';
+    const city = cityFilter?.value || '';
     let visible = 0;
-    cards.forEach(card => {
+
+    cards.forEach((card) => {
       const nameMatch = card.dataset.name?.includes(q);
       const locMatch = card.dataset.location?.includes(q);
-      const match = !q || nameMatch || locMatch;
+      const textMatch = !q || nameMatch || locMatch;
+      const countyMatch = !county || card.dataset.county === county;
+      const cityMatch = !city || card.dataset.location === city;
+      const match = textMatch && countyMatch && cityMatch;
       card.style.display = match ? '' : 'none';
       if (match) visible++;
     });
+
     countEl.textContent = `${visible} event${visible === 1 ? '' : 's'}`;
     noResults.style.display = visible === 0 ? '' : 'none';
-  });
+  }
+
+  input?.addEventListener('input', applyFilters);
+  countyFilter?.addEventListener('change', applyFilters);
+  cityFilter?.addEventListener('change', applyFilters);
 </script>
