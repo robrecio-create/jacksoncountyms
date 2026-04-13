@@ -2,10 +2,10 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import eventsData from '../../data/events.json';
+import { getCountyEvents } from '../../lib/events';
 
-export function getStaticPaths() {
-  const events = (eventsData as any[]).filter(e => e.status === 'publish');
+export async function getStaticPaths() {
+  const events = await getCountyEvents('jackson-ms');
   return events.map(event => ({ params: { slug: event.slug }, props: { event } }));
 }
 
@@ -19,7 +19,7 @@ function formatDate(dateStr: string) {
 const rawEventDesc = event.content || '';
 const eventSeoDesc = rawEventDesc.length > 155
   ? rawEventDesc.slice(0, 152).trimEnd() + '...'
-  : rawEventDesc || `${event.title} — ${formatDate(event.date)} at ${event.venue} in ${event.location || 'Jackson County'}, MS.`;
+  : rawEventDesc || `${event.title} — ${formatDate(event.date)} at ${event.venue} in ${event.city || 'Jackson County'}, MS.`;
 ---
 
 <Layout
@@ -41,7 +41,7 @@ const eventSeoDesc = rawEventDesc.length > 155
       "address": {
         "@type": "PostalAddress",
         "streetAddress": event.address || event.venue,
-        "addressLocality": event.location || "Jackson County",
+        "addressLocality": event.city || "Jackson County",
         "addressRegion": "MS",
         "addressCountry": "US"
       }
